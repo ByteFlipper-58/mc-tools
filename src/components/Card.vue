@@ -1,5 +1,9 @@
+<!--src/components/Card.vue-->
 <template>
-  <div class="card bg-neutral shadow-xl p-5 transition-transform transition-shadow hover:shadow-2xl hover:scale-105 hover:brightness-110 hover:translate-y-[-5px]">
+  <div
+    class="card bg-neutral text-neutral-content shadow-xl p-5 transition-transform transition-shadow transition-filter transition-border hover:shadow-2xl hover:scale-105 hover:brightness-110 hover:translate-y-[-5px] hover:border hover:border-base-100"
+    @click="handleClick"
+  >
     <div v-if="imageSrc" class="avatar mx-auto mb-4">
       <div class="w-24 rounded-full">
         <img :src="imageSrc" alt="Card image" />
@@ -38,6 +42,10 @@ export default {
         return ['left', 'center', 'right'].includes(value);
       },
     },
+    onClick: {
+      type: Function,
+      default: () => {}, // Default to an empty function if no onClick handler is provided
+    },
   },
   computed: {
     textAlignmentClass() {
@@ -49,6 +57,13 @@ export default {
         case 'center':
         default:
           return 'text-center';
+      }
+    },
+  },
+  methods: {
+    handleClick() {
+      if (this.onClick) {
+        this.onClick(); // Call the onClick function if provided
       }
     },
   },
@@ -73,6 +88,6 @@ export default {
   filter: brightness(110%); /* Slightly increase brightness */
   transform: scale(1.05) translateY(-5px); /* Slightly enlarge and lift */
   box-shadow: 0 8px 16px rgba(0, 0, 0, 0.5); /* Increased shadow on hover */
-  border-color: #6c6c6c; /* bg-base-100 color for border */
+  border-color: #f9fafb; /* bg-base-100 color for border */
 }
 </style>

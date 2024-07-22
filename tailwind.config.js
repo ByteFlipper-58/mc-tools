@@ -14,6 +14,13 @@ export default {
     themes: [
       'night'
     ],
+    base: true,
+    styled: true,
+    utils: true,
+    logs: true,
+    rtl: false,
+    prefix: "",
+    themeRoot: ":root"
   },
 }
 
