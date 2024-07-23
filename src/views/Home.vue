@@ -5,8 +5,6 @@
       <p class="text-lg mb-4">Welcome to the home screen! Here are some sample cards.</p>
       <div class="grid gap-4 grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
         <Card
-          v-for="n in 6"
-          :key="n"
           title="Card Title"
           description="Lorem ipsum dolor sit amet, consectetur adipiscing elit."
           textAlign="center"
