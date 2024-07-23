@@ -12,8 +12,7 @@ const routes = [
     path: '/new',
     name: 'NewScreen',
     component: NewScreen,
-  },
-  // Добавьте другие маршруты здесь
+  }
 ];
 
 const router = createRouter({
