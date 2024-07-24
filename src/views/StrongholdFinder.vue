@@ -1,5 +1,5 @@
 <template>
-  <div class="p-6 max-w-lg mx-auto">
+  <div class="p-6 max-w-2xl mx-auto">
     <h1 class="text-3xl font-bold mb-4">Stronghold Finder</h1>
     <p class="text-lg mb-4">Enter the coordinates and angle of the Ender Pearl throw for two locations to find the stronghold.</p>
 
@@ -7,48 +7,50 @@
     <div class="mb-6">
       <h2 class="text-xl font-semibold mb-2">First Location</h2>
       <form @submit.prevent="findStronghold" class="space-y-4">
-        <div class="form-control">
-          <label for="firstCoordinatesX" class="label">
-            <span class="label-text">X Coordinate</span>
-          </label>
-          <input 
-            type="number" 
-            id="firstCoordinatesX" 
-            v-model.number="firstCoordinatesX" 
-            placeholder="Enter X coordinate" 
-            class="input input-bordered w-full" 
-            step="any"
-            min="-1000000" 
-          />
-        </div>
-        <div class="form-control">
-          <label for="firstCoordinatesZ" class="label">
-            <span class="label-text">Z Coordinate</span>
-          </label>
-          <input 
-            type="number" 
-            id="firstCoordinatesZ" 
-            v-model.number="firstCoordinatesZ" 
-            placeholder="Enter Z coordinate" 
-            class="input input-bordered w-full" 
-            step="any"
-            min="-1000000" 
-          />
-        </div>
-        <div class="form-control">
-          <label for="firstAngle" class="label">
-            <span class="label-text">Angle of the Throw</span>
-          </label>
-          <input 
-            type="number" 
-            id="firstAngle" 
-            v-model.number="firstAngle" 
-            placeholder="Enter angle in degrees" 
-            class="input input-bordered w-full" 
-            step="any"
-            min="-360" 
-            max="360" 
-          />
+        <div class="lg:grid lg:grid-cols-3 lg:gap-4">
+          <div class="form-control lg:col-span-1">
+            <label for="firstCoordinatesX" class="label">
+              <span class="label-text">X Coordinate</span>
+            </label>
+            <input 
+              type="number" 
+              id="firstCoordinatesX" 
+              v-model.number="firstCoordinatesX" 
+              placeholder="Enter X coordinate" 
+              class="input input-bordered w-full" 
+              step="any"
+              min="-1000000" 
+            />
+          </div>
+          <div class="form-control lg:col-span-1">
+            <label for="firstCoordinatesZ" class="label">
+              <span class="label-text">Z Coordinate</span>
+            </label>
+            <input 
+              type="number" 
+              id="firstCoordinatesZ" 
+              v-model.number="firstCoordinatesZ" 
+              placeholder="Enter Z coordinate" 
+              class="input input-bordered w-full" 
+              step="any"
+              min="-1000000" 
+            />
+          </div>
+          <div class="form-control lg:col-span-1">
+            <label for="firstAngle" class="label">
+              <span class="label-text">Angle of the Throw</span>
+            </label>
+            <input 
+              type="number" 
+              id="firstAngle" 
+              v-model.number="firstAngle" 
+              placeholder="Enter angle in degrees" 
+              class="input input-bordered w-full" 
+              step="any"
+              min="-360" 
+              max="360" 
+            />
+          </div>
         </div>
       </form>
     </div>
@@ -57,68 +59,70 @@
     <div class="mb-6">
       <h2 class="text-xl font-semibold mb-2">Second Location</h2>
       <form @submit.prevent="findStronghold" class="space-y-4">
-        <div class="form-control">
-          <label for="secondCoordinatesX" class="label">
-            <span class="label-text">X Coordinate</span>
-          </label>
-          <input 
-            type="number" 
-            id="secondCoordinatesX" 
-            v-model.number="secondCoordinatesX" 
-            placeholder="Enter X coordinate" 
-            class="input input-bordered w-full" 
-            step="any"
-            min="-1000000" 
-          />
-        </div>
-        <div class="form-control">
-          <label for="secondCoordinatesZ" class="label">
-            <span class="label-text">Z Coordinate</span>
-          </label>
-          <input 
-            type="number" 
-            id="secondCoordinatesZ" 
-            v-model.number="secondCoordinatesZ" 
-            placeholder="Enter Z coordinate" 
-            class="input input-bordered w-full" 
-            step="any"
-            min="-1000000" 
-          />
-        </div>
-        <div class="form-control">
-          <label for="secondAngle" class="label">
-            <span class="label-text">Angle of the Throw</span>
-          </label>
-          <input 
-            type="number" 
-            id="secondAngle" 
-            v-model.number="secondAngle" 
-            placeholder="Enter angle in degrees" 
-            class="input input-bordered w-full" 
-            step="any"
-            min="-360" 
-            max="360" 
-          />
+        <div class="lg:grid lg:grid-cols-3 lg:gap-4">
+          <div class="form-control lg:col-span-1">
+            <label for="secondCoordinatesX" class="label">
+              <span class="label-text">X Coordinate</span>
+            </label>
+            <input 
+              type="number" 
+              id="secondCoordinatesX" 
+              v-model.number="secondCoordinatesX" 
+              placeholder="Enter X coordinate" 
+              class="input input-bordered w-full" 
+              step="any"
+              min="-1000000" 
+            />
+          </div>
+          <div class="form-control lg:col-span-1">
+            <label for="secondCoordinatesZ" class="label">
+              <span class="label-text">Z Coordinate</span>
+            </label>
+            <input 
+              type="number" 
+              id="secondCoordinatesZ" 
+              v-model.number="secondCoordinatesZ" 
+              placeholder="Enter Z coordinate" 
+              class="input input-bordered w-full" 
+              step="any"
+              min="-1000000" 
+            />
+          </div>
+          <div class="form-control lg:col-span-1">
+            <label for="secondAngle" class="label">
+              <span class="label-text">Angle of the Throw</span>
+            </label>
+            <input 
+              type="number" 
+              id="secondAngle" 
+              v-model.number="secondAngle" 
+              placeholder="Enter angle in degrees" 
+              class="input input-bordered w-full" 
+              step="any"
+              min="-360" 
+              max="360" 
+            />
+          </div>
         </div>
       </form>
     </div>
 
-    <!-- Submit Button -->
-    <button 
-      @click="findStronghold" 
-      class="btn btn-primary w-full mt-4"
-      :disabled="!isFormValid"
-    >
-      Find Stronghold
-    </button>
-
-    <!-- Go Back Button -->
-    <button 
-      @click="goBack" 
-      class="btn btn-secondary w-full mt-4"
-    >
-      Go Back
-    </button>
+    <!-- Submit and Go Back Buttons -->
+    <div class="mt-4 flex flex-col lg:flex-row lg:justify-center lg:gap-4">
+      <button 
+        @click="findStronghold" 
+        class="btn btn-primary w-full lg:w-auto"
+        :disabled="!isFormValid"
+      >
+        Find Stronghold
+      </button>
+      <button 
+        @click="goBack" 
+        class="btn btn-secondary w-full lg:w-auto mt-2 lg:mt-0"
+      >
+        Go Back
+      </button>
+    </div>
 
     <!-- DaisyUI Modal -->
     <dialog id="my_modal_3" class="modal">
@@ -266,5 +270,5 @@ function goBack() {
 </script>
 
 <style scoped>
-/* Add styles if necessary */
+@import "tailwindcss/tailwind.css";
 </style>

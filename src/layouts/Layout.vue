@@ -1,4 +1,4 @@
-<!--src/layouts/Layout.vue-->
+<!-- src/layouts/Layout.vue -->
 <template>
   <div class="flex flex-col min-h-screen">
     <!-- Header -->
@@ -16,7 +16,7 @@
       <span class="bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 bg-clip-text text-transparent">
         &copy; 2024 MC Tools by 
         <a 
-          href="https://example.com" 
+          href="https://byteflipper.web.app/" 
           target="_blank" 
           rel="noopener noreferrer">
           ByteFlipper
