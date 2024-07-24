@@ -1,8 +1,7 @@
-<!-- src/layouts/Layout.vue -->
 <template>
   <div class="flex flex-col min-h-screen">
     <!-- Header -->
-    <header class="bg-neutral p-4">
+    <header v-if="!isTelegramApp" class="bg-neutral p-4">
       <h1 class="text-2xl font-bold">MC Tools</h1>
     </header>
 
@@ -12,7 +11,7 @@
     </main>
 
     <!-- Footer -->
-    <footer class="bg-neutral text-sm p-4 text-center font-bold">
+    <footer v-if="!isTelegramApp" class="bg-neutral text-sm p-4 text-center font-bold">
       <span class="bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 bg-clip-text text-transparent">
         &copy; 2024 MC Tools by 
         <a 
@@ -29,6 +28,11 @@
 <script>
 export default {
   name: 'Layout',
+  computed: {
+    isTelegramApp() {
+      return window.Telegram && window.Telegram.WebApp && window.Telegram.WebApp.platform === 'web_app';
+    }
+  }
 };
 </script>
 
