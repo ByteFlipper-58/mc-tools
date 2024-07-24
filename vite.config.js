@@ -4,7 +4,7 @@ import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
 
 export default defineConfig({
-  base: process.env.NODE_ENV === 'production' ? '/mc-tools/' : '/',
+  base: '/mc-tools/', // Путь к репозиторию GitHub Pages
   plugins: [
     vue(),
   ],

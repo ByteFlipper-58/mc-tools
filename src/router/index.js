@@ -1,7 +1,6 @@
-// src/router/index.js
 import { createRouter, createWebHistory } from 'vue-router';
 import Home from '@/views/Home.vue';
-import NewScreen from '@/views/NewScreen.vue';
+import StrongholdFinder from '@/views/StrongholdFinder.vue';
 
 const routes = [
   {
@@ -10,14 +9,14 @@ const routes = [
     component: Home,
   },
   {
-    path: '/new',
-    name: 'NewScreen',
-    component: NewScreen,
+    path: '/stronghold-finder',
+    name: 'StrongholdFinder',
+    component: StrongholdFinder,
   }
 ];
 
 const router = createRouter({
-  history: createWebHistory('/mc-tools/'), // Убедитесь, что указано правильное имя репозитория
+  history: createWebHistory('/mc-tools/'), // Убедитесь, что путь соответствует базовому пути
   routes,
 });
 
