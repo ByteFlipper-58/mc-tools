@@ -1,4 +1,4 @@
-<!-- src/views/mmss_screen.vue -->
+<!-- src/views/NewScreen.vue -->
 <template>
     <div class="p-4">
       <h1 class="text-3xl font-bold mb-4">New Screen</h1>

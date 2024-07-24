@@ -1,3 +1,4 @@
+// src/router/index.js
 import { createRouter, createWebHistory } from 'vue-router';
 import Home from '@/views/Home.vue';
 import NewScreen from '@/views/NewScreen.vue';
@@ -16,7 +17,7 @@ const routes = [
 ];
 
 const router = createRouter({
-  history: createWebHistory(),
+  history: createWebHistory('/mc-tools/'), // Убедитесь, что указано правильное имя репозитория
   routes,
 });
 
