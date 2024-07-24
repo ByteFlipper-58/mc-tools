@@ -107,6 +107,7 @@
     <button 
       @click="findStronghold" 
       class="btn btn-primary w-full mt-4"
+      :disabled="!isFormValid"
     >
       Find Stronghold
     </button>
@@ -119,101 +120,151 @@
       Go Back
     </button>
 
-    <!-- Display Result -->
-    <div v-if="strongholdLocation" class="mt-6 p-4 border rounded bg-gray-100">
-      <h2 class="text-xl font-semibold mb-2">Estimated Stronghold Location</h2>
-      <p>X: {{ strongholdLocation.x }}</p>
-      <p>Z: {{ strongholdLocation.z }}</p>
-    </div>
+    <!-- DaisyUI Modal -->
+    <dialog id="my_modal_3" class="modal">
+      <div class="modal-box">
+        <form method="dialog">
+          <button class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2" @click="closeModal">✕</button>
+        </form>
+        <h3 class="text-lg font-bold">Estimated Stronghold Location</h3>
+        <p class="py-4">X: {{ strongholdLocation?.x }}</p>
+        <p class="py-4">Z: {{ strongholdLocation?.z }}</p>
+      </div>
+    </dialog>
+
+    <!-- vue-tg Popup -->
+    <Popup v-if="isTelegram" 
+           :message="popupMessage" 
+           @close="handlePopupClose" />
   </div>
 </template>
 
-<script>
-export default {
-  name: 'StrongholdFinder',
-  data() {
-    return {
-      // First set of coordinates and angle
-      firstCoordinatesX: null,
-      firstCoordinatesZ: null,
-      firstAngle: null,
+<script lang="ts" setup>
+import { ref, computed, inject } from 'vue';
+import { Popup } from 'vue-tg';
 
-      // Second set of coordinates and angle
-      secondCoordinatesX: null,
-      secondCoordinatesZ: null,
-      secondAngle: null,
+// Inject isTelegram from the parent component
+const isTelegram = inject('isTelegram', false);
 
-      // Result of the stronghold calculation
-      strongholdLocation: null
-    };
-  },
-  methods: {
-    findStronghold() {
-      const radToDeg = Math.PI / 180;
+const popupMessage = ref('');
 
-      const p = radToDeg; // Conversion factor from degrees to radians
-      const cot = (x) => 1 / Math.tan(x);
+// Coordinates and result data
+const firstCoordinatesX = ref<number | null>(null);
+const firstCoordinatesZ = ref<number | null>(null);
+const firstAngle = ref<number | null>(null);
+const secondCoordinatesX = ref<number | null>(null);
+const secondCoordinatesZ = ref<number | null>(null);
+const secondAngle = ref<number | null>(null);
+const strongholdLocation = ref<{ x: string, z: string } | null>(null);
 
-      const a1 = parseFloat(this.firstAngle);
-      const a2 = parseFloat(this.secondAngle);
-      const x1 = parseFloat(this.firstCoordinatesX);
-      const z1 = parseFloat(this.firstCoordinatesZ);
-      const x2 = parseFloat(this.secondCoordinatesX);
-      const z2 = parseFloat(this.secondCoordinatesZ);
+// Computed property to check if the form is valid
+const isFormValid = computed(() => {
+  return (
+    firstCoordinatesX.value !== null &&
+    firstCoordinatesZ.value !== null &&
+    firstAngle.value !== null &&
+    secondCoordinatesX.value !== null &&
+    secondCoordinatesZ.value !== null &&
+    secondAngle.value !== null
+  );
+});
 
-      if (Math.abs(a1 - a2) < 1) {
-        alert("Angles cannot be equal!");
-      } else if ((((a1 < 0) && (a2 > 0)) || ((a1 > 0) && (a2 < 0))) && (Math.abs(Math.abs(Math.abs(a1) - 180) - Math.abs(a2)) < 1)) {
-        alert("Angles cannot be opposite!");
-      } else {
-        let xOutput, zOutput;
+function findStronghold() {
+  // Calculations as per the original script
+  const radToDeg = Math.PI / 180;
+  const p = radToDeg;
+  const cot = (x) => 1 / Math.tan(x);
 
-        switch (Math.round(a1)) {
+  const a1 = parseFloat(firstAngle.value ?? '0');
+  const a2 = parseFloat(secondAngle.value ?? '0');
+  const x1 = parseFloat(firstCoordinatesX.value ?? '0');
+  const z1 = parseFloat(firstCoordinatesZ.value ?? '0');
+  const x2 = parseFloat(secondCoordinatesX.value ?? '0');
+  const z2 = parseFloat(secondCoordinatesZ.value ?? '0');
+
+  if (Math.abs(a1 - a2) < 1) {
+    popupMessage.value = "Angles cannot be equal!";
+    showPopup();
+  } else if ((((a1 < 0) && (a2 > 0)) || ((a1 > 0) && (a2 < 0))) && (Math.abs(Math.abs(Math.abs(a1) - 180) - Math.abs(a2)) < 1)) {
+    popupMessage.value = "Angles cannot be opposite!";
+    showPopup();
+  } else {
+    let xOutput, zOutput;
+
+    switch (Math.round(a1)) {
+      case -180:
+      case 0:
+      case 180:
+        xOutput = Math.round(x1);
+        zOutput = Math.round(cot(-a2 * p) * x1 - (x2 * cot(-a2 * p) - z2));
+        break;
+      case -90:
+      case 90:
+        zOutput = Math.round(z1);
+        xOutput = Math.round(Math.round(x2 * cot(-a2 * p) - z2 + z1) / cot(-a2 * p));
+        break;
+      default:
+        switch (Math.round(a2)) {
           case -180:
           case 0:
           case 180:
-            xOutput = Math.round(x1);
-            zOutput = Math.round(cot(-a2 * p) * x1 - (x2 * cot(-a2 * p) - z2));
+            xOutput = Math.round(x2);
+            zOutput = Math.round(cot(-a1 * p) * x2 - (x1 * cot(-a1 * p) - z1));
             break;
           case -90:
           case 90:
-            zOutput = Math.round(z1);
-            xOutput = Math.round(Math.round(x2 * cot(-a2 * p) - z2 + z1) / cot(-a2 * p));
+            zOutput = Math.round(z2);
+            xOutput = Math.round((x1 * cot(-a1 * p) - z1 + z2) / cot(-a1 * p));
             break;
           default:
-            switch (Math.round(a2)) {
-              case -180:
-              case 0:
-              case 180:
-                xOutput = Math.round(x2);
-                zOutput = Math.round(cot(-a1 * p) * x2 - (x1 * cot(-a1 * p) - z1));
-                break;
-              case -90:
-              case 90:
-                zOutput = Math.round(z2);
-                xOutput = Math.round((x1 * cot(-a1 * p) - z1 + z2) / cot(-a1 * p));
-                break;
-              default:
-                xOutput = Math.round(((x1 * cot(-a1 * p) - z1) - (x2 * cot(-a2 * p) - z2)) / (cot(-a1 * p) - cot(-a2 * p)));
-                zOutput = Math.round(cot(-a1 * p) * xOutput - (x1 * cot(-a1 * p) - z1));
-            }
+            xOutput = Math.round(((x1 * cot(-a1 * p) - z1) - (x2 * cot(-a2 * p) - z2)) / (cot(-a1 * p) - cot(-a2 * p)));
+            zOutput = Math.round(cot(-a1 * p) * xOutput - (x1 * cot(-a1 * p) - z1));
+            break;
         }
+        break;
+    }
 
-        this.strongholdLocation = {
-          x: xOutput.toFixed(2),
-          z: zOutput.toFixed(2)
-        };
+    strongholdLocation.value = { x: xOutput.toString(), z: zOutput.toString() };
 
-        console.log('Calculated Stronghold Location:', this.strongholdLocation);
-      }
-    },
-    goBack() {
-      this.$router.push('/'); // Navigate back to the home screen
+    if (isTelegram) {
+      popupMessage.value = `X: ${xOutput.toFixed(2)}, Z: ${zOutput.toFixed(2)}`;
+      showPopup();
+    } else {
+      showModal();
     }
   }
-};
+}
+
+function showModal() {
+  const modal = document.getElementById('my_modal_3');
+  if (modal) {
+    modal.showModal();
+  }
+}
+
+function closeModal() {
+  const modal = document.getElementById('my_modal_3');
+  if (modal) {
+    modal.close();
+  }
+}
+
+function showPopup() {
+  const popup = document.querySelector('vue-tg-popup');
+  if (popup) {
+    (popup as any).show();
+  }
+}
+
+function handlePopupClose() {
+  // Handle popup close if needed
+}
+
+function goBack() {
+  // Logic for the Go Back button
+}
 </script>
 
 <style scoped>
-/* Add styles for the Stronghold Finder here */
+/* Add styles if necessary */
 </style>
