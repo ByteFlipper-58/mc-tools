@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "daisyui": "^4.12.10",
+    "firebase": "^10.12.4",
     "vue": "^3.4.29",
     "vue-router": "^4.4.0",
     "vue-tg": "^0.6.1"
