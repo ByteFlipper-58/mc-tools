@@ -121,8 +121,6 @@
       </button>
     </div>
 
-    <BackButton v-if="isTelegram" @click="handleBackButton" />
-
     <dialog id="my_modal_3" class="modal">
       <div class="modal-box">
         <form method="dialog">
@@ -143,7 +141,7 @@
 <script lang="ts" setup>
 import { ref, computed, inject } from 'vue';
 import { useRouter } from 'vue-router';
-import { BackButton, Popup } from 'vue-tg';
+import { Popup } from 'vue-tg';
 
 const router = useRouter();
 const isTelegram = inject('isTelegram', false);
@@ -260,12 +258,11 @@ function handlePopupClose() {
 }
 
 function goBack() {
-  router.back();
-}
-
-function handleBackButton() {
-  goBack();
-  // Hide the back button after going back (if needed)
+  if (isTelegram) {
+    window.Telegram.WebApp.close();
+  } else {
+    router.back();
+  }
 }
 </script>
 

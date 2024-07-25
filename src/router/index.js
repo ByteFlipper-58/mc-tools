@@ -16,7 +16,7 @@ const routes = [
 ];
 
 const router = createRouter({
-  history: createWebHistory('/mc-tools/'), // Убедитесь, что путь соответствует базовому пути
+  history: createWebHistory(import.meta.env.BASE_URL),
   routes,
 });
 
