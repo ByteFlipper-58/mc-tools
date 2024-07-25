@@ -1,18 +1,29 @@
-<!-- src/views/Home.vue -->
 <template>
   <div class="p-4">
-    <h1 class="text-3xl font-bold mb-4">Home Screen</h1>
-    <p class="text-lg mb-4">Welcome to the home screen! Here are some sample cards.</p>
-    <div class="flex flex-wrap gap-4 justify-center">
-      <div class="flex justify-center w-full md:w-1/2 lg:w-1/3">
-        <Card
-          imageSrc="https://th.bing.com/th/id/OIP.LwIo405dICgXs4qP3x24kQHaHa?rs=1&pid=ImgDetMain"
-          title="Stronghold Finder with Throw Angle"
+    <h1 class="text-3xl font-bold mb-4">Welcome to MC Tools!</h1>
+    <p class="text-lg mb-4">This is a collection of powerful tools for Minecraft.</p>
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+      <Card
+        imageSrc="https://cdn-icons-png.flaticon.com/512/1055/1055664.png"
+        title="Your Advertisement"
+        description="Here could be your advertisement"
+        textAlign="center"
+        @click="() => {}"
+      />
+      <Card
+        imageSrc="https://github.com/intkgc/end-portal-coords/blob/master/app/src/main/ic_launcher-playstore.png?raw=true"
+        title="Stronghold Finder with Throw Angle"
         description="Find the stronghold location using the throw angle of the Ender Pearl"
-          textAlign="center"
-          @click="handleCardClick"
-        />
-      </div>
+        textAlign="center"
+        @click="() => handleCardClick('StrongholdFinder')"
+      />
+      <Card
+        imageSrc="https://is2-ssl.mzstatic.com/image/thumb/Purple122/v4/37/74/02/377402c0-920a-0340-5748-f2e51709412c/AppIcon-0-1x_U007emarketing-0-7-0-P3-85-220.png/512x512bb.jpg"
+        title="Minecraft Server Status"
+        description="Quickly retrieve the status of any Minecraft server"
+        textAlign="center"
+        @click="() => handleCardClick('ServerStatus')"
+      />
     </div>
   </div>
 </template>
@@ -29,8 +40,8 @@ export default {
   setup() {
     const router = useRouter();
 
-    const handleCardClick = () => {
-      router.push({ name: 'StrongholdFinder' });
+    const handleCardClick = (routeName) => {
+      router.push({ name: routeName });
     };
 
     return {

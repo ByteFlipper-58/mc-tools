@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router';
 import Home from '@/views/Home.vue';
 import StrongholdFinder from '@/views/StrongholdFinder.vue';
+import ServerStatus from '@/views/ServerStatus.vue';
 
 const routes = [
   {
@@ -12,6 +13,11 @@ const routes = [
     path: '/stronghold-finder',
     name: 'StrongholdFinder',
     component: StrongholdFinder,
+  },
+  {
+    path: '/server-status',
+    name: 'ServerStatus',
+    component: ServerStatus,
   }
 ];
 
