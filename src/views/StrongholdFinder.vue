@@ -3,7 +3,6 @@
     <h1 class="text-3xl font-bold mb-4">Stronghold Finder</h1>
     <p class="text-lg mb-4">Enter the coordinates and angle of the Ender Pearl throw for two locations to find the stronghold.</p>
 
-    <!-- Form for the first set of coordinates -->
     <div class="mb-6">
       <h2 class="text-xl font-semibold mb-2">First Location</h2>
       <form @submit.prevent="findStronghold" class="space-y-4">
@@ -55,7 +54,6 @@
       </form>
     </div>
 
-    <!-- Form for the second set of coordinates -->
     <div class="mb-6">
       <h2 class="text-xl font-semibold mb-2">Second Location</h2>
       <form @submit.prevent="findStronghold" class="space-y-4">
@@ -107,7 +105,6 @@
       </form>
     </div>
 
-    <!-- Submit and Go Back Buttons -->
     <div class="mt-4 flex flex-col lg:flex-row lg:justify-center lg:gap-4">
       <button 
         @click="findStronghold" 
@@ -124,7 +121,8 @@
       </button>
     </div>
 
-    <!-- DaisyUI Modal -->
+    <BackButton v-if="isTelegram" @click="handleBackButton" />
+
     <dialog id="my_modal_3" class="modal">
       <div class="modal-box">
         <form method="dialog">
@@ -136,7 +134,6 @@
       </div>
     </dialog>
 
-    <!-- vue-tg Popup -->
     <Popup v-if="isTelegram" 
            :message="popupMessage" 
            @close="handlePopupClose" />
@@ -145,14 +142,14 @@
 
 <script lang="ts" setup>
 import { ref, computed, inject } from 'vue';
-import { Popup } from 'vue-tg';
+import { useRouter } from 'vue-router';
+import { BackButton, Popup } from 'vue-tg';
 
-// Inject isTelegram from the parent component
+const router = useRouter();
 const isTelegram = inject('isTelegram', false);
 
 const popupMessage = ref('');
 
-// Coordinates and result data
 const firstCoordinatesX = ref<number | null>(null);
 const firstCoordinatesZ = ref<number | null>(null);
 const firstAngle = ref<number | null>(null);
@@ -161,7 +158,6 @@ const secondCoordinatesZ = ref<number | null>(null);
 const secondAngle = ref<number | null>(null);
 const strongholdLocation = ref<{ x: string, z: string } | null>(null);
 
-// Computed property to check if the form is valid
 const isFormValid = computed(() => {
   return (
     firstCoordinatesX.value !== null &&
@@ -174,7 +170,6 @@ const isFormValid = computed(() => {
 });
 
 function findStronghold() {
-  // Calculations as per the original script
   const radToDeg = Math.PI / 180;
   const p = radToDeg;
   const cot = (x) => 1 / Math.tan(x);
@@ -265,7 +260,12 @@ function handlePopupClose() {
 }
 
 function goBack() {
-  // Logic for the Go Back button
+  router.back();
+}
+
+function handleBackButton() {
+  goBack();
+  // Hide the back button after going back (if needed)
 }
 </script>
 
