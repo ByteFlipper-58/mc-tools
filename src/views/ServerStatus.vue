@@ -1,5 +1,5 @@
 <template>
-  <div class="p-6 max-w-2xl mx-auto">
+  <div class="p-6 max-w-2xl mx-auto bg-gray-900 text-white">
     <h1 class="text-3xl font-bold mb-4">Minecraft Server Status</h1>
     <p class="text-lg mb-4">Quickly retrieve the status of any Minecraft server.</p>
 
@@ -38,7 +38,7 @@
     <!-- Server Status Display -->
     <div v-if="serverStatus" class="mt-6">
       <h2 class="text-2xl font-bold mb-4">Server Status</h2>
-      <div class="card w-full bg-base-100 shadow-xl">
+      <div class="card w-full bg-gray-800 shadow-xl text-white">
         <div class="card-body">
           <table class="table w-full">
             <tbody>
@@ -60,7 +60,7 @@
               </tr>
               <tr>
                 <td class="font-bold">MOTD:</td>
-                <td v-html="serverStatus.motd?.html || 'N/A'"></td>
+                <td v-html="serverStatus.motd?.html || 'N/A'" class="bg-gray-700 p-2 rounded"></td>
               </tr>
               <tr>
                 <td class="font-bold">Version:</td>
@@ -71,11 +71,22 @@
                 <td>
                   <div>{{ serverStatus.players ? `${serverStatus.players.online} / ${serverStatus.players.max}` : 'N/A' }}</div>
                   <button @click="togglePlayers" class="btn btn-info btn-sm mt-2">Toggle Player List</button>
-                  <ul v-if="showPlayers && serverStatus.players?.list?.length" class="list-disc list-inside mt-2">
-                    <li v-for="player in serverStatus.players.list" :key="player.uuid">
-                      {{ player.name_clean }}
-                    </li>
-                  </ul>
+                  <table v-if="showPlayers && serverStatus.players?.list?.length" class="table bg-gray-700 p-2 rounded mt-2">
+                    <thead>
+                      <tr>
+                        <th>#</th>
+                        <th>Username</th>
+                        <th>UUID</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr v-for="(player, index) in serverStatus.players.list" :key="player.uuid">
+                        <td>{{ index + 1 }}</td>
+                        <td v-html="player.name_html"></td>
+                        <td>{{ player.uuid }}</td>
+                      </tr>
+                    </tbody>
+                  </table>
                 </td>
               </tr>
               <tr>
@@ -83,11 +94,22 @@
                 <td>
                   <div>{{ serverStatus.mods ? serverStatus.mods.length : 'N/A' }}</div>
                   <button @click="toggleMods" class="btn btn-info btn-sm mt-2">Toggle Mods List</button>
-                  <ul v-if="showModsList && serverStatus.mods?.length" class="list-disc list-inside mt-2">
-                    <li v-for="mod in serverStatus.mods" :key="mod.name">
-                      {{ mod.name }} ({{ mod.version }})
-                    </li>
-                  </ul>
+                  <table v-if="showModsList && serverStatus.mods?.length" class="table bg-gray-700 p-2 rounded mt-2">
+                    <thead>
+                      <tr>
+                        <th>#</th>
+                        <th>Name</th>
+                        <th>Version</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr v-for="(mod, index) in serverStatus.mods" :key="mod.name">
+                        <td>{{ index + 1 }}</td>
+                        <td>{{ mod.name }}</td>
+                        <td>{{ mod.version }}</td>
+                      </tr>
+                    </tbody>
+                  </table>
                 </td>
               </tr>
               <tr>
@@ -95,11 +117,22 @@
                 <td>
                   <div>{{ serverStatus.plugins ? serverStatus.plugins.length : 'N/A' }}</div>
                   <button @click="togglePlugins" class="btn btn-info btn-sm mt-2">Toggle Plugins List</button>
-                  <ul v-if="showPluginsList && serverStatus.plugins?.length" class="list-disc list-inside mt-2">
-                    <li v-for="plugin in serverStatus.plugins" :key="plugin.name">
-                      {{ plugin.name }} ({{ plugin.version }})
-                    </li>
-                  </ul>
+                  <table v-if="showPluginsList && serverStatus.plugins?.length" class="table bg-gray-700 p-2 rounded mt-2">
+                    <thead>
+                      <tr>
+                        <th>#</th>
+                        <th>Name</th>
+                        <th>Version</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr v-for="(plugin, index) in serverStatus.plugins" :key="plugin.name">
+                        <td>{{ index + 1 }}</td>
+                        <td>{{ plugin.name }}</td>
+                        <td>{{ plugin.version }}</td>
+                      </tr>
+                    </tbody>
+                  </table>
                 </td>
               </tr>
               <tr>
@@ -211,4 +244,41 @@ function getQueryParams() {
 
 <style scoped>
 @import "tailwindcss/tailwind.css";
+body {
+  background-color: #1a202c; /* Set dark background */
+  color: #e2e8f0; /* Set light text color */
+}
+
+.card-body {
+  background-color: #2d3748; /* Set dark background for card body */
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.table th, .table td {
+  padding: 4px; /* Add padding */
+  border-bottom: 1px solid #4a5568; /* Set border color */
+}
+
+.table th {
+  text-align: left; /* Align header text to the left */
+}
+
+.list-disc {
+  list-style-type: none; /* Remove default list style */
+  padding-left: 0; /* Remove default padding */
+  margin: 0.5rem 0; /* Add some space between items */
+}
+
+.player-list li, .list-decimal li {
+  padding: 4px 0; /* Add padding */
+}
+
+.player-list span a {
+  color: inherit; /* Inherit text color */
+  text-decoration: underline; /* Underline the text */
+}
 </style>
