@@ -1,11 +1,11 @@
 <template>
-  <div class="p-6 max-w-2xl mx-auto bg-gray-900 text-white">
-    <h1 class="text-3xl font-bold mb-4">Minecraft Server Status</h1>
-    <p class="text-lg mb-4">Quickly retrieve the status of any Minecraft server.</p>
+  <div class="p-4 sm:p-6 max-w-2xl mx-auto bg-gray-900 text-white">
+    <h1 class="text-2xl sm:text-3xl font-bold mb-4">Minecraft Server Status</h1>
+    <p class="text-base sm:text-lg mb-4">Quickly retrieve the status of any Minecraft server.</p>
 
-    <div class="mt-4 flex flex-col lg:flex-row lg:items-center lg:gap-4">
+    <div class="mt-4 flex flex-col sm:flex-row sm:items-center sm:gap-4">
       <!-- Version Selection -->
-      <select v-model="selectedVersion" class="select select-bordered w-full lg:w-1/4 mt-2 lg:mt-0">
+      <select v-model="selectedVersion" class="select select-bordered w-full sm:w-1/3 mt-2 sm:mt-0">
         <option value="java">Java</option>
         <option value="bedrock">Bedrock</option>
       </select>
@@ -14,22 +14,22 @@
         v-model="hostAddress"
         type="text" 
         placeholder="Enter host address" 
-        class="input input-bordered w-full lg:flex-1 mt-2 lg:mt-0" 
+        class="input input-bordered w-full sm:flex-1 mt-2 sm:mt-0" 
       />
       <!-- Check Status Button -->
       <button 
         @click="checkStatus" 
-        class="btn btn-primary w-full lg:w-1/4 mt-2 lg:mt-0"
+        class="btn btn-primary w-full sm:w-1/3 mt-2 sm:mt-0"
       >
         Check Status
       </button>
     </div>
 
-    <div class="mt-4 flex flex-col lg:flex-row lg:justify-center lg:gap-4">
+    <div class="mt-4 flex flex-col sm:flex-row sm:justify-center sm:gap-4">
       <!-- Go Back Button -->
       <button 
         @click="goBack" 
-        class="btn btn-secondary w-full lg:w-auto mt-2 lg:mt-0"
+        class="btn btn-secondary w-full sm:w-auto mt-2 sm:mt-0"
       >
         Go Back
       </button>
@@ -37,122 +37,134 @@
 
     <!-- Server Status Display -->
     <div v-if="serverStatus" class="mt-6">
-      <h2 class="text-2xl font-bold mb-4">Server Status</h2>
+      <h2 class="text-xl sm:text-2xl font-bold mb-4">Server Status</h2>
       <div class="card w-full bg-gray-800 shadow-xl text-white">
         <div class="card-body">
-          <table class="table w-full">
-            <tbody>
-              <tr>
-                <td class="font-bold">Status:</td>
-                <td>{{ serverStatus.online ? 'Online' : 'Offline' }}</td>
-              </tr>
-              <tr>
-                <td class="font-bold">Host:</td>
-                <td>{{ serverStatus.host || 'N/A' }}</td>
-              </tr>
-              <tr>
-                <td class="font-bold">IP / Port:</td>
-                <td>{{ serverStatus.ip_address ? `${serverStatus.ip_address}:${serverStatus.port}` : 'N/A' }}</td>
-              </tr>
-              <tr>
-                <td class="font-bold">Icon:</td>
-                <td><img :src="serverStatus.icon || 'N/A'" alt="Server Icon" class="w-16 h-16" /></td>
-              </tr>
-              <tr>
-                <td class="font-bold">MOTD:</td>
-                <td v-html="serverStatus.motd?.html || 'N/A'" class="bg-gray-700 p-2 rounded"></td>
-              </tr>
-              <tr>
-                <td class="font-bold">Version:</td>
-                <td>{{ serverStatus.version?.name_clean || 'N/A' }}</td>
-              </tr>
-              <tr>
-                <td class="font-bold">Players:</td>
-                <td>
-                  <div>{{ serverStatus.players ? `${serverStatus.players.online} / ${serverStatus.players.max}` : 'N/A' }}</div>
-                  <button @click="togglePlayers" class="btn btn-info btn-sm mt-2">Toggle Player List</button>
-                  <table v-if="showPlayers && serverStatus.players?.list?.length" class="table bg-gray-700 p-2 rounded mt-2">
-                    <thead>
-                      <tr>
-                        <th>#</th>
-                        <th>Username</th>
-                        <th>UUID</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <tr v-for="(player, index) in serverStatus.players.list" :key="player.uuid">
-                        <td>{{ index + 1 }}</td>
-                        <td v-html="player.name_html"></td>
-                        <td>{{ player.uuid }}</td>
-                      </tr>
-                    </tbody>
-                  </table>
-                </td>
-              </tr>
-              <tr>
-                <td class="font-bold">Mods:</td>
-                <td>
-                  <div>{{ serverStatus.mods ? serverStatus.mods.length : 'N/A' }}</div>
-                  <button @click="toggleMods" class="btn btn-info btn-sm mt-2">Toggle Mods List</button>
-                  <table v-if="showModsList && serverStatus.mods?.length" class="table bg-gray-700 p-2 rounded mt-2">
-                    <thead>
-                      <tr>
-                        <th>#</th>
-                        <th>Name</th>
-                        <th>Version</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <tr v-for="(mod, index) in serverStatus.mods" :key="mod.name">
-                        <td>{{ index + 1 }}</td>
-                        <td>{{ mod.name }}</td>
-                        <td>{{ mod.version }}</td>
-                      </tr>
-                    </tbody>
-                  </table>
-                </td>
-              </tr>
-              <tr>
-                <td class="font-bold">Plugins:</td>
-                <td>
-                  <div>{{ serverStatus.plugins ? serverStatus.plugins.length : 'N/A' }}</div>
-                  <button @click="togglePlugins" class="btn btn-info btn-sm mt-2">Toggle Plugins List</button>
-                  <table v-if="showPluginsList && serverStatus.plugins?.length" class="table bg-gray-700 p-2 rounded mt-2">
-                    <thead>
-                      <tr>
-                        <th>#</th>
-                        <th>Name</th>
-                        <th>Version</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <tr v-for="(plugin, index) in serverStatus.plugins" :key="plugin.name">
-                        <td>{{ index + 1 }}</td>
-                        <td>{{ plugin.name }}</td>
-                        <td>{{ plugin.version }}</td>
-                      </tr>
-                    </tbody>
-                  </table>
-                </td>
-              </tr>
-              <tr>
-                <td class="font-bold">EULA Blocked:</td>
-                <td>{{ serverStatus.eula_blocked !== undefined ? (serverStatus.eula_blocked ? 'Yes' : 'No') : 'N/A' }}</td>
-              </tr>
-              <tr>
-                <td class="font-bold">Protocol Version:</td>
-                <td>{{ serverStatus.version?.protocol || 'N/A' }}</td>
-              </tr>
-              <tr>
-                <td class="font-bold">Software:</td>
-                <td>{{ serverStatus.software || 'N/A' }}</td>
-              </tr>
-              <tr>
-                <td class="font-bold">SVR Record:</td>
-                <td>{{ serverStatus.srv_record ? `${serverStatus.srv_record.host}:${serverStatus.srv_record.port}` : 'N/A' }}</td>
-              </tr>
-            </tbody>
-          </table>
+          <div class="flex flex-col gap-y-4">
+            <div>
+              <div class="font-bold">Status</div>
+              <div :class="serverStatus.online ? 'bg-green-500' : 'bg-red-500'" class="p-2 rounded">
+                {{ serverStatus.online ? 'Online' : 'Offline' }}
+              </div>
+            </div>
+            <hr class="border-gray-600">
+            <div>
+              <div class="font-bold">Host</div>
+              <div>{{ serverStatus.host || 'N/A' }}</div>
+            </div>
+            <hr class="border-gray-600">
+            <div>
+              <div class="font-bold">IP / Port</div>
+              <div>{{ serverStatus.ip_address ? `${serverStatus.ip_address}:${serverStatus.port}` : 'N/A' }}</div>
+            </div>
+            <hr class="border-gray-600">
+            <div>
+              <div class="font-bold">Icon</div>
+              <div><img :src="serverStatus.icon || 'N/A'" alt="Server Icon" class="w-16 h-16" /></div>
+            </div>
+            <hr class="border-gray-600">
+            <div>
+              <div class="font-bold">MOTD</div>
+              <div v-html="serverStatus.motd?.html || 'N/A'" class="bg-gray-700 p-2 rounded"></div>
+            </div>
+            <hr class="border-gray-600">
+            <div>
+              <div class="font-bold">Version</div>
+              <div v-html="serverStatus.version?.name_html || serverStatus.version?.name_clean || 'N/A'" class="bg-gray-700 p-2 rounded"></div>
+            </div>
+            <hr class="border-gray-600">
+            <div>
+              <div class="font-bold">Players</div>
+              <div>{{ serverStatus.players ? `${serverStatus.players.online} / ${serverStatus.players.max}` : 'N/A' }}</div>
+              <button @click="togglePlayers" class="btn btn-info btn-sm mt-2">Toggle Player List</button>
+              <div class="overflow-x-auto mt-2">
+                <table v-if="showPlayers && serverStatus.players?.list?.length" class="table bg-gray-700 p-2 rounded">
+                  <thead>
+                    <tr>
+                      <th>#</th>
+                      <th>Username</th>
+                      <th>UUID</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr v-for="(player, index) in serverStatus.players.list" :key="player.uuid">
+                      <td>{{ index + 1 }}</td>
+                      <td v-html="player.name_html"></td>
+                      <td>{{ player.uuid }}</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+            <hr class="border-gray-600">
+            <div>
+              <div class="font-bold">Mods</div>
+              <div>{{ serverStatus.mods ? serverStatus.mods.length : 'N/A' }}</div>
+              <button @click="toggleMods" class="btn btn-info btn-sm mt-2">Toggle Mods List</button>
+              <div class="overflow-x-auto mt-2">
+                <table v-if="showModsList && serverStatus.mods?.length" class="table bg-gray-700 p-2 rounded">
+                  <thead>
+                    <tr>
+                      <th>#</th>
+                      <th>Name</th>
+                      <th>Version</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr v-for="(mod, index) in serverStatus.mods" :key="mod.name">
+                      <td>{{ index + 1 }}</td>
+                      <td>{{ mod.name }}</td>
+                      <td>{{ mod.version }}</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+            <hr class="border-gray-600">
+            <div>
+              <div class="font-bold">Plugins</div>
+              <div>{{ serverStatus.plugins ? serverStatus.plugins.length : 'N/A' }}</div>
+              <button @click="togglePlugins" class="btn btn-info btn-sm mt-2">Toggle Plugins List</button>
+              <div class="overflow-x-auto mt-2">
+                <table v-if="showPluginsList && serverStatus.plugins?.length" class="table bg-gray-700 p-2 rounded">
+                  <thead>
+                    <tr>
+                      <th>#</th>
+                      <th>Name</th>
+                      <th>Version</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr v-for="(plugin, index) in serverStatus.plugins" :key="plugin.name">
+                      <td>{{ index + 1 }}</td>
+                      <td>{{ plugin.name }}</td>
+                      <td>{{ plugin.version }}</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+            <hr class="border-gray-600">
+            <div>
+              <div class="font-bold">EULA Blocked</div>
+              <div>{{ serverStatus.eula_blocked !== undefined ? (serverStatus.eula_blocked ? 'Yes' : 'No') : 'N/A' }}</div>
+            </div>
+            <hr class="border-gray-600">
+            <div>
+              <div class="font-bold">Protocol Version</div>
+              <div>{{ serverStatus.version?.protocol || 'N/A' }}</div>
+            </div>
+            <hr class="border-gray-600">
+            <div>
+              <div class="font-bold">Software</div>
+              <div>{{ serverStatus.software || 'N/A' }}</div>
+            </div>
+            <hr class="border-gray-600">
+            <div>
+              <div class="font-bold">SVR Record</div>
+              <div>{{ serverStatus.srv_record ? `${serverStatus.srv_record.host}:${serverStatus.srv_record.port}` : 'N/A' }}</div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -280,5 +292,9 @@ body {
 .player-list span a {
   color: inherit; /* Inherit text color */
   text-decoration: underline; /* Underline the text */
+}
+
+.overflow-x-auto {
+  overflow-x: auto; /* Enable horizontal scrolling */
 }
 </style>
