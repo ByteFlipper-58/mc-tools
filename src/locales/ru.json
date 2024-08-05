@@ -1,21 +1,71 @@
 {
-    "home": {
-      "welcomeMessage": "Добро пожаловать в MC Tools!",
-      "description": "Это коллекция мощных инструментов для Minecraft.",
-      "cards": {
-        "advertisement": {
-          "title": "Ваша реклама",
-          "description": "Здесь может быть ваша реклама"
+  "ui":{
+     "back":"Назад"
+  },
+  "home":{
+     "welcomeMessage":"Добро пожаловать в MC Tools!",
+     "description":"Это коллекция мощных инструментов для Minecraft.",
+     "cards":{
+        "advertisement":{
+           "title":"Ваша реклама",
+           "description":"Здесь может быть ваша реклама"
         },
-        "strongholdFinder": {
-          "title": "Поиск крепости по углу броска",
-          "description": "Найдите местоположение крепости, используя угол броска жемчужины Эндера"
+        "byteflipper":{
+           "title":"ByteFlipper",
+           "description":"Официальный канал разработчика"
         },
-        "serverStatus": {
-          "title": "Статус сервера Minecraft",
-          "description": "Быстро получите статус любого сервера Minecraft"
+        "strongholdFinder":{
+           "title":"Поиск крепости по углу броска",
+           "description":"Найдите местоположение крепости, используя угол броска жемчужины Эндера"
+        },
+        "serverStatus":{
+           "title":"Статус сервера Minecraft",
+           "description":"Быстро получите статус любого сервера Minecraft"
         }
-      }
-    }
-  }
-  
+     }
+  },
+  "serverStatusPage":{
+     "welcomeMessage":"Статус сервера Minecraft",
+     "description":"Быстро получить статус любого сервера Minecraft.",
+     "enterHostAdres":"Напишите адрес хоста",
+     "checkStatus":"Проверить статус",
+     "serverStatus":"Статус сервера",
+     "status":"Статус",
+     "online":"Онлайн",
+     "offline":"Оффлайн",
+     "host":"Хост",
+     "ipAddress":"IP / Порт",
+     "icon":"Иконка",
+     "motd":"MOTD",
+     "version":"Версия",
+     "players":"Игроки",
+     "togglePlayers":"Показать/скрыть список игроков",
+     "mods":"Моды",
+     "toggleMods":"Показать/скрыть список модов",
+     "plugins":"Плагины",
+     "togglePlugins":"Показать/скрыть список плагинов",
+     "eulaBlocked":"EULA заблокировано",
+     "protocolVersion":"Версия протокола",
+     "software":"Программное обеспечение",
+     "srvRecord":"SVR запись"
+  },
+  "strongholdFinderPage": {
+   "title": "Поиск крепости",
+   "description": "Введите координаты и угол броска Жемчужины Края для двух локаций, чтобы найти крепость.",
+   "firstLocation": "Первая локация",
+   "secondLocation": "Вторая локация",
+   "xCoordinate": "Координата X",
+   "zCoordinate": "Координата Z",
+   "angleOfTheThrow": "Угол броска",
+   "enterXCoordinate": "Введите координату X",
+   "enterZCoordinate": "Введите координату Z",
+   "enterAngleInDegrees": "Введите угол в градусах",
+   "findStronghold": "Найти крепость",
+   "goBack": "Назад",
+   "estimatedStrongholdLocation": "Предполагаемое местоположение крепости",
+   "x": "X:",
+   "z": "Z:",
+   "anglesCannotBeEqual": "Углы не могут быть равны!",
+   "anglesCannotBeOpposite": "Углы не могут быть противоположными!"
+ }
+}

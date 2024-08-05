@@ -1,21 +1,77 @@
 {
-    "home": {
-      "welcomeMessage": "Welcome to MC Tools!",
-      "description": "This is a collection of powerful tools for Minecraft.",
-      "cards": {
-        "advertisement": {
-          "title": "Your Advertisement",
-          "description": "Here could be your advertisement"
+  "ui":{
+     "back":"Back"
+  },
+  "home":{
+     "welcomeMessage":"Welcome to MC Tools!",
+     "description":"This is a collection of powerful tools for Minecraft.",
+     "cards":{
+        "advertisement":{
+           "title":"Your Advertisement",
+           "description":"Here could be your advertisement"
         },
-        "strongholdFinder": {
-          "title": "Stronghold Finder with Throw Angle",
-          "description": "Find the stronghold location using the throw angle of the Ender Pearl"
+        "byteflipper":{
+           "title":"ByteFlipper",
+           "description":"Official Developer TG Channel"
         },
-        "serverStatus": {
-          "title": "Minecraft Server Status",
-          "description": "Quickly retrieve the status of any Minecraft server"
+        "strongholdFinder":{
+           "title":"Stronghold Finder with Throw Angle",
+           "description":"Find the stronghold location using the throw angle of the Ender Pearl"
+        },
+        "serverStatus":{
+           "title":"Minecraft Server Status",
+           "description":"Quickly retrieve the status of any Minecraft server"
         }
-      }
-    }
-  }
-  
+     }
+  },
+  "serverStatusPage":{
+     "welcomeMessage":"Minecraft Server Status",
+     "description":"Quickly retrieve the status of any Minecraft server.",
+     "enterHostAdres":"Enter host address",
+     "checkStatus":"Check Status",
+     "serverStatus":"Server Status",
+     "status":"Status",
+     "online":"Online",
+     "offline":"Offline",
+     "host":"Host",
+     "ipAddress":"IP / Port",
+     "icon":"Icon",
+     "motd":"MOTD",
+     "version":"Version",
+     "players":"Players",
+     "togglePlayers":"Toggle Player List",
+     "mods":"Mods",
+     "toggleMods":"Toggle Mods List",
+     "plugins":"Plugins",
+     "togglePlugins":"Toggle Plugins List",
+     "eulaBlocked":"EULA Blocked",
+     "protocolVersion":"Protocol Version",
+     "software":"Software",
+     "srvRecord":"SVR Record",
+     "notAvailable":"N/A",
+     "number":"#",
+     "username":"Username",
+     "uuid":"UUID",
+     "name":"Name",
+     "versionShort":"Version"
+  },
+  "strongholdFinderPage": {
+   "title": "Stronghold Finder",
+   "description": "Enter the coordinates and angle of the Ender Pearl throw for two locations to find the stronghold.",
+   "firstLocation": "First Location",
+   "secondLocation": "Second Location",
+   "xCoordinate": "X Coordinate",
+   "zCoordinate": "Z Coordinate",
+   "angleOfTheThrow": "Angle of the Throw",
+   "enterXCoordinate": "Enter X coordinate",
+   "enterZCoordinate": "Enter Z coordinate",
+   "enterAngleInDegrees": "Enter angle in degrees",
+   "findStronghold": "Find Stronghold",
+   "goBack": "Go Back",
+   "estimatedStrongholdLocation": "Estimated Stronghold Location",
+   "x": "X:",
+   "z": "Z:",
+   "anglesCannotBeEqual": "Angles cannot be equal!",
+   "anglesCannotBeOpposite": "Angles cannot be opposite!"
+ }
+}

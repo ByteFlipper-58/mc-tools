@@ -1,7 +1,7 @@
 <template>
   <div class="p-4 sm:p-6 max-w-2xl mx-auto bg-gray-900 text-white">
-    <h1 class="text-2xl sm:text-3xl font-bold mb-4">Minecraft Server Status</h1>
-    <p class="text-base sm:text-lg mb-4">Quickly retrieve the status of any Minecraft server.</p>
+    <h1 class="text-2xl sm:text-3xl font-bold mb-4">{{ $t('serverStatusPage.welcomeMessage') }}</h1>
+    <p class="text-base sm:text-lg mb-4">{{ $t('serverStatusPage.description') }}</p>
 
     <div class="mt-4 flex flex-col sm:flex-row sm:items-center sm:gap-4">
       <!-- Version Selection -->
@@ -13,70 +13,64 @@
       <input 
         v-model="hostAddress"
         type="text" 
-        placeholder="Enter host address" 
+        :placeholder="$t('serverStatusPage.enterHostAdres')" 
         class="input input-bordered w-full sm:flex-1 mt-2 sm:mt-0" 
       />
       <!-- Check Status Button -->
       <button 
         @click="checkStatus" 
-        class="btn btn-primary w-full sm:w-1/3 mt-2 sm:mt-0"
-      >
-        Check Status
-      </button>
+        class="btn btn-primary w-full sm:w-1/3 mt-2 sm:mt-0"> {{ $t('serverStatusPage.checkStatus') }} </button>
     </div>
 
     <div class="mt-4 flex flex-col sm:flex-row sm:justify-center sm:gap-4">
       <!-- Go Back Button -->
       <button 
         @click="goBack" 
-        class="btn btn-secondary w-full sm:w-auto mt-2 sm:mt-0"
-      >
-        Go Back
-      </button>
+        class="btn btn-secondary w-full sm:w-auto mt-2 sm:mt-0"> {{ $t('ui.back') }}</button>
     </div>
 
     <!-- Server Status Display -->
     <div v-if="serverStatus" class="mt-6">
-      <h2 class="text-xl sm:text-2xl font-bold mb-4">Server Status</h2>
+      <h2 class="text-xl sm:text-2xl font-bold mb-4">{{$t('serverStatusPage.serverStatus')}}</h2>
       <div class="card w-full bg-gray-800 shadow-xl text-white">
         <div class="card-body">
           <div class="flex flex-col gap-y-4">
             <div>
-              <div class="font-bold">Status</div>
+              <div class="font-bold">{{ $t('serverStatusPage.status') }}</div>
               <div :class="serverStatus.online ? 'bg-green-500' : 'bg-red-500'" class="p-2 rounded">
-                {{ serverStatus.online ? 'Online' : 'Offline' }}
+                {{ serverStatus.online ? $t('serverStatusPage.online') : $t('serverStatusPage.offline') }}
               </div>
             </div>
             <hr class="border-gray-600">
             <div>
-              <div class="font-bold">Host</div>
+              <div class="font-bold">{{ $t('serverStatusPage.host') }}</div>
               <div>{{ serverStatus.host || 'N/A' }}</div>
             </div>
             <hr class="border-gray-600">
             <div>
-              <div class="font-bold">IP / Port</div>
+              <div class="font-bold">{{ $t('serverStatusPage.ipAddress') }}</div>
               <div>{{ serverStatus.ip_address ? `${serverStatus.ip_address}:${serverStatus.port}` : 'N/A' }}</div>
             </div>
             <hr class="border-gray-600">
             <div>
-              <div class="font-bold">Icon</div>
+              <div class="font-bold">{{ $t('serverStatusPage.icon') }}</div>
               <div><img :src="serverStatus.icon || 'N/A'" alt="Server Icon" class="w-16 h-16" /></div>
             </div>
             <hr class="border-gray-600">
             <div>
-              <div class="font-bold">MOTD</div>
+              <div class="font-bold">{{ $t('serverStatusPage.motd') }}</div>
               <div v-html="serverStatus.motd?.html || 'N/A'" class="bg-gray-700 p-2 rounded"></div>
             </div>
             <hr class="border-gray-600">
             <div>
-              <div class="font-bold">Version</div>
+              <div class="font-bold">{{ $t('serverStatusPage.version') }}</div>
               <div v-html="serverStatus.version?.name_html || serverStatus.version?.name_clean || 'N/A'" class="bg-gray-700 p-2 rounded"></div>
             </div>
             <hr class="border-gray-600">
             <div>
-              <div class="font-bold">Players</div>
+              <div class="font-bold">{{ $t('serverStatusPage.players') }}</div>
               <div>{{ serverStatus.players ? `${serverStatus.players.online} / ${serverStatus.players.max}` : 'N/A' }}</div>
-              <button @click="togglePlayers" class="btn btn-info btn-sm mt-2">Toggle Player List</button>
+              <button @click="togglePlayers" class="btn btn-info btn-sm mt-2">{{ $t('serverStatusPage.togglePlayers') }}</button>
               <div class="overflow-x-auto mt-2">
                 <table v-if="showPlayers && serverStatus.players?.list?.length" class="table bg-gray-700 p-2 rounded">
                   <thead>
@@ -98,9 +92,9 @@
             </div>
             <hr class="border-gray-600">
             <div>
-              <div class="font-bold">Mods</div>
+              <div class="font-bold">{{ $t('serverStatusPage.mods') }}</div>
               <div>{{ serverStatus.mods ? serverStatus.mods.length : 'N/A' }}</div>
-              <button @click="toggleMods" class="btn btn-info btn-sm mt-2">Toggle Mods List</button>
+              <button @click="toggleMods" class="btn btn-info btn-sm mt-2">{{ $t('serverStatusPage.toggleMods') }}</button>
               <div class="overflow-x-auto mt-2">
                 <table v-if="showModsList && serverStatus.mods?.length" class="table bg-gray-700 p-2 rounded">
                   <thead>
@@ -122,9 +116,9 @@
             </div>
             <hr class="border-gray-600">
             <div>
-              <div class="font-bold">Plugins</div>
+              <div class="font-bold">{{ $t('serverStatusPage.plugins') }}</div>
               <div>{{ serverStatus.plugins ? serverStatus.plugins.length : 'N/A' }}</div>
-              <button @click="togglePlugins" class="btn btn-info btn-sm mt-2">Toggle Plugins List</button>
+              <button @click="togglePlugins" class="btn btn-info btn-sm mt-2">{{ $t('serverStatusPage.togglePlugins') }}</button>
               <div class="overflow-x-auto mt-2">
                 <table v-if="showPluginsList && serverStatus.plugins?.length" class="table bg-gray-700 p-2 rounded">
                   <thead>
@@ -146,22 +140,22 @@
             </div>
             <hr class="border-gray-600">
             <div>
-              <div class="font-bold">EULA Blocked</div>
+              <div class="font-bold">{{ $t('serverStatusPage.eulaBlocked') }}</div>
               <div>{{ serverStatus.eula_blocked !== undefined ? (serverStatus.eula_blocked ? 'Yes' : 'No') : 'N/A' }}</div>
             </div>
             <hr class="border-gray-600">
             <div>
-              <div class="font-bold">Protocol Version</div>
+              <div class="font-bold">{{ $t('serverStatusPage.protocolVersion') }}</div>
               <div>{{ serverStatus.version?.protocol || 'N/A' }}</div>
             </div>
             <hr class="border-gray-600">
             <div>
-              <div class="font-bold">Software</div>
+              <div class="font-bold">{{ $t('serverStatusPage.software') }}</div>
               <div>{{ serverStatus.software || 'N/A' }}</div>
             </div>
             <hr class="border-gray-600">
             <div>
-              <div class="font-bold">SVR Record</div>
+              <div class="font-bold">{{ $t('serverStatusPage.srvRecord') }}</div>
               <div>{{ serverStatus.srv_record ? `${serverStatus.srv_record.host}:${serverStatus.srv_record.port}` : 'N/A' }}</div>
             </div>
           </div>

@@ -1,21 +1,21 @@
 <template>
   <div class="p-6 max-w-2xl mx-auto">
-    <h1 class="text-3xl font-bold mb-4">Stronghold Finder</h1>
-    <p class="text-lg mb-4">Enter the coordinates and angle of the Ender Pearl throw for two locations to find the stronghold.</p>
+    <h1 class="text-3xl font-bold mb-4">{{ $t('strongholdFinderPage.title') }}</h1>
+    <p class="text-lg mb-4">{{ $t('strongholdFinderPage.description') }}</p>
 
     <div class="mb-6">
-      <h2 class="text-xl font-semibold mb-2">First Location</h2>
+      <h2 class="text-xl font-semibold mb-2">{{ $t('strongholdFinderPage.firstLocation') }}</h2>
       <form @submit.prevent="findStronghold" class="space-y-4">
         <div class="lg:grid lg:grid-cols-3 lg:gap-4">
           <div class="form-control lg:col-span-1">
             <label for="firstCoordinatesX" class="label">
-              <span class="label-text">X Coordinate</span>
+              <span class="label-text">{{ $t('strongholdFinderPage.xCoordinate') }}</span>
             </label>
             <input 
               type="number" 
               id="firstCoordinatesX" 
               v-model.number="firstCoordinatesX" 
-              placeholder="Enter X coordinate" 
+              :placeholder="$t('strongholdFinderPage.enterXCoordinate')" 
               class="input input-bordered w-full" 
               step="any"
               min="-1000000" 
@@ -23,13 +23,13 @@
           </div>
           <div class="form-control lg:col-span-1">
             <label for="firstCoordinatesZ" class="label">
-              <span class="label-text">Z Coordinate</span>
+              <span class="label-text">{{ $t('strongholdFinderPage.zCoordinate') }}</span>
             </label>
             <input 
               type="number" 
               id="firstCoordinatesZ" 
               v-model.number="firstCoordinatesZ" 
-              placeholder="Enter Z coordinate" 
+              :placeholder="$t('strongholdFinderPage.enterZCoordinate')" 
               class="input input-bordered w-full" 
               step="any"
               min="-1000000" 
@@ -37,13 +37,13 @@
           </div>
           <div class="form-control lg:col-span-1">
             <label for="firstAngle" class="label">
-              <span class="label-text">Angle of the Throw</span>
+              <span class="label-text">{{ $t('strongholdFinderPage.angleOfTheThrow') }}</span>
             </label>
             <input 
               type="number" 
               id="firstAngle" 
               v-model.number="firstAngle" 
-              placeholder="Enter angle in degrees" 
+              :placeholder="$t('strongholdFinderPage.enterAngleInDegrees')" 
               class="input input-bordered w-full" 
               step="any"
               min="-360" 
@@ -55,18 +55,18 @@
     </div>
 
     <div class="mb-6">
-      <h2 class="text-xl font-semibold mb-2">Second Location</h2>
+      <h2 class="text-xl font-semibold mb-2">{{ $t('strongholdFinderPage.secondLocation') }}</h2>
       <form @submit.prevent="findStronghold" class="space-y-4">
         <div class="lg:grid lg:grid-cols-3 lg:gap-4">
           <div class="form-control lg:col-span-1">
             <label for="secondCoordinatesX" class="label">
-              <span class="label-text">X Coordinate</span>
+              <span class="label-text">{{ $t('strongholdFinderPage.xCoordinate') }}</span>
             </label>
             <input 
               type="number" 
               id="secondCoordinatesX" 
               v-model.number="secondCoordinatesX" 
-              placeholder="Enter X coordinate" 
+              :placeholder="$t('strongholdFinderPage.enterXCoordinate')" 
               class="input input-bordered w-full" 
               step="any"
               min="-1000000" 
@@ -74,13 +74,13 @@
           </div>
           <div class="form-control lg:col-span-1">
             <label for="secondCoordinatesZ" class="label">
-              <span class="label-text">Z Coordinate</span>
+              <span class="label-text">{{ $t('strongholdFinderPage.zCoordinate') }}</span>
             </label>
             <input 
               type="number" 
               id="secondCoordinatesZ" 
               v-model.number="secondCoordinatesZ" 
-              placeholder="Enter Z coordinate" 
+              :placeholder="$t('strongholdFinderPage.enterZCoordinate')" 
               class="input input-bordered w-full" 
               step="any"
               min="-1000000" 
@@ -88,13 +88,13 @@
           </div>
           <div class="form-control lg:col-span-1">
             <label for="secondAngle" class="label">
-              <span class="label-text">Angle of the Throw</span>
+              <span class="label-text">{{ $t('strongholdFinderPage.angleOfTheThrow') }}</span>
             </label>
             <input 
               type="number" 
               id="secondAngle" 
               v-model.number="secondAngle" 
-              placeholder="Enter angle in degrees" 
+              :placeholder="$t('strongholdFinderPage.enterAngleInDegrees')" 
               class="input input-bordered w-full" 
               step="any"
               min="-360" 
@@ -111,13 +111,13 @@
         class="btn btn-primary w-full lg:w-auto"
         :disabled="!isFormValid"
       >
-        Find Stronghold
+        {{ $t('strongholdFinderPage.findStronghold') }}
       </button>
       <button 
         @click="goBack" 
         class="btn btn-secondary w-full lg:w-auto mt-2 lg:mt-0"
       >
-        Go Back
+        {{ $t('strongholdFinderPage.goBack') }}
       </button>
     </div>
 
@@ -126,9 +126,9 @@
         <form method="dialog">
           <button class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2" @click="closeModal">✕</button>
         </form>
-        <h3 class="text-lg font-bold">Estimated Stronghold Location</h3>
-        <p class="py-4">X: {{ strongholdLocation?.x }}</p>
-        <p class="py-4">Z: {{ strongholdLocation?.z }}</p>
+        <h3 class="text-lg font-bold">{{ $t('strongholdFinderPage.estimatedStrongholdLocation') }}</h3>
+        <p class="py-4">{{ $t('strongholdFinderPage.x') }} {{ strongholdLocation?.x }}</p>
+        <p class="py-4">{{ $t('strongholdFinderPage.z') }} {{ strongholdLocation?.z }}</p>
       </div>
     </dialog>
 
