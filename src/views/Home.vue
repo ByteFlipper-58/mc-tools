@@ -4,11 +4,11 @@
     <p class="text-lg mb-4">This is a collection of powerful tools for Minecraft.</p>
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
       <Card
-        imageSrc="https://cdn-icons-png.flaticon.com/512/1055/1055664.png"
-        title="Your Advertisement"
-        description="Here could be your advertisement"
+        imageSrc="https://github.com/ByteFlipper-58/mc-tools/blob/master/src/assets/logos/byteflipper.png?raw=true"
+        title="ByteFlipper"
+        description="Official Developer TG Channel"
         textAlign="center"
-        @click="() => {}"
+        @click="openTelegramChannel"
       />
       <Card
         imageSrc="https://github.com/ByteFlipper-58/mc-tools/blob/master/src/assets/logos/stronghold_finder.png?raw=true"
@@ -44,8 +44,13 @@ export default {
       router.push({ name: routeName });
     };
 
+    const openTelegramChannel = () => {
+      window.open('https://t.me/byteflipper', '_blank');
+    };
+
     return {
       handleCardClick,
+      openTelegramChannel
     };
   },
 };

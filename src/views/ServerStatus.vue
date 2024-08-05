@@ -177,7 +177,7 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, onMounted } from 'vue';
+import { ref, onMounted, onUnmounted } from 'vue';
 import { useRouter, useRoute } from 'vue-router';
 import axios from 'axios';
 import { Popup } from 'vue-tg';
@@ -199,7 +199,8 @@ function handlePopupClose() {
 
 function goBack() {
   if (isTelegram.value) {
-    window.Telegram.WebApp.close();
+    window.Telegram.WebApp.BackButton.hide();
+    router.back();
   } else {
     router.back();
   }
@@ -242,6 +243,21 @@ onMounted(() => {
     selectedVersion.value = javaOrBedrock;
     hostAddress.value = host;
     fetchServerStatus();
+  }
+
+  // Telegram WebApp setup
+  if (window.Telegram?.WebApp) {
+    isTelegram.value = true;
+    const backButton = window.Telegram.WebApp.BackButton;
+
+    backButton.show();
+    backButton.onClick(goBack);
+
+    // Cleanup on unmount
+    onUnmounted(() => {
+      backButton.offClick(goBack);
+      backButton.hide();
+    });
   }
 });
 

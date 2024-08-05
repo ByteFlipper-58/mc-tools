@@ -139,12 +139,12 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, computed, inject } from 'vue';
+import { ref, computed, onMounted, onUnmounted } from 'vue';
 import { useRouter } from 'vue-router';
 import { Popup } from 'vue-tg';
 
 const router = useRouter();
-const isTelegram = inject('isTelegram', false);
+const isTelegram = ref(false);
 
 const popupMessage = ref('');
 
@@ -172,12 +172,12 @@ function findStronghold() {
   const p = radToDeg;
   const cot = (x) => 1 / Math.tan(x);
 
-  const a1 = parseFloat(firstAngle.value ?? '0');
-  const a2 = parseFloat(secondAngle.value ?? '0');
-  const x1 = parseFloat(firstCoordinatesX.value ?? '0');
-  const z1 = parseFloat(firstCoordinatesZ.value ?? '0');
-  const x2 = parseFloat(secondCoordinatesX.value ?? '0');
-  const z2 = parseFloat(secondCoordinatesZ.value ?? '0');
+  const a1 = firstAngle.value ?? 0;
+  const a2 = secondAngle.value ?? 0;
+  const x1 = firstCoordinatesX.value ?? 0;
+  const z1 = firstCoordinatesZ.value ?? 0;
+  const x2 = secondCoordinatesX.value ?? 0;
+  const z2 = secondCoordinatesZ.value ?? 0;
 
   if (Math.abs(a1 - a2) < 1) {
     popupMessage.value = "Angles cannot be equal!";
@@ -198,7 +198,7 @@ function findStronghold() {
       case -90:
       case 90:
         zOutput = Math.round(z1);
-        xOutput = Math.round(Math.round(x2 * cot(-a2 * p) - z2 + z1) / cot(-a2 * p));
+        xOutput = Math.round((x2 * cot(-a2 * p) - z2 + z1) / cot(-a2 * p));
         break;
       default:
         switch (Math.round(a2)) {
@@ -223,8 +223,8 @@ function findStronghold() {
 
     strongholdLocation.value = { x: xOutput.toString(), z: zOutput.toString() };
 
-    if (isTelegram) {
-      popupMessage.value = `X: ${xOutput.toFixed(2)}, Z: ${zOutput.toFixed(2)}`;
+    if (isTelegram.value) {
+      popupMessage.value = `X: ${xOutput}, Z: ${zOutput}`;
       showPopup();
     } else {
       showModal();
@@ -233,23 +233,23 @@ function findStronghold() {
 }
 
 function showModal() {
-  const modal = document.getElementById('my_modal_3');
+  const modal = document.getElementById('my_modal_3') as HTMLDialogElement;
   if (modal) {
     modal.showModal();
   }
 }
 
 function closeModal() {
-  const modal = document.getElementById('my_modal_3');
+  const modal = document.getElementById('my_modal_3') as HTMLDialogElement;
   if (modal) {
     modal.close();
   }
 }
 
 function showPopup() {
-  const popup = document.querySelector('vue-tg-popup');
+  const popup = document.querySelector('vue-tg-popup') as any;
   if (popup) {
-    (popup as any).show();
+    popup.show();
   }
 }
 
@@ -258,12 +258,28 @@ function handlePopupClose() {
 }
 
 function goBack() {
-  if (isTelegram) {
-    window.Telegram.WebApp.close();
+  if (isTelegram.value) {
+    window.Telegram.WebApp.BackButton.hide();
+    router.back();
   } else {
     router.back();
   }
 }
+
+onMounted(() => {
+  if (window.Telegram?.WebApp) {
+    isTelegram.value = true;
+    const backButton = window.Telegram.WebApp.BackButton;
+
+    backButton.show();
+    backButton.onClick(goBack);
+
+    onUnmounted(() => {
+      backButton.offClick(goBack);
+      backButton.hide();
+    });
+  }
+});
 </script>
 
 <style scoped>
