@@ -11,7 +11,7 @@
         @click="() => {}"
       />
       <Card
-        imageSrc="https://github.com/intkgc/end-portal-coords/blob/master/app/src/main/ic_launcher-playstore.png?raw=true"
+        imageSrc="https://github.com/ByteFlipper-58/mc-tools/blob/master/src/assets/logos/stronghold_finder.png?raw=true"
         title="Stronghold Finder with Throw Angle"
         description="Find the stronghold location using the throw angle of the Ender Pearl"
         textAlign="center"
