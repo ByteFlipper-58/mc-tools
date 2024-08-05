@@ -18,7 +18,7 @@
         @click="() => handleCardClick('StrongholdFinder')"
       />
       <Card
-        imageSrc="https://is2-ssl.mzstatic.com/image/thumb/Purple122/v4/37/74/02/377402c0-920a-0340-5748-f2e51709412c/AppIcon-0-1x_U007emarketing-0-7-0-P3-85-220.png/512x512bb.jpg"
+        imageSrc="https://github.com/ByteFlipper-58/mc-tools/blob/master/src/assets/logos/server_status.png?raw=true"
         title="Minecraft Server Status"
         description="Quickly retrieve the status of any Minecraft server"
         textAlign="center"
