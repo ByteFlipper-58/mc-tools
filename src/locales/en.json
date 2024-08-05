@@ -1,0 +1,21 @@
+{
+    "home": {
+      "welcomeMessage": "Welcome to MC Tools!",
+      "description": "This is a collection of powerful tools for Minecraft.",
+      "cards": {
+        "advertisement": {
+          "title": "Your Advertisement",
+          "description": "Here could be your advertisement"
+        },
+        "strongholdFinder": {
+          "title": "Stronghold Finder with Throw Angle",
+          "description": "Find the stronghold location using the throw angle of the Ender Pearl"
+        },
+        "serverStatus": {
+          "title": "Minecraft Server Status",
+          "description": "Quickly retrieve the status of any Minecraft server"
+        }
+      }
+    }
+  }
+  

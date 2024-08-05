@@ -1,0 +1,21 @@
+{
+    "home": {
+      "welcomeMessage": "Добро пожаловать в MC Tools!",
+      "description": "Это коллекция мощных инструментов для Minecraft.",
+      "cards": {
+        "advertisement": {
+          "title": "Ваша реклама",
+          "description": "Здесь может быть ваша реклама"
+        },
+        "strongholdFinder": {
+          "title": "Поиск крепости по углу броска",
+          "description": "Найдите местоположение крепости, используя угол броска жемчужины Эндера"
+        },
+        "serverStatus": {
+          "title": "Статус сервера Minecraft",
+          "description": "Быстро получите статус любого сервера Minecraft"
+        }
+      }
+    }
+  }
+  
