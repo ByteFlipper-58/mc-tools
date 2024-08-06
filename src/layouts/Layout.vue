@@ -2,7 +2,8 @@
 <template>
   <div class="flex flex-col min-h-screen">
     <!-- Header -->
-    <header v-if="!isTelegramApp" class="bg-neutral p-4">
+    <header v-if="!isTelegramApp" class="bg-neutral p-4 flex items-center">
+      <img src="@/assets/logos/logo.png" alt="Logo" class="h-10 w-auto mr-4">
       <h1 class="text-2xl font-bold">MC Tools</h1>
     </header>
 

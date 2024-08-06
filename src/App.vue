@@ -63,7 +63,7 @@ export default {
       determineUserLanguage();
       // Check if the app is running in Telegram
       checkIfTelegram();
-      loadEruda();
+      //loadEruda();
     });
 
     return { languageLoaded };

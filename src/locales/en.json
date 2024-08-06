@@ -21,7 +21,11 @@
         "serverStatus":{
            "title":"Minecraft Server Status",
            "description":"Quickly retrieve the status of any Minecraft server"
-        }
+        },
+        "donate":{
+         "title":"Donate",
+         "description":"Donate"
+      }
      }
   },
   "serverStatusPage":{

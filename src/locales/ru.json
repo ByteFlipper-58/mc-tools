@@ -21,7 +21,11 @@
         "serverStatus":{
            "title":"Статус сервера Minecraft",
            "description":"Быстро получите статус любого сервера Minecraft"
-        }
+        },
+        "donate":{
+         "title":"Donate",
+         "description":"Donate"
+      }
      }
   },
   "serverStatusPage":{
