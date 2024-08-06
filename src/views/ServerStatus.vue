@@ -1,5 +1,5 @@
 <template>
-  <div class="p-4 sm:p-6 max-w-2xl mx-auto bg-gray-900 text-white">
+  <div class="p-4 sm:p-6 max-w-2xl mx-auto text-white">
     <h1 class="text-2xl sm:text-3xl font-bold mb-4">{{ $t('serverStatusPage.welcomeMessage') }}</h1>
     <p class="text-base sm:text-lg mb-4">{{ $t('serverStatusPage.description') }}</p>
 
