@@ -131,22 +131,16 @@
         <p class="py-4">{{ $t('strongholdFinderPage.z') }} {{ strongholdLocation?.z }}</p>
       </div>
     </dialog>
-
-    <Popup v-if="isTelegram" 
-           :message="popupMessage" 
-           @close="handlePopupClose" />
   </div>
 </template>
 
 <script lang="ts" setup>
 import { ref, computed, onMounted, onUnmounted } from 'vue';
 import { useRouter } from 'vue-router';
-import { Popup } from 'vue-tg';
+import i18n from '@/i18n';
 
 const router = useRouter();
 const isTelegram = ref(false);
-
-const popupMessage = ref('');
 
 const firstCoordinatesX = ref<number | null>(null);
 const firstCoordinatesZ = ref<number | null>(null);
@@ -180,11 +174,9 @@ function findStronghold() {
   const z2 = secondCoordinatesZ.value ?? 0;
 
   if (Math.abs(a1 - a2) < 1) {
-    popupMessage.value = "Angles cannot be equal!";
-    showPopup();
+    showError("Angles cannot be equal!");
   } else if ((((a1 < 0) && (a2 > 0)) || ((a1 > 0) && (a2 < 0))) && (Math.abs(Math.abs(Math.abs(a1) - 180) - Math.abs(a2)) < 1)) {
-    popupMessage.value = "Angles cannot be opposite!";
-    showPopup();
+    showError("Angles cannot be opposite!");
   } else {
     let xOutput, zOutput;
 
@@ -224,8 +216,7 @@ function findStronghold() {
     strongholdLocation.value = { x: xOutput.toString(), z: zOutput.toString() };
 
     if (isTelegram.value) {
-      popupMessage.value = `X: ${xOutput}, Z: ${zOutput}`;
-      showPopup();
+      showTelegramPopup(title, `X: ${xOutput}\nZ: ${zOutput}`);
     } else {
       showModal();
     }
@@ -246,16 +237,23 @@ function closeModal() {
   }
 }
 
-function showPopup() {
-  const popup = document.querySelector('vue-tg-popup') as any;
-  if (popup) {
-    popup.show();
+function showError(title: string, message: string) {
+  if (isTelegram.value) {
+    showTelegramPopup(title, message);
+  } else {
+    // Show error in a suitable way for non-Telegram environments
+    alert(message); 
   }
 }
 
-function handlePopupClose() {
-  // Handle popup close if needed
+function showTelegramPopup(title: string, message: string) {
+  if (window.Telegram.WebApp) {
+    window.Telegram.WebApp.showPopup({ title, message }, null);
+  }
 }
+
+// Используйте i18n.global.t для перевода
+const title = i18n.global.t('strongholdFinderPage.estimatedStrongholdLocation');
 
 function goBack() {
   if (isTelegram.value) {
