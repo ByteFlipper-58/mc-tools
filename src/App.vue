@@ -16,8 +16,9 @@ export default {
   setup() {
     const isTelegram = ref(false);
     const languageLoaded = ref(false);
+   // const adShown = ref(false); // Флаг для отслеживания показа рекламы
 
-    // Function to hide header and footer
+    // то тоFunction to hide header and footer
     const hideHeaderAndFooter = () => {
       if (isTelegram.value) {
         document.querySelector('header')?.style.setProperty('display', 'none');
@@ -58,12 +59,29 @@ export default {
       }
     };
 
+    // Function to initialize and show AdsGram ad
+  /*  const showAd = () => {
+      const AdController = window.Adsgram.init({ blockId: '1629' });
+      AdController.show()
+        .then((result) => {
+          console.log('Ad watched till the end:', result);
+          adShown.value = true; // Реклама показана
+        })
+        .catch((result) => {
+          console.log('Ad not watched till the end or error occurred:', result);
+          adShown.value = false; // Реклама не показана
+        });
+    };*/
+
     onMounted(() => {
       // Determine user's language and set it in i18n
       determineUserLanguage();
       // Check if the app is running in Telegram
       checkIfTelegram();
-      loadEruda();
+      // Show ad if it's the first time app is opened
+      if (!adShown.value) {
+        //showAd();
+      }
     });
 
     return { languageLoaded };
