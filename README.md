@@ -1,29 +1,70 @@
-# mc-tools
+# MC Tools
 
-This template should help get you started developing with Vue 3 in Vite.
+A comprehensive collection of essential tools for Minecraft players. This web application provides various utilities to enhance your Minecraft gameplay experience.
 
-## Recommended IDE Setup
+## Features
 
-[VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur).
+- **Server Status Checker**: Check the status of any Minecraft server in real-time
+- **Stronghold Finder**: Calculate stronghold locations using ender eye throws
+- **Nether Calculator**: Convert coordinates between Overworld and Nether dimensions
+- **Player Info**: View player information, UUID, and skin renders
 
-## Customize configuration
+## Technologies Used
 
-See [Vite Configuration Reference](https://vitejs.dev/config/).
+- React
+- TypeScript
+- Tailwind CSS
+- Vite
+- Lucide Icons
 
-## Project Setup
+## Getting Started
 
-```sh
+1. Clone the repository:
+```bash
+git clone https://github.com/byteflipper-58/mc-tools.git
+```
+
+2. Install dependencies:
+```bash
+cd mc-tools
 npm install
 ```
 
-### Compile and Hot-Reload for Development
-
-```sh
+3. Start the development server:
+```bash
 npm run dev
 ```
 
-### Compile and Minify for Production
-
-```sh
+4. Build for production:
+```bash
 npm run build
 ```
+
+## API Usage
+
+The application uses the following APIs:
+
+- Ashcon API for player data
+- Mineatar API for skin rendering
+- MCStatus API for server status
+
+## Contributing
+
+Contributions are welcome! Please feel free to submit a Pull Request.
+
+## License
+
+This project is licensed under the GNU General Public License v3.0 - see the [LICENSE](LICENSE) file for details.
+
+## Developer
+
+Developed by ByteFlipper
+
+- GitHub: [byteflipper-58](https://github.com/byteflipper-58)
+- Repository: [mc-tools](https://github.com/byteflipper-58/mc-tools)
+
+## Acknowledgments
+
+- Minecraft® is a registered trademark of Mojang AB
+- Thanks to the Mineatar API for providing skin rendering services
+- Thanks to the MCStatus API for server status information

@@ -1,0 +1,51 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@font-face {
+  font-family: 'Minecraft';
+  src: url('https://cdn.jsdelivr.net/gh/South-Paw/typeface-minecraft@master/font/minecraft.woff2') format('woff2');
+  font-weight: normal;
+  font-style: normal;
+}
+
+.font-minecraft {
+  font-family: 'Minecraft', monospace;
+}
+
+/* Minecraft Color Codes */
+.minecraft-colors {
+  line-height: 1.4;
+  white-space: pre-wrap;
+}
+
+.minecraft-colors :where(span) {
+  font-family: 'Minecraft', monospace;
+}
+
+/* Dark color variants */
+.minecraft-colors .black { color: #000000; }
+.minecraft-colors .dark-blue { color: #0000AA; }
+.minecraft-colors .dark-green { color: #00AA00; }
+.minecraft-colors .dark-aqua { color: #00AAAA; }
+.minecraft-colors .dark-red { color: #AA0000; }
+.minecraft-colors .dark-purple { color: #AA00AA; }
+.minecraft-colors .gold { color: #FFAA00; }
+.minecraft-colors .gray { color: #AAAAAA; }
+
+/* Light color variants */
+.minecraft-colors .dark-gray { color: #555555; }
+.minecraft-colors .blue { color: #5555FF; }
+.minecraft-colors .green { color: #55FF55; }
+.minecraft-colors .aqua { color: #55FFFF; }
+.minecraft-colors .red { color: #FF5555; }
+.minecraft-colors .light-purple { color: #FF55FF; }
+.minecraft-colors .yellow { color: #FFFF55; }
+.minecraft-colors .white { color: #FFFFFF; }
+
+/* Formatting */
+.minecraft-colors .obfuscated { display: inline-block; }
+.minecraft-colors .bold { font-weight: bold; }
+.minecraft-colors .strikethrough { text-decoration: line-through; }
+.minecraft-colors .underline { text-decoration: underline; }
+.minecraft-colors .italic { font-style: italic; }
