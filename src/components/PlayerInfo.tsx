@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Search, User, Hash, RotateCw, Download, Copy, CheckCircle2 } from 'lucide-react';
 import { lookupUsername, hyphenateUUID, getPlayerImages } from '../utils/minecraft';
 
@@ -81,7 +81,7 @@ function PlayerInfo() {
 
   return (
     <div className="max-w-4xl mx-auto">
-      <h1 className="text-3xl font-minecraft mb-8 text-center">Player Info</h1>
+      <h1 className="text-3xl font-minecraft mb-8 text-center text-dark-200 dark:text-light-100">Player Info</h1>
 
       <form onSubmit={fetchPlayerData} className="mb-8">
         <div className="flex gap-4">
@@ -90,12 +90,12 @@ function PlayerInfo() {
             value={username}
             onChange={(e) => setUsername(e.target.value)}
             placeholder="Enter player username"
-            className="flex-1 bg-[#2C2F33] border border-gray-700 rounded-lg px-4 py-2 focus:outline-none focus:border-emerald-400"
+            className="input-base flex-1"
           />
           <button
             type="submit"
             disabled={loading || !username}
-            className="bg-emerald-600 hover:bg-emerald-700 px-6 py-2 rounded-lg font-minecraft disabled:opacity-50 disabled:cursor-not-allowed transition-colors flex items-center gap-2"
+            className="button-primary flex items-center gap-2"
           >
             {loading ? (
               <>
@@ -113,7 +113,7 @@ function PlayerInfo() {
       </form>
 
       {error && (
-        <div className="text-center text-red-400 mb-8 bg-[#2C2F33] p-4 rounded-lg">
+        <div className="text-center text-red-400 mb-8 bg-light-100 dark:bg-dark-200 p-4 rounded-lg">
           {error}
         </div>
       )}
@@ -124,7 +124,7 @@ function PlayerInfo() {
             {/* Full Body Preview */}
             <a
               href={playerData.images.fullBody}
-              className="bg-[#2C2F33] p-6 rounded-lg flex flex-col justify-center items-center min-w-[180px] hover:bg-[#34373C] transition-colors"
+              className="bg-light-200 dark:bg-dark-300 p-6 rounded-lg flex flex-col justify-center items-center min-w-[180px] hover:bg-light-300 dark:hover:bg-dark-400 transition-colors shadow-sm"
               target="_blank"
               rel="noopener noreferrer"
             >
@@ -138,22 +138,22 @@ function PlayerInfo() {
             {/* Player Info Cards */}
             <div className="flex flex-col gap-4 grow">
               {/* Username */}
-              <div className="bg-[#2C2F33] p-4 rounded-lg">
-                <p className="text-sm text-gray-400 mb-1">Username</p>
-                <p className="font-minecraft text-xl">{playerData.username}</p>
+              <div className="bg-light-200 dark:bg-dark-300 p-4 rounded-lg shadow-sm">
+                <p className="text-sm text-muted-100 dark:text-light-300 mb-1">Username</p>
+                <p className="font-minecraft text-xl text-dark-200 dark:text-light-100">{playerData.username}</p>
               </div>
 
               {/* UUID */}
-              <div className="bg-[#2C2F33] p-4 rounded-lg">
-                <p className="text-sm text-gray-400 mb-1">UUID</p>
+              <div className="bg-light-200 dark:bg-dark-300 p-4 rounded-lg shadow-sm">
+                <p className="text-sm text-muted-100 dark:text-light-300 mb-1">UUID</p>
                 <div className="flex flex-col md:flex-row gap-2 md:items-center">
-                  <code className="font-mono text-sm">{hyphenateUUID(playerData.uuid)}</code>
+                  <code className="font-mono text-sm text-dark-200 dark:text-light-100">{hyphenateUUID(playerData.uuid)}</code>
                   <button
                     onClick={() => copyToClipboard(hyphenateUUID(playerData.uuid), 'full')}
-                    className="inline-flex items-center gap-2 text-sm text-gray-400 hover:text-white transition-colors"
+                    className="inline-flex items-center gap-2 text-sm text-muted-100 dark:text-light-300 hover:text-accent-500 transition-colors"
                   >
                     {copiedUUID === 'full' ? (
-                      <CheckCircle2 className="w-4 h-4 text-emerald-400" />
+                      <CheckCircle2 className="w-4 h-4 text-accent-500" />
                     ) : (
                       <Copy className="w-4 h-4" />
                     )}
@@ -163,16 +163,16 @@ function PlayerInfo() {
               </div>
 
               {/* Trimmed UUID */}
-              <div className="bg-[#2C2F33] p-4 rounded-lg">
-                <p className="text-sm text-gray-400 mb-1">Trimmed UUID</p>
+              <div className="bg-light-200 dark:bg-dark-300 p-4 rounded-lg shadow-sm">
+                <p className="text-sm text-muted-100 dark:text-light-300 mb-1">Trimmed UUID</p>
                 <div className="flex flex-col md:flex-row gap-2 md:items-center">
-                  <code className="font-mono text-sm">{playerData.uuid}</code>
+                  <code className="font-mono text-sm text-dark-200 dark:text-light-100">{playerData.uuid}</code>
                   <button
                     onClick={() => copyToClipboard(playerData.uuid, 'trimmed')}
-                    className="inline-flex items-center gap-2 text-sm text-gray-400 hover:text-white transition-colors"
+                    className="inline-flex items-center gap-2 text-sm text-muted-100 dark:text-light-300 hover:text-accent-500 transition-colors"
                   >
                     {copiedUUID === 'trimmed' ? (
-                      <CheckCircle2 className="w-4 h-4 text-emerald-400" />
+                      <CheckCircle2 className="w-4 h-4 text-accent-500" />
                     ) : (
                       <Copy className="w-4 h-4" />
                     )}
@@ -182,10 +182,10 @@ function PlayerInfo() {
               </div>
 
               {/* Download Raw Skin */}
-              <div className="bg-[#2C2F33] p-4 rounded-lg">
+              <div className="bg-light-200 dark:bg-dark-300 p-4 rounded-lg shadow-sm">
                 <a
                   href={`${playerData.images.rawSkin}?download=true`}
-                  className="inline-flex items-center gap-2 bg-emerald-600 hover:bg-emerald-700 px-4 py-2 rounded-lg transition-colors text-sm"
+                  className="button-primary inline-flex items-center gap-2"
                   target="_blank"
                   rel="noopener noreferrer"
                 >
@@ -207,7 +207,7 @@ function PlayerInfo() {
               <a
                 key={index}
                 href={view.src}
-                className="bg-[#2C2F33] p-6 rounded-lg flex flex-col gap-4 items-center hover:bg-[#34373C] transition-colors"
+                className="bg-light-200 dark:bg-dark-300 p-6 rounded-lg flex flex-col gap-4 items-center hover:bg-light-300 dark:hover:bg-dark-400 transition-colors shadow-sm"
                 target="_blank"
                 rel="noopener noreferrer"
               >
@@ -216,7 +216,7 @@ function PlayerInfo() {
                   alt={`${view.label} of ${playerData.username}`}
                   className="h-[216px] w-auto"
                 />
-                <p className="font-minecraft text-sm">{view.label}</p>
+                <p className="font-minecraft text-sm text-dark-200 dark:text-light-100">{view.label}</p>
               </a>
             ))}
           </div>
@@ -225,7 +225,7 @@ function PlayerInfo() {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <a
               href={playerData.images.face}
-              className="bg-[#2C2F33] p-6 rounded-lg flex flex-col gap-4 items-center hover:bg-[#34373C] transition-colors"
+              className="bg-light-200 dark:bg-dark-300 p-6 rounded-lg flex flex-col gap-4 items-center hover:bg-light-300 dark:hover:bg-dark-400 transition-colors shadow-sm"
               target="_blank"
               rel="noopener noreferrer"
             >
@@ -234,11 +234,11 @@ function PlayerInfo() {
                 alt={`Face of ${playerData.username}`}
                 className="h-[216px] w-auto"
               />
-              <p className="font-minecraft text-sm">Face</p>
+              <p className="font-minecraft text-sm text-dark-200 dark:text-light-100">Face</p>
             </a>
             <a
               href={playerData.images.head}
-              className="bg-[#2C2F33] p-6 rounded-lg flex flex-col gap-4 items-center hover:bg-[#34373C] transition-colors"
+              className="bg-light-200 dark:bg-dark-300 p-6 rounded-lg flex flex-col gap-4 items-center hover:bg-light-300 dark:hover:bg-dark-400 transition-colors shadow-sm"
               target="_blank"
               rel="noopener noreferrer"
             >
@@ -247,7 +247,7 @@ function PlayerInfo() {
                 alt={`Head of ${playerData.username}`}
                 className="h-[216px] w-auto"
               />
-              <p className="font-minecraft text-sm">Head</p>
+              <p className="font-minecraft text-sm text-dark-200 dark:text-light-100">Head</p>
             </a>
           </div>
         </div>

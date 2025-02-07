@@ -16,7 +16,7 @@
 /* Base styles for form elements */
 @layer components {
   .input-base {
-    @apply w-full bg-light-200 dark:bg-dark-300 border border-light-300 dark:border-dark-400 rounded-lg px-4 py-2 
+    @apply w-full bg-light-100 dark:bg-dark-200 border border-light-300 dark:border-dark-400 rounded-lg px-4 py-2 
     text-dark-200 dark:text-light-100
     placeholder:text-muted-100 dark:placeholder:text-light-300
     focus:outline-none focus:border-accent-500 focus:ring-1 focus:ring-accent-500
@@ -32,7 +32,7 @@
 
   .button-primary {
     @apply button-base
-    bg-accent-500 hover:bg-accent-600
+    bg-accent-500 hover:bg-accent-600 active:bg-accent-700
     text-light-50
     disabled:hover:bg-accent-500;
   }
@@ -46,7 +46,7 @@
 
   .button-danger {
     @apply button-base
-    bg-red-600 hover:bg-red-700
+    bg-red-600 hover:bg-red-700 active:bg-red-800
     text-light-50;
   }
 
@@ -86,10 +86,3 @@
 .minecraft-colors .light-purple { color: #FF55FF; }
 .minecraft-colors .yellow { color: #FFFF55; }
 .minecraft-colors .white { color: #FFFFFF; }
-
-/* Formatting */
-.minecraft-colors .obfuscated { display: inline-block; }
-.minecraft-colors .bold { font-weight: bold; }
-.minecraft-colors .strikethrough { text-decoration: line-through; }
-.minecraft-colors .underline { text-decoration: underline; }
-.minecraft-colors .italic { font-style: italic; }

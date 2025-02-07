@@ -86,21 +86,18 @@ function StrongholdFinder() {
       const throw1 = throws[0];
       const throw2 = throws[1];
 
-      // Convert angles to radians and adjust for Minecraft's coordinate system
       const angle1 = (throw1.angle - 90) * (Math.PI / 180);
       const angle2 = (throw2.angle - 90) * (Math.PI / 180);
 
-      // Calculate direction vectors
       const dx1 = Math.cos(angle1);
       const dz1 = Math.sin(angle1);
       const dx2 = Math.cos(angle2);
       const dz2 = Math.sin(angle2);
 
-      // Calculate the intersection point
       const denominator = dx1 * dz2 - dx2 * dz1;
       
       if (Math.abs(denominator) < 0.000001) {
-        return null; // Lines are parallel
+        return null;
       }
 
       const t1 = ((throw2.x - throw1.x) * dz2 - (throw2.z - throw1.z) * dx2) / denominator;
@@ -141,39 +138,39 @@ function StrongholdFinder() {
 
   return (
     <div className="max-w-2xl mx-auto">
-      <h1 className="text-3xl font-minecraft mb-8 text-center">
+      <h1 className="text-3xl font-minecraft mb-8 text-center text-dark-200 dark:text-light-100">
         Stronghold Finder
       </h1>
 
-      <form onSubmit={addThrow} className="bg-[#2C2F33] p-6 rounded-lg mb-8">
+      <form onSubmit={addThrow} className="bg-light-200 dark:bg-dark-300 p-6 rounded-lg mb-8 shadow-sm">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
           <div>
-            <label className="block text-sm text-gray-400 mb-1">X Coordinate</label>
+            <label className="block text-sm text-muted-100 dark:text-light-300 mb-1">X Coordinate</label>
             <input
               type="number"
               value={currentThrow.x || ''}
               onChange={(e) => handleInputChange('x', e.target.value)}
-              className="w-full bg-[#1A1C1E] border border-gray-700 rounded-lg px-3 py-2 focus:outline-none focus:border-emerald-400"
+              className="input-base"
             />
           </div>
           <div>
-            <label className="block text-sm text-gray-400 mb-1">Z Coordinate</label>
+            <label className="block text-sm text-muted-100 dark:text-light-300 mb-1">Z Coordinate</label>
             <input
               type="number"
               value={currentThrow.z || ''}
               onChange={(e) => handleInputChange('z', e.target.value)}
-              className="w-full bg-[#1A1C1E] border border-gray-700 rounded-lg px-3 py-2 focus:outline-none focus:border-emerald-400"
+              className="input-base"
             />
           </div>
           <div>
-            <label className="block text-sm text-gray-400 mb-1">Angle (degrees)</label>
+            <label className="block text-sm text-muted-100 dark:text-light-300 mb-1">Angle (degrees)</label>
             <input
               type="number"
               value={currentThrow.angle || ''}
               onChange={(e) => handleInputChange('angle', e.target.value)}
               min="-160"
               max="160"
-              className={`w-full bg-[#1A1C1E] border ${angleError ? 'border-red-500' : 'border-gray-700'} rounded-lg px-3 py-2 focus:outline-none focus:border-emerald-400`}
+              className={`input-base ${angleError ? 'border-red-500' : ''}`}
             />
             {angleError && (
               <p className="text-red-500 text-sm mt-1">{angleError}</p>
@@ -184,14 +181,14 @@ function StrongholdFinder() {
           <button
             type="submit"
             disabled={!!angleError}
-            className="flex-1 bg-emerald-600 hover:bg-emerald-700 px-6 py-2 rounded-lg font-minecraft transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+            className="button-primary flex-1"
           >
             {editingIndex !== null ? 'Update Throw' : 'Add Throw'}
           </button>
           <button
             type="button"
             onClick={clearCalculation}
-            className="bg-red-600 hover:bg-red-700 px-6 py-2 rounded-lg font-minecraft transition-colors flex items-center gap-2"
+            className="button-danger flex items-center gap-2"
           >
             <Trash2 className="w-4 h-4" />
             Clear
@@ -200,29 +197,29 @@ function StrongholdFinder() {
       </form>
 
       {throws.length > 0 && (
-        <div className="bg-[#2C2F33] p-6 rounded-lg mb-8">
-          <h2 className="text-xl font-minecraft mb-4">Recorded Throws</h2>
+        <div className="bg-light-200 dark:bg-dark-300 p-6 rounded-lg mb-8 shadow-sm">
+          <h2 className="text-xl font-minecraft mb-4 text-dark-200 dark:text-light-100">Recorded Throws</h2>
           <div className="space-y-4">
             {throws.map((t, i) => (
-              <div key={i} className="flex items-center justify-between gap-4 bg-[#1A1C1E] p-3 rounded-lg">
+              <div key={i} className="flex items-center justify-between gap-4 bg-light-100 dark:bg-dark-200 p-3 rounded-lg">
                 <div className="flex items-center gap-4">
-                  <Compass className="w-5 h-5 text-emerald-400" />
-                  <div>
-                    <span className="text-gray-400">Throw {i + 1}:</span>{' '}
+                  <Compass className="w-5 h-5 text-accent-500" />
+                  <div className="text-dark-200 dark:text-light-100">
+                    <span className="text-muted-100 dark:text-light-300">Throw {i + 1}:</span>{' '}
                     X: {t.x}, Z: {t.z}, Angle: {t.angle}°
                   </div>
                 </div>
                 <div className="flex items-center gap-2">
                   <button
                     onClick={() => startEditing(i)}
-                    className="text-blue-400 hover:text-blue-300 transition-colors p-1"
+                    className="text-accent-500 hover:text-accent-600 transition-colors p-1"
                     title="Edit throw"
                   >
                     <Edit2 className="w-4 h-4" />
                   </button>
                   <button
                     onClick={() => deleteThrow(i)}
-                    className="text-red-400 hover:text-red-300 transition-colors p-1"
+                    className="text-red-400 hover:text-red-500 transition-colors p-1"
                     title="Delete throw"
                   >
                     <X className="w-4 h-4" />
@@ -235,10 +232,10 @@ function StrongholdFinder() {
       )}
 
       {strongholdLocation && (
-        <div className="bg-[#2C2F33] p-6 rounded-lg mb-8">
-          <h2 className="text-xl font-minecraft mb-4">Estimated Stronghold Location</h2>
+        <div className="bg-light-200 dark:bg-dark-300 p-6 rounded-lg mb-8 shadow-sm">
+          <h2 className="text-xl font-minecraft mb-4 text-dark-200 dark:text-light-100">Estimated Stronghold Location</h2>
           <div className="text-center mb-4">
-            <div className="text-2xl font-minecraft text-emerald-400">
+            <div className="text-2xl font-minecraft text-accent-500">
               X: {strongholdLocation.x}, Z: {strongholdLocation.z}
             </div>
           </div>
@@ -248,12 +245,12 @@ function StrongholdFinder() {
               value={locationName}
               onChange={(e) => setLocationName(e.target.value)}
               placeholder="Enter location name"
-              className="flex-1 bg-[#1A1C1E] border border-gray-700 rounded-lg px-3 py-2 focus:outline-none focus:border-emerald-400"
+              className="input-base flex-1"
             />
             <button
               onClick={saveLocation}
               disabled={!locationName.trim()}
-              className="bg-blue-600 hover:bg-blue-700 px-6 py-2 rounded-lg font-minecraft transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
+              className="button-primary flex items-center gap-2"
             >
               <Save className="w-4 h-4" />
               Save
@@ -263,23 +260,23 @@ function StrongholdFinder() {
       )}
 
       {savedLocations.length > 0 && (
-        <div className="bg-[#2C2F33] p-6 rounded-lg">
-          <h2 className="text-xl font-minecraft mb-4">Saved Locations</h2>
+        <div className="bg-light-200 dark:bg-dark-300 p-6 rounded-lg shadow-sm">
+          <h2 className="text-xl font-minecraft mb-4 text-dark-200 dark:text-light-100">Saved Locations</h2>
           <div className="space-y-4">
             {savedLocations.map((location, i) => (
-              <div key={i} className="flex items-center justify-between gap-4 bg-[#1A1C1E] p-3 rounded-lg">
+              <div key={i} className="flex items-center justify-between gap-4 bg-light-100 dark:bg-dark-200 p-3 rounded-lg">
                 <div className="flex items-center gap-4">
-                  <Compass className="w-5 h-5 text-emerald-400" />
+                  <Compass className="w-5 h-5 text-accent-500" />
                   <div>
-                    <span className="font-minecraft text-emerald-400">{location.name}</span>
-                    <div className="text-gray-400">
+                    <span className="font-minecraft text-accent-500">{location.name}</span>
+                    <div className="text-muted-100 dark:text-light-300">
                       X: {location.x}, Z: {location.z}
                     </div>
                   </div>
                 </div>
                 <button
                   onClick={() => deleteLocation(i)}
-                  className="text-red-400 hover:text-red-300 transition-colors"
+                  className="text-red-400 hover:text-red-500 transition-colors"
                 >
                   <X className="w-5 h-5" />
                 </button>

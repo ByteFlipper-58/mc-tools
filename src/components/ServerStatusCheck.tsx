@@ -46,22 +46,22 @@ function CollapsibleCard({ title, icon, children }: CollapsibleCardProps) {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
-    <div className="bg-[#1A1C1E] rounded-lg overflow-hidden">
+    <div className="bg-light-100 dark:bg-dark-200 rounded-lg overflow-hidden shadow-sm">
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="w-full p-4 flex items-center justify-between hover:bg-[#252729] transition-colors"
+        className="w-full p-4 flex items-center justify-between hover:bg-light-200 dark:hover:bg-dark-300 transition-colors"
       >
         <div className="flex items-center gap-3">
           {icon}
-          <span className="font-minecraft text-sm">{title}</span>
+          <span className="font-minecraft text-sm text-dark-200 dark:text-light-100">{title}</span>
         </div>
         {isOpen ? (
-          <ChevronUp className="w-5 h-5 text-gray-400" />
+          <ChevronUp className="w-5 h-5 text-muted-100 dark:text-light-300" />
         ) : (
-          <ChevronDown className="w-5 h-5 text-gray-400" />
+          <ChevronDown className="w-5 h-5 text-muted-100 dark:text-light-300" />
         )}
       </button>
-      {isOpen && <div className="p-4 border-t border-gray-700">{children}</div>}
+      {isOpen && <div className="p-4 border-t border-light-300 dark:border-dark-400">{children}</div>}
     </div>
   );
 }
@@ -94,7 +94,7 @@ function ServerStatusCheck() {
 
   return (
     <div className="max-w-2xl mx-auto">
-      <h1 className="text-3xl font-minecraft mb-8 text-center">
+      <h1 className="text-3xl font-minecraft mb-8 text-center text-dark-200 dark:text-light-100">
         Server Status Checker
       </h1>
 
@@ -105,12 +105,12 @@ function ServerStatusCheck() {
             value={serverAddress}
             onChange={(e) => setServerAddress(e.target.value)}
             placeholder="Enter server address (e.g., mc.hypixel.net)"
-            className="flex-1 bg-[#2C2F33] border border-gray-700 rounded-lg px-4 py-2 focus:outline-none focus:border-emerald-400"
+            className="flex-1 input-base"
           />
           <button
             type="submit"
             disabled={loading || !serverAddress}
-            className="bg-emerald-600 hover:bg-emerald-700 px-6 py-2 rounded-lg font-minecraft disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+            className="button-primary"
           >
             {loading ? 'Checking...' : 'Check'}
           </button>
@@ -118,13 +118,13 @@ function ServerStatusCheck() {
       </form>
 
       {error && (
-        <div className="text-center text-red-400 mb-8 bg-[#2C2F33] p-4 rounded-lg">
+        <div className="text-center text-red-400 mb-8 bg-light-100 dark:bg-dark-200 p-4 rounded-lg">
           {error}
         </div>
       )}
 
       {serverInfo && (
-        <div className="bg-[#2C2F33] rounded-lg p-6 space-y-6">
+        <div className="bg-light-200 dark:bg-dark-300 rounded-lg p-6 space-y-6 shadow-sm">
           {/* Server Icon */}
           {serverInfo.icon && (
             <div className="flex justify-center">
@@ -137,8 +137,8 @@ function ServerStatusCheck() {
           )}
 
           {/* MOTD */}
-          <div className="bg-[#1A1C1E] p-4 rounded-lg">
-            <h3 className="text-sm text-gray-400 mb-2">Message of the Day</h3>
+          <div className="bg-light-100 dark:bg-dark-200 p-4 rounded-lg">
+            <h3 className="text-sm text-muted-100 dark:text-light-300 mb-2">Message of the Day</h3>
             <div 
               className="font-minecraft minecraft-colors"
               dangerouslySetInnerHTML={{ __html: serverInfo.motd.html.replace(/\n/g, '<br>') }}
@@ -148,12 +148,12 @@ function ServerStatusCheck() {
           {/* Status Grid */}
           <div className="grid grid-cols-2 gap-6">
             <div className="flex items-center gap-3">
-              <Signal className={`w-5 h-5 ${serverInfo.online ? 'text-emerald-400' : 'text-red-400'}`} />
+              <Signal className={`w-5 h-5 ${serverInfo.online ? 'text-accent-500' : 'text-red-400'}`} />
               <div>
-                <div className="text-sm text-gray-400">Status</div>
+                <div className="text-sm text-muted-100 dark:text-light-300">Status</div>
                 <div className="font-minecraft">
                   {serverInfo.online ? (
-                    <span className="text-emerald-400">Online</span>
+                    <span className="text-accent-500">Online</span>
                   ) : (
                     <span className="text-red-400">Offline</span>
                   )}
@@ -162,28 +162,28 @@ function ServerStatusCheck() {
             </div>
 
             <div className="flex items-center gap-3">
-              <Users className="w-5 h-5 text-emerald-400" />
+              <Users className="w-5 h-5 text-accent-500" />
               <div>
-                <div className="text-sm text-gray-400">Players</div>
-                <div className="font-minecraft">
+                <div className="text-sm text-muted-100 dark:text-light-300">Players</div>
+                <div className="font-minecraft text-dark-200 dark:text-light-100">
                   {serverInfo.players.online}/{serverInfo.players.max}
                 </div>
               </div>
             </div>
 
             <div className="flex items-center gap-3">
-              <Globe className="w-5 h-5 text-emerald-400" />
+              <Globe className="w-5 h-5 text-accent-500" />
               <div>
-                <div className="text-sm text-gray-400">Version</div>
-                <div className="font-minecraft">{serverInfo.version.name_clean}</div>
+                <div className="text-sm text-muted-100 dark:text-light-300">Version</div>
+                <div className="font-minecraft text-dark-200 dark:text-light-100">{serverInfo.version.name_clean}</div>
               </div>
             </div>
 
             <div className="flex items-center gap-3">
-              <Server className="w-5 h-5 text-emerald-400" />
+              <Server className="w-5 h-5 text-accent-500" />
               <div>
-                <div className="text-sm text-gray-400">Address</div>
-                <div className="font-minecraft text-sm">
+                <div className="text-sm text-muted-100 dark:text-light-300">Address</div>
+                <div className="font-minecraft text-sm text-dark-200 dark:text-light-100">
                   {serverInfo.host}:{serverInfo.port}
                 </div>
               </div>
@@ -196,7 +196,7 @@ function ServerStatusCheck() {
             {serverInfo.players.list && serverInfo.players.list.length > 0 && (
               <CollapsibleCard
                 title={`Online Players (${serverInfo.players.list.length})`}
-                icon={<Users className="w-5 h-5 text-emerald-400" />}
+                icon={<Users className="w-5 h-5 text-accent-500" />}
               >
                 <div className="grid grid-cols-2 md:grid-cols-3 gap-2">
                   {serverInfo.players.list.map((player, index) => (
@@ -214,13 +214,13 @@ function ServerStatusCheck() {
             {serverInfo.mods && serverInfo.mods.length > 0 && (
               <CollapsibleCard
                 title={`Mods (${serverInfo.mods.length})`}
-                icon={<Puzzle className="w-5 h-5 text-emerald-400" />}
+                icon={<Puzzle className="w-5 h-5 text-accent-500" />}
               >
                 <div className="grid grid-cols-1 gap-2">
                   {serverInfo.mods.map((mod, index) => (
                     <div key={index} className="flex justify-between items-center">
-                      <span className="font-minecraft text-sm">{mod.name}</span>
-                      <span className="text-sm text-gray-400">{mod.version}</span>
+                      <span className="font-minecraft text-sm text-dark-200 dark:text-light-100">{mod.name}</span>
+                      <span className="text-sm text-muted-100 dark:text-light-300">{mod.version}</span>
                     </div>
                   ))}
                 </div>
@@ -231,13 +231,13 @@ function ServerStatusCheck() {
             {serverInfo.plugins && serverInfo.plugins.length > 0 && (
               <CollapsibleCard
                 title={`Plugins (${serverInfo.plugins.length})`}
-                icon={<Plugin className="w-5 h-5 text-emerald-400" />}
+                icon={<Plugin className="w-5 h-5 text-accent-500" />}
               >
                 <div className="grid grid-cols-1 gap-2">
                   {serverInfo.plugins.map((plugin, index) => (
                     <div key={index} className="flex justify-between items-center">
-                      <span className="font-minecraft text-sm">{plugin.name}</span>
-                      <span className="text-sm text-gray-400">{plugin.version || 'Unknown'}</span>
+                      <span className="font-minecraft text-sm text-dark-200 dark:text-light-100">{plugin.name}</span>
+                      <span className="text-sm text-muted-100 dark:text-light-300">{plugin.version || 'Unknown'}</span>
                     </div>
                   ))}
                 </div>

@@ -24,10 +24,10 @@ function CoordinateSection({
   return (
     <div className="space-y-4">
       <div className="text-center">
-        <h2 className={`text-xl font-minecraft mb-2 ${theme === 'emerald' ? 'text-emerald-400' : 'text-red-400'}`}>
+        <h2 className={`text-xl font-minecraft mb-2 ${theme === 'emerald' ? 'text-accent-500' : 'text-red-400'}`}>
           {title}
         </h2>
-        <div className="inline-flex items-center gap-2 text-gray-400">
+        <div className="inline-flex items-center gap-2 text-muted-100 dark:text-light-300">
           <Compass className="w-4 h-4" />
           <span className="text-sm">{subtitle}</span>
         </div>
