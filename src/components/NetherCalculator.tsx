@@ -42,12 +42,12 @@ function NetherCalculator() {
   };
 
   return (
-    <div className="max-w-2xl mx-auto">
+    <div className="max-w-2xl mx-auto pt-20 md:pt-0">
       <h1 className="text-3xl font-minecraft mb-8 text-center">
         Nether Portal Calculator
       </h1>
 
-      <div className="bg-[#2C2F33] p-6 rounded-lg">
+      <div className="bg-light-200 dark:bg-dark-300 p-6 rounded-lg shadow-sm">
         <div className="grid md:grid-cols-3 gap-8 items-center">
           <CoordinateSection
             title="Overworld"
@@ -58,7 +58,7 @@ function NetherCalculator() {
           />
 
           <div className="flex justify-center">
-            <ArrowRight className="w-8 h-8 text-emerald-400" />
+            <ArrowRight className="w-8 h-8 text-accent-500" />
           </div>
 
           <CoordinateSection
@@ -76,4 +76,4 @@ function NetherCalculator() {
   );
 }
 
-export default NetherCalculator;
+export default NetherCalculator

@@ -93,7 +93,7 @@ function ServerStatusCheck() {
   };
 
   return (
-    <div className="max-w-2xl mx-auto">
+    <div className="max-w-2xl mx-auto pt-20 md:pt-0">
       <h1 className="text-3xl font-minecraft mb-8 text-center text-dark-200 dark:text-light-100">
         Server Status Checker
       </h1>

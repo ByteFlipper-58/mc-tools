@@ -80,7 +80,7 @@ function PlayerInfo() {
   };
 
   return (
-    <div className="max-w-4xl mx-auto">
+    <div className="max-w-4xl mx-auto pt-20 md:pt-0">
       <h1 className="text-3xl font-minecraft mb-8 text-center text-dark-200 dark:text-light-100">Player Info</h1>
 
       <form onSubmit={fetchPlayerData} className="mb-8">

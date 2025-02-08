@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { Menu, X, ChevronDown, Server, Compass, Flame, User, Info } from 'lucide-react';
 import ThemeToggle from './ThemeToggle';
+import MCToolsLogo from './MCToolsLogo';
 
 function NavigationMenu() {
   const [isOpen, setIsOpen] = useState(false);
@@ -45,9 +46,10 @@ function NavigationMenu() {
         <div className="flex items-center justify-between">
           <Link 
             to="/" 
-            className="text-2xl font-minecraft flex items-center gap-2 hover:text-accent-500 transition-colors duration-300"
+            className="text-2xl font-minecraft flex items-center gap-3 hover:text-accent-500 transition-colors duration-300"
           >
-            MC Tools
+            <MCToolsLogo />
+            <span>MC Tools</span>
           </Link>
 
           {/* Mobile menu button */}
