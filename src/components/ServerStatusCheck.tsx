@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Server, Users, Globe, Signal, ChevronDown, ChevronUp, Puzzle, Plug as Plugin } from 'lucide-react';
+import { useTranslation } from '../lib/i18n';
 
 interface ServerStatus {
   online: boolean;
@@ -71,6 +72,7 @@ function ServerStatusCheck() {
   const [loading, setLoading] = useState(false);
   const [serverInfo, setServerInfo] = useState<ServerStatus | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const t = useTranslation();
 
   const checkServer = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -95,7 +97,7 @@ function ServerStatusCheck() {
   return (
     <div className="max-w-2xl mx-auto pt-20 md:pt-0">
       <h1 className="text-3xl font-minecraft mb-8 text-center text-dark-200 dark:text-light-100">
-        Server Status Checker
+        {t.server.title}
       </h1>
 
       <form onSubmit={checkServer} className="mb-8">
@@ -104,7 +106,7 @@ function ServerStatusCheck() {
             type="text"
             value={serverAddress}
             onChange={(e) => setServerAddress(e.target.value)}
-            placeholder="Enter server address (e.g., mc.hypixel.net)"
+            placeholder={t.common.enterServerAddress}
             className="flex-1 input-base"
           />
           <button
@@ -112,7 +114,7 @@ function ServerStatusCheck() {
             disabled={loading || !serverAddress}
             className="button-primary"
           >
-            {loading ? 'Checking...' : 'Check'}
+            {loading ? t.common.checking : t.server.checkServer}
           </button>
         </div>
       </form>
@@ -138,7 +140,7 @@ function ServerStatusCheck() {
 
           {/* MOTD */}
           <div className="bg-light-100 dark:bg-dark-200 p-4 rounded-lg">
-            <h3 className="text-sm text-muted-100 dark:text-light-300 mb-2">Message of the Day</h3>
+            <h3 className="text-sm text-muted-100 dark:text-light-300 mb-2">{t.server.motd}</h3>
             <div 
               className="font-minecraft minecraft-colors"
               dangerouslySetInnerHTML={{ __html: serverInfo.motd.html.replace(/\n/g, '<br>') }}
@@ -150,12 +152,12 @@ function ServerStatusCheck() {
             <div className="flex items-center gap-3">
               <Signal className={`w-5 h-5 ${serverInfo.online ? 'text-accent-500' : 'text-red-400'}`} />
               <div>
-                <div className="text-sm text-muted-100 dark:text-light-300">Status</div>
+                <div className="text-sm text-muted-100 dark:text-light-300">{t.common.status}</div>
                 <div className="font-minecraft">
                   {serverInfo.online ? (
-                    <span className="text-accent-500">Online</span>
+                    <span className="text-accent-500">{t.common.online}</span>
                   ) : (
-                    <span className="text-red-400">Offline</span>
+                    <span className="text-red-400">{t.common.offline}</span>
                   )}
                 </div>
               </div>
@@ -164,9 +166,9 @@ function ServerStatusCheck() {
             <div className="flex items-center gap-3">
               <Users className="w-5 h-5 text-accent-500" />
               <div>
-                <div className="text-sm text-muted-100 dark:text-light-300">Players</div>
+                <div className="text-sm text-muted-100 dark:text-light-300">{t.common.players}</div>
                 <div className="font-minecraft text-dark-200 dark:text-light-100">
-                  {serverInfo.players.online}/{serverInfo.players.max}
+                  {t.server.playerCount.replace('{online}', serverInfo.players.online.toString()).replace('{max}', serverInfo.players.max.toString())}
                 </div>
               </div>
             </div>
@@ -174,7 +176,7 @@ function ServerStatusCheck() {
             <div className="flex items-center gap-3">
               <Globe className="w-5 h-5 text-accent-500" />
               <div>
-                <div className="text-sm text-muted-100 dark:text-light-300">Version</div>
+                <div className="text-sm text-muted-100 dark:text-light-300">{t.common.version}</div>
                 <div className="font-minecraft text-dark-200 dark:text-light-100">{serverInfo.version.name_clean}</div>
               </div>
             </div>
@@ -182,7 +184,7 @@ function ServerStatusCheck() {
             <div className="flex items-center gap-3">
               <Server className="w-5 h-5 text-accent-500" />
               <div>
-                <div className="text-sm text-muted-100 dark:text-light-300">Address</div>
+                <div className="text-sm text-muted-100 dark:text-light-300">{t.common.address}</div>
                 <div className="font-minecraft text-sm text-dark-200 dark:text-light-100">
                   {serverInfo.host}:{serverInfo.port}
                 </div>
@@ -195,7 +197,7 @@ function ServerStatusCheck() {
             {/* Players List */}
             {serverInfo.players.list && serverInfo.players.list.length > 0 && (
               <CollapsibleCard
-                title={`Online Players (${serverInfo.players.list.length})`}
+                title={t.server.onlinePlayers}
                 icon={<Users className="w-5 h-5 text-accent-500" />}
               >
                 <div className="grid grid-cols-2 md:grid-cols-3 gap-2">
@@ -211,9 +213,9 @@ function ServerStatusCheck() {
             )}
 
             {/* Mods List */}
-            {serverInfo.mods && serverInfo.mods.length > 0 && (
+            {serverInfo.mods && serverInfo.mods.length > 0 ? (
               <CollapsibleCard
-                title={`Mods (${serverInfo.mods.length})`}
+                title={t.server.modCount.replace('{count}', serverInfo.mods.length.toString())}
                 icon={<Puzzle className="w-5 h-5 text-accent-500" />}
               >
                 <div className="grid grid-cols-1 gap-2">
@@ -225,23 +227,31 @@ function ServerStatusCheck() {
                   ))}
                 </div>
               </CollapsibleCard>
+            ) : (
+              <div className="text-sm text-muted-100 dark:text-light-300 text-center">
+                {t.server.noMods}
+              </div>
             )}
 
             {/* Plugins List */}
-            {serverInfo.plugins && serverInfo.plugins.length > 0 && (
+            {serverInfo.plugins && serverInfo.plugins.length > 0 ? (
               <CollapsibleCard
-                title={`Plugins (${serverInfo.plugins.length})`}
+                title={t.server.pluginCount.replace('{count}', serverInfo.plugins.length.toString())}
                 icon={<Plugin className="w-5 h-5 text-accent-500" />}
               >
                 <div className="grid grid-cols-1 gap-2">
                   {serverInfo.plugins.map((plugin, index) => (
                     <div key={index} className="flex justify-between items-center">
                       <span className="font-minecraft text-sm text-dark-200 dark:text-light-100">{plugin.name}</span>
-                      <span className="text-sm text-muted-100 dark:text-light-300">{plugin.version || 'Unknown'}</span>
+                      <span className="text-sm text-muted-100 dark:text-light-300">{plugin.version || t.server.unknown}</span>
                     </div>
                   ))}
                 </div>
               </CollapsibleCard>
+            ) : (
+              <div className="text-sm text-muted-100 dark:text-light-300 text-center">
+                {t.server.noPlugins}
+              </div>
             )}
           </div>
         </div>

@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Compass, Save, Trash2, X, Edit2 } from 'lucide-react';
+import { useTranslation } from '../lib/i18n';
 
 interface ThrowPoint {
   x: number;
@@ -24,13 +25,14 @@ function StrongholdFinder() {
   const [angleError, setAngleError] = useState('');
   const [savedLocations, setSavedLocations] = useState<SavedLocation[]>([]);
   const [locationName, setLocationName] = useState('');
+  const t = useTranslation();
 
   const handleInputChange = (field: keyof ThrowPoint, value: string) => {
     const numValue = value === '' ? 0 : Number(value);
     
     if (field === 'angle') {
       if (numValue < -160 || numValue > 160) {
-        setAngleError('Angle must be between -160 and 160 degrees');
+        setAngleError(t.stronghold.throw.angleError);
       } else {
         setAngleError('');
       }
@@ -139,31 +141,33 @@ function StrongholdFinder() {
   return (
     <div className="max-w-2xl mx-auto pt-20 md:pt-0">
       <h1 className="text-3xl font-minecraft mb-8 text-center text-dark-200 dark:text-light-100">
-        Stronghold Finder
+        {t.stronghold.title}
       </h1>
 
       <form onSubmit={addThrow} className="bg-light-200 dark:bg-dark-300 p-6 rounded-lg mb-8 shadow-sm">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
           <div>
-            <label className="block text-sm text-muted-100 dark:text-light-300 mb-1">X Coordinate</label>
+            <label className="block text-sm text-muted-100 dark:text-light-300 mb-1">{t.stronghold.coordinates.x}</label>
             <input
               type="number"
               value={currentThrow.x || ''}
               onChange={(e) => handleInputChange('x', e.target.value)}
+              placeholder={t.stronghold.coordinates.enterX}
               className="input-base"
             />
           </div>
           <div>
-            <label className="block text-sm text-muted-100 dark:text-light-300 mb-1">Z Coordinate</label>
+            <label className="block text-sm text-muted-100 dark:text-light-300 mb-1">{t.stronghold.coordinates.z}</label>
             <input
               type="number"
               value={currentThrow.z || ''}
               onChange={(e) => handleInputChange('z', e.target.value)}
+              placeholder={t.stronghold.coordinates.enterZ}
               className="input-base"
             />
           </div>
           <div>
-            <label className="block text-sm text-muted-100 dark:text-light-300 mb-1">Angle (degrees)</label>
+            <label className="block text-sm text-muted-100 dark:text-light-300 mb-1">{t.stronghold.throw.angle}</label>
             <input
               type="number"
               value={currentThrow.angle || ''}
@@ -183,7 +187,7 @@ function StrongholdFinder() {
             disabled={!!angleError}
             className="button-primary flex-1"
           >
-            {editingIndex !== null ? 'Update Throw' : 'Add Throw'}
+            {editingIndex !== null ? t.stronghold.throw.update : t.stronghold.throw.add}
           </button>
           <button
             type="button"
@@ -191,36 +195,38 @@ function StrongholdFinder() {
             className="button-danger flex items-center gap-2"
           >
             <Trash2 className="w-4 h-4" />
-            Clear
+            {t.stronghold.throw.clear}
           </button>
         </div>
       </form>
 
       {throws.length > 0 && (
         <div className="bg-light-200 dark:bg-dark-300 p-6 rounded-lg mb-8 shadow-sm">
-          <h2 className="text-xl font-minecraft mb-4 text-dark-200 dark:text-light-100">Recorded Throws</h2>
+          <h2 className="text-xl font-minecraft mb-4 text-dark-200 dark:text-light-100">{t.stronghold.recorded.title}</h2>
           <div className="space-y-4">
             {throws.map((t, i) => (
               <div key={i} className="flex items-center justify-between gap-4 bg-light-100 dark:bg-dark-200 p-3 rounded-lg">
                 <div className="flex items-center gap-4">
                   <Compass className="w-5 h-5 text-accent-500" />
                   <div className="text-dark-200 dark:text-light-100">
-                    <span className="text-muted-100 dark:text-light-300">Throw {i + 1}:</span>{' '}
-                    X: {t.x}, Z: {t.z}, Angle: {t.angle}°
+                    <span className="text-muted-100 dark:text-light-300">
+                      {t.stronghold.throw.title.replace('{number}', String(i + 1))}:
+                    </span>{' '}
+                    X: {t.x}, Z: {t.z}, {t.common.angle}: {t.angle}°
                   </div>
                 </div>
                 <div className="flex items-center gap-2">
                   <button
                     onClick={() => startEditing(i)}
                     className="text-accent-500 hover:text-accent-600 transition-colors p-1"
-                    title="Edit throw"
+                    title={t.stronghold.recorded.edit}
                   >
                     <Edit2 className="w-4 h-4" />
                   </button>
                   <button
                     onClick={() => deleteThrow(i)}
                     className="text-red-400 hover:text-red-500 transition-colors p-1"
-                    title="Delete throw"
+                    title={t.stronghold.recorded.delete}
                   >
                     <X className="w-4 h-4" />
                   </button>
@@ -233,7 +239,7 @@ function StrongholdFinder() {
 
       {strongholdLocation && (
         <div className="bg-light-200 dark:bg-dark-300 p-6 rounded-lg mb-8 shadow-sm">
-          <h2 className="text-xl font-minecraft mb-4 text-dark-200 dark:text-light-100">Estimated Stronghold Location</h2>
+          <h2 className="text-xl font-minecraft mb-4 text-dark-200 dark:text-light-100">{t.stronghold.location.title}</h2>
           <div className="text-center mb-4">
             <div className="text-2xl font-minecraft text-accent-500">
               X: {strongholdLocation.x}, Z: {strongholdLocation.z}
@@ -244,7 +250,7 @@ function StrongholdFinder() {
               type="text"
               value={locationName}
               onChange={(e) => setLocationName(e.target.value)}
-              placeholder="Enter location name"
+              placeholder={t.stronghold.location.enterName}
               className="input-base flex-1"
             />
             <button
@@ -253,7 +259,7 @@ function StrongholdFinder() {
               className="button-primary flex items-center gap-2"
             >
               <Save className="w-4 h-4" />
-              Save
+              {t.stronghold.location.save}
             </button>
           </div>
         </div>
@@ -261,7 +267,7 @@ function StrongholdFinder() {
 
       {savedLocations.length > 0 && (
         <div className="bg-light-200 dark:bg-dark-300 p-6 rounded-lg shadow-sm">
-          <h2 className="text-xl font-minecraft mb-4 text-dark-200 dark:text-light-100">Saved Locations</h2>
+          <h2 className="text-xl font-minecraft mb-4 text-dark-200 dark:text-light-100">{t.stronghold.saved.title}</h2>
           <div className="space-y-4">
             {savedLocations.map((location, i) => (
               <div key={i} className="flex items-center justify-between gap-4 bg-light-100 dark:bg-dark-200 p-3 rounded-lg">
@@ -277,6 +283,7 @@ function StrongholdFinder() {
                 <button
                   onClick={() => deleteLocation(i)}
                   className="text-red-400 hover:text-red-500 transition-colors"
+                  title={t.stronghold.saved.delete}
                 >
                   <X className="w-5 h-5" />
                 </button>

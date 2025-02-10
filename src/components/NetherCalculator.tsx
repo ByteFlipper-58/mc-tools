@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { ArrowRight } from 'lucide-react';
 import CoordinateSection from './nether/CoordinateSection';
 import TipsSection from './nether/TipsSection';
+import { useTranslation } from '../lib/i18n';
 
 interface Coordinates {
   x: string;
@@ -12,6 +13,7 @@ interface Coordinates {
 function NetherCalculator() {
   const [overworldCoords, setOverworldCoords] = useState<Coordinates>({ x: '0', y: '64', z: '0' });
   const [netherCoords, setNetherCoords] = useState<Coordinates>({ x: '0', y: '64', z: '0' });
+  const t = useTranslation();
 
   const handleOverworldChange = (axis: keyof Coordinates, value: string) => {
     setOverworldCoords(prev => ({ ...prev, [axis]: value }));
@@ -44,14 +46,14 @@ function NetherCalculator() {
   return (
     <div className="max-w-2xl mx-auto pt-20 md:pt-0">
       <h1 className="text-3xl font-minecraft mb-8 text-center">
-        Nether Portal Calculator
+        {t.nether.title}
       </h1>
 
       <div className="bg-light-200 dark:bg-dark-300 p-6 rounded-lg shadow-sm">
         <div className="grid md:grid-cols-3 gap-8 items-center">
           <CoordinateSection
-            title="Overworld"
-            subtitle="1:8 ratio"
+            title={t.nether.overworld}
+            subtitle={t.nether.overworldRatio}
             coordinates={overworldCoords}
             onCoordinateChange={handleOverworldChange}
             theme="emerald"
@@ -62,8 +64,8 @@ function NetherCalculator() {
           </div>
 
           <CoordinateSection
-            title="Nether"
-            subtitle="8:1 ratio"
+            title={t.nether.nether}
+            subtitle={t.nether.netherRatio}
             coordinates={netherCoords}
             onCoordinateChange={handleNetherChange}
             theme="red"
@@ -76,4 +78,4 @@ function NetherCalculator() {
   );
 }
 
-export default NetherCalculator
+export default NetherCalculator;

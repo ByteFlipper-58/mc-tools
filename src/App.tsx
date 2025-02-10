@@ -14,6 +14,8 @@ const StrongholdFinder = lazy(() => import('./components/StrongholdFinder'));
 const NetherCalculator = lazy(() => import('./components/NetherCalculator'));
 const PlayerInfo = lazy(() => import('./components/PlayerInfo'));
 const About = lazy(() => import('./components/About'));
+const Settings = lazy(() => import('./components/Settings'));
+const Privacy = lazy(() => import('./components/Privacy'));
 
 // Scroll to top component
 function ScrollToTop() {
@@ -60,6 +62,8 @@ function App() {
                 <Route path="/nether-calculator" element={<NetherCalculator />} />
                 <Route path="/player-info" element={<PlayerInfo />} />
                 <Route path="/about" element={<About />} />
+                <Route path="/settings" element={<Settings />} />
+                <Route path="/privacy" element={<Privacy />} />
               </Routes>
             </Suspense>
           </main>
@@ -76,6 +80,12 @@ function App() {
             <div className="container mx-auto flex flex-col md:flex-row items-center justify-between gap-4 text-muted-100 dark:text-light-300">
               <p>© {new Date().getFullYear()} MC Tools. All rights reserved.</p>
               <div className="flex items-center gap-4">
+                <Link 
+                  to="/privacy" 
+                  className="hover:text-accent-500 transition-colors duration-300"
+                >
+                  Privacy Policy
+                </Link>
                 <Link 
                   to="/about" 
                   className="hover:text-accent-500 transition-colors duration-300"

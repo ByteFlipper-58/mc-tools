@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Search, User, Hash, RotateCw, Download, Copy, CheckCircle2 } from 'lucide-react';
 import { lookupUsername, hyphenateUUID, getPlayerImages } from '../utils/minecraft';
+import { useTranslation } from '../lib/i18n';
 
 interface PlayerData {
   username: string;
@@ -23,6 +24,7 @@ function PlayerInfo() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [copiedUUID, setCopiedUUID] = useState<'full' | 'trimmed' | null>(null);
+  const t = useTranslation();
 
   const copyToClipboard = async (text: string, type: 'full' | 'trimmed') => {
     try {
@@ -46,7 +48,7 @@ function PlayerInfo() {
       const profile = await lookupUsername(username.trim());
       
       if (!profile) {
-        throw new Error('Player not found');
+        throw new Error(t.player.notFound);
       }
 
       const playerInfo: PlayerData = {
@@ -58,30 +60,18 @@ function PlayerInfo() {
       setPlayerData(playerInfo);
       setError(null);
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Failed to fetch player data');
+      setError(err instanceof Error ? err.message : t.player.fetchError);
       setPlayerData(null);
     } finally {
       setLoading(false);
     }
   };
 
-  const ImageWithFallback = ({ src, alt, className }: { src: string; alt: string; className?: string }) => {
-    const [error, setError] = useState(false);
-
-    return (
-      <img
-        src={src}
-        alt={alt}
-        className={className}
-        onError={() => setError(true)}
-        style={{ display: error ? 'none' : 'block' }}
-      />
-    );
-  };
-
   return (
     <div className="max-w-4xl mx-auto pt-20 md:pt-0">
-      <h1 className="text-3xl font-minecraft mb-8 text-center text-dark-200 dark:text-light-100">Player Info</h1>
+      <h1 className="text-3xl font-minecraft mb-8 text-center text-dark-200 dark:text-light-100">
+        {t.player.title}
+      </h1>
 
       <form onSubmit={fetchPlayerData} className="mb-8">
         <div className="flex gap-4">
@@ -89,7 +79,7 @@ function PlayerInfo() {
             type="text"
             value={username}
             onChange={(e) => setUsername(e.target.value)}
-            placeholder="Enter player username"
+            placeholder={t.common.enterUsername}
             className="input-base flex-1"
           />
           <button
@@ -100,12 +90,12 @@ function PlayerInfo() {
             {loading ? (
               <>
                 <RotateCw className="w-5 h-5 animate-spin" />
-                Searching...
+                {t.common.searching}
               </>
             ) : (
               <>
                 <Search className="w-5 h-5" />
-                Search
+                {t.player.searchPlayer}
               </>
             )}
           </button>
@@ -128,9 +118,9 @@ function PlayerInfo() {
               target="_blank"
               rel="noopener noreferrer"
             >
-              <ImageWithFallback
+              <img
                 src={playerData.images.fullBody}
-                alt={`Full body of ${playerData.username}`}
+                alt={`${t.player.body.full} ${playerData.username}`}
                 className="h-[216px] w-auto"
               />
             </a>
@@ -139,13 +129,13 @@ function PlayerInfo() {
             <div className="flex flex-col gap-4 grow">
               {/* Username */}
               <div className="bg-light-200 dark:bg-dark-300 p-4 rounded-lg shadow-sm">
-                <p className="text-sm text-muted-100 dark:text-light-300 mb-1">Username</p>
+                <p className="text-sm text-muted-100 dark:text-light-300 mb-1">{t.common.username}</p>
                 <p className="font-minecraft text-xl text-dark-200 dark:text-light-100">{playerData.username}</p>
               </div>
 
               {/* UUID */}
               <div className="bg-light-200 dark:bg-dark-300 p-4 rounded-lg shadow-sm">
-                <p className="text-sm text-muted-100 dark:text-light-300 mb-1">UUID</p>
+                <p className="text-sm text-muted-100 dark:text-light-300 mb-1">{t.common.uuid}</p>
                 <div className="flex flex-col md:flex-row gap-2 md:items-center">
                   <code className="font-mono text-sm text-dark-200 dark:text-light-100">{hyphenateUUID(playerData.uuid)}</code>
                   <button
@@ -157,14 +147,14 @@ function PlayerInfo() {
                     ) : (
                       <Copy className="w-4 h-4" />
                     )}
-                    {copiedUUID === 'full' ? 'Copied!' : 'Copy'}
+                    {copiedUUID === 'full' ? t.common.copied : t.common.copyToClipboard}
                   </button>
                 </div>
               </div>
 
               {/* Trimmed UUID */}
               <div className="bg-light-200 dark:bg-dark-300 p-4 rounded-lg shadow-sm">
-                <p className="text-sm text-muted-100 dark:text-light-300 mb-1">Trimmed UUID</p>
+                <p className="text-sm text-muted-100 dark:text-light-300 mb-1">{t.player.trimmedUUID}</p>
                 <div className="flex flex-col md:flex-row gap-2 md:items-center">
                   <code className="font-mono text-sm text-dark-200 dark:text-light-100">{playerData.uuid}</code>
                   <button
@@ -176,7 +166,7 @@ function PlayerInfo() {
                     ) : (
                       <Copy className="w-4 h-4" />
                     )}
-                    {copiedUUID === 'trimmed' ? 'Copied!' : 'Copy'}
+                    {copiedUUID === 'trimmed' ? t.common.copied : t.common.copyToClipboard}
                   </button>
                 </div>
               </div>
@@ -190,7 +180,7 @@ function PlayerInfo() {
                   rel="noopener noreferrer"
                 >
                   <Download className="w-4 h-4" />
-                  Download Raw Skin
+                  {t.player.downloadSkin}
                 </a>
               </div>
             </div>
@@ -199,10 +189,10 @@ function PlayerInfo() {
           {/* Body Views */}
           <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
             {[
-              { src: playerData.images.frontBody, label: 'Front Side of Body' },
-              { src: playerData.images.leftBody, label: 'Left Side of Body' },
-              { src: playerData.images.backBody, label: 'Back Side of Body' },
-              { src: playerData.images.rightBody, label: 'Right Side of Body' },
+              { src: playerData.images.frontBody, label: t.player.body.front },
+              { src: playerData.images.leftBody, label: t.player.body.left },
+              { src: playerData.images.backBody, label: t.player.body.back },
+              { src: playerData.images.rightBody, label: t.player.body.right },
             ].map((view, index) => (
               <a
                 key={index}
@@ -211,9 +201,9 @@ function PlayerInfo() {
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                <ImageWithFallback
+                <img
                   src={view.src}
-                  alt={`${view.label} of ${playerData.username}`}
+                  alt={`${view.label} ${playerData.username}`}
                   className="h-[216px] w-auto"
                 />
                 <p className="font-minecraft text-sm text-dark-200 dark:text-light-100">{view.label}</p>
@@ -229,12 +219,12 @@ function PlayerInfo() {
               target="_blank"
               rel="noopener noreferrer"
             >
-              <ImageWithFallback
+              <img
                 src={playerData.images.face}
-                alt={`Face of ${playerData.username}`}
+                alt={`${t.player.face} ${playerData.username}`}
                 className="h-[216px] w-auto"
               />
-              <p className="font-minecraft text-sm text-dark-200 dark:text-light-100">Face</p>
+              <p className="font-minecraft text-sm text-dark-200 dark:text-light-100">{t.player.face}</p>
             </a>
             <a
               href={playerData.images.head}
@@ -242,12 +232,12 @@ function PlayerInfo() {
               target="_blank"
               rel="noopener noreferrer"
             >
-              <ImageWithFallback
+              <img
                 src={playerData.images.head}
-                alt={`Head of ${playerData.username}`}
+                alt={`${t.player.head} ${playerData.username}`}
                 className="h-[216px] w-auto"
               />
-              <p className="font-minecraft text-sm text-dark-200 dark:text-light-100">Head</p>
+              <p className="font-minecraft text-sm text-dark-200 dark:text-light-100">{t.player.head}</p>
             </a>
           </div>
         </div>

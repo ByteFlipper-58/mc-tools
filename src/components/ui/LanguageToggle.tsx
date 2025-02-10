@@ -18,14 +18,16 @@ function LanguageToggle() {
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
+  const currentLanguage = languages[language];
+
   return (
     <div className="relative" ref={menuRef}>
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="p-2 hover:bg-accent-600/20 rounded-lg transition-colors flex items-center gap-2"
+        className="p-2 hover:bg-accent-600/20 rounded-lg transition-colors flex items-center gap-2 min-w-[100px] justify-between"
         aria-label="Toggle language"
       >
-        <Globe className="w-5 h-5" />
+        <span className="text-sm">{currentLanguage}</span>
         <ChevronDown className={`w-4 h-4 transition-transform duration-300 ${isOpen ? 'rotate-180' : ''}`} />
       </button>
 

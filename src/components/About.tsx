@@ -1,7 +1,10 @@
 import React from 'react';
-import { Github, Heart, Code2, Coffee, Globe, Database, Shield, Zap } from 'lucide-react';
+import { Github, Heart, Code2, Coffee, Globe, Database, Shield, Zap, Link as LinkIcon } from 'lucide-react';
+import { useTranslation } from '../lib/i18n';
 
 function About() {
+  const t = useTranslation();
+
   return (
     <div className="max-w-5xl mx-auto px-4 pt-20 md:pt-0">
       {/* Hero Section */}
@@ -9,11 +12,10 @@ function About() {
         <div className="absolute inset-0 bg-gradient-to-br from-accent-500/20 to-accent-600/20" />
         <div className="relative text-center">
           <h1 className="text-4xl md:text-5xl font-minecraft mb-6 text-accent-500">
-            About MC Tools
+            MC Tools
           </h1>
           <p className="text-xl text-dark-200 dark:text-light-100 max-w-3xl mx-auto">
-            A comprehensive suite of tools designed to enhance your Minecraft gameplay experience,
-            built with modern web technologies and a focus on user experience.
+            {t.home.subtitle}
           </p>
         </div>
       </div>
@@ -23,18 +25,11 @@ function About() {
         <div className="bg-light-200 dark:bg-dark-300 p-8 rounded-xl shadow-sm">
           <div className="flex items-center gap-3 mb-6">
             <Globe className="w-8 h-8 text-accent-500" />
-            <h2 className="text-2xl font-minecraft text-accent-500">About the Project</h2>
+            <h2 className="text-2xl font-minecraft text-accent-500">{t.about.projectDescription}</h2>
           </div>
           <div className="space-y-4 text-dark-200 dark:text-light-100">
-            <p>
-              MC Tools is an open-source project dedicated to providing essential utilities for both casual
-              players and server administrators. Our tools are designed to be intuitive, accurate, and reliable.
-            </p>
-            <p>
-              Built with modern web technologies and licensed under the GNU General Public License v3.0,
-              MC Tools ensures that the community can freely use, modify, and distribute these tools while
-              maintaining the same freedoms for others.
-            </p>
+            <p>{t.about.projectDescriptionText1}</p>
+            <p>{t.about.projectDescriptionText2}</p>
           </div>
         </div>
 
@@ -42,7 +37,7 @@ function About() {
         <div className="bg-light-200 dark:bg-dark-300 p-8 rounded-xl shadow-sm">
           <div className="flex items-center gap-3 mb-6">
             <Code2 className="w-8 h-8 text-accent-500" />
-            <h2 className="text-2xl font-minecraft text-accent-500">Technology Stack</h2>
+            <h2 className="text-2xl font-minecraft text-accent-500">{t.about.technologyStack}</h2>
           </div>
           <div className="grid grid-cols-2 gap-4">
             <div className="flex items-center gap-3 bg-light-100 dark:bg-dark-200 p-4 rounded-lg">
@@ -67,24 +62,24 @@ function About() {
 
       {/* Features Grid */}
       <div className="bg-light-200 dark:bg-dark-300 p-8 rounded-xl mb-12 shadow-sm">
-        <h2 className="text-2xl font-minecraft text-accent-500 mb-6">Features</h2>
+        <h2 className="text-2xl font-minecraft text-accent-500 mb-6">{t.common.tools}</h2>
         <div className="grid md:grid-cols-2 gap-6">
           {[
             {
-              title: 'Server Status Checker',
-              description: 'Monitor the status of any Minecraft server in real-time, including player count, version, and MOTD.',
+              title: t.nav.serverStatus,
+              description: t.server.title,
             },
             {
-              title: 'Stronghold Finder',
-              description: 'Calculate stronghold locations accurately using ender eye throws with our mathematical algorithm.',
+              title: t.nav.strongholdFinder,
+              description: t.nav.strongholdFinder,
             },
             {
-              title: 'Nether Calculator',
-              description: 'Convert coordinates between Overworld and Nether dimensions for efficient portal linking.',
+              title: t.nav.netherCalculator,
+              description: t.nav.netherCalculator,
             },
             {
-              title: 'Player Info',
-              description: 'Look up player information including UUID and skin renders using official APIs.',
+              title: t.nav.playerInfo,
+              description: t.nav.playerInfo,
             },
           ].map((feature, index) => (
             <div key={index} className="bg-light-100 dark:bg-dark-200 p-6 rounded-lg">
@@ -99,11 +94,31 @@ function About() {
       <div className="grid md:grid-cols-2 gap-8 mb-12">
         {/* Developer Info */}
         <div className="bg-light-200 dark:bg-dark-300 p-8 rounded-xl shadow-sm">
-          <h2 className="text-2xl font-minecraft text-accent-500 mb-6">Developer</h2>
+          <h2 className="text-2xl font-minecraft text-accent-500 mb-6">{t.about.developer}</h2>
           <div className="text-center">
-            <div className="mb-4">
+            <div className="mb-6">
               <h3 className="text-xl font-minecraft text-dark-300 dark:text-light-100">ByteFlipper</h3>
-              <p className="text-dark-100 dark:text-light-200">Developer & Maintainer</p>
+              <p className="text-dark-100 dark:text-light-200 mb-4">{t.about.developerRole}</p>
+              <div className="flex flex-col gap-3">
+                <a
+                  href="https://byteflipper.web.app"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center justify-center gap-2 text-dark-100 dark:text-light-200 hover:text-accent-500 transition-colors"
+                >
+                  <Globe className="w-5 h-5" />
+                  byteflipper.web.app
+                </a>
+                <a
+                  href="https://t.me/byteflipper"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center justify-center gap-2 text-dark-100 dark:text-light-200 hover:text-accent-500 transition-colors"
+                >
+                  <LinkIcon className="w-5 h-5" />
+                  {t.about.telegramChannel}
+                </a>
+              </div>
             </div>
             <div className="flex justify-center gap-4">
               <a
@@ -122,7 +137,7 @@ function About() {
                 className="flex items-center gap-2 text-dark-100 dark:text-light-200 hover:text-accent-500 transition-colors"
               >
                 <Code2 className="w-5 h-5" />
-                Source Code
+                {t.about.sourceCode}
               </a>
             </div>
           </div>
@@ -132,11 +147,11 @@ function About() {
         <div className="bg-light-200 dark:bg-dark-300 p-8 rounded-xl shadow-sm">
           <div className="flex items-center justify-center gap-3 mb-6">
             <Heart className="w-8 h-8 text-red-400" />
-            <h2 className="text-2xl font-minecraft text-accent-500">Support the Project</h2>
+            <h2 className="text-2xl font-minecraft text-accent-500">{t.about.supportProject}</h2>
           </div>
           <div className="text-center">
             <p className="text-dark-200 dark:text-light-100 mb-6">
-              If you find MC Tools useful, consider supporting the project by:
+              {t.about.supportText}
             </p>
             <div className="flex justify-center gap-6">
               <a
@@ -146,7 +161,7 @@ function About() {
                 className="flex items-center gap-2 text-dark-100 dark:text-light-200 hover:text-accent-500 transition-colors group"
               >
                 <Github className="w-5 h-5 group-hover:scale-110 transition-transform" />
-                Star on GitHub
+                {t.about.starOnGithub}
               </a>
               <a
                 href="https://ko-fi.com/byteflipper"
@@ -155,7 +170,7 @@ function About() {
                 className="flex items-center gap-2 text-dark-100 dark:text-light-200 hover:text-accent-500 transition-colors group"
               >
                 <Coffee className="w-5 h-5 group-hover:scale-110 transition-transform" />
-                Buy me a coffee
+                {t.about.buyMeACoffee}
               </a>
             </div>
           </div>
@@ -164,42 +179,42 @@ function About() {
 
       {/* API Credits */}
       <div className="bg-light-200 dark:bg-dark-300 p-8 rounded-xl shadow-sm">
-        <h2 className="text-2xl font-minecraft text-accent-500 mb-6">API Credits</h2>
+        <h2 className="text-2xl font-minecraft text-accent-500 mb-6">{t.about.apiCredits}</h2>
         <div className="grid md:grid-cols-3 gap-6">
           <div className="bg-light-100 dark:bg-dark-200 p-6 rounded-lg">
             <h3 className="font-minecraft mb-3 text-dark-300 dark:text-light-100">Ashcon API</h3>
-            <p className="text-dark-100 dark:text-light-200 mb-4">Player data and UUID lookup service</p>
+            <p className="text-dark-100 dark:text-light-200 mb-4">{t.about.playerData}</p>
             <a
               href="https://github.com/Electroid/mojang-api"
               target="_blank"
               rel="noopener noreferrer"
               className="text-accent-500 hover:text-accent-400 transition-colors text-sm"
             >
-              View Documentation →
+              {t.about.viewDocs} →
             </a>
           </div>
           <div className="bg-light-100 dark:bg-dark-200 p-6 rounded-lg">
             <h3 className="font-minecraft mb-3 text-dark-300 dark:text-light-100">Mineatar API</h3>
-            <p className="text-dark-100 dark:text-light-200 mb-4">High-quality skin rendering service</p>
+            <p className="text-dark-100 dark:text-light-200 mb-4">{t.about.skinRendering}</p>
             <a
               href="https://github.com/mineatar/api"
               target="_blank"
               rel="noopener noreferrer"
               className="text-accent-500 hover:text-accent-400 transition-colors text-sm"
             >
-              View Documentation →
+              {t.about.viewDocs} →
             </a>
           </div>
           <div className="bg-light-100 dark:bg-dark-200 p-6 rounded-lg">
             <h3 className="font-minecraft mb-3 text-dark-300 dark:text-light-100">MCStatus API</h3>
-            <p className="text-dark-100 dark:text-light-200 mb-4">Server status information provider</p>
+            <p className="text-dark-100 dark:text-light-200 mb-4">{t.about.serverStatus}</p>
             <a
               href="https://api.mcstatus.io/"
               target="_blank"
               rel="noopener noreferrer"
               className="text-accent-500 hover:text-accent-400 transition-colors text-sm"
             >
-              View Documentation →
+              {t.about.viewDocs} →
             </a>
           </div>
         </div>
