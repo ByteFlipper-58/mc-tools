@@ -68,42 +68,44 @@ function App() {
             </Suspense>
           </main>
 
-          <footer 
-            className="bg-light-200 dark:bg-dark-300 rounded-t-3xl transition-colors"
-            style={{
-              paddingTop: '1.5rem',
-              paddingRight: `max(1.5rem, ${safeArea.right}px)`,
-              paddingBottom: `max(1.5rem, ${safeArea.bottom}px)`,
-              paddingLeft: `max(1.5rem, ${safeArea.left}px)`,
-            }}
-          >
-            <div className="container mx-auto flex flex-col md:flex-row items-center justify-between gap-4 text-muted-100 dark:text-light-300">
-              <p>© {new Date().getFullYear()} MC Tools. All rights reserved.</p>
-              <div className="flex items-center gap-4">
-                <Link 
-                  to="/privacy" 
-                  className="hover:text-accent-500 transition-colors duration-300"
-                >
-                  Privacy Policy
-                </Link>
-                <Link 
-                  to="/about" 
-                  className="hover:text-accent-500 transition-colors duration-300"
-                >
-                  {t.common.about}
-                </Link>
-                <a
-                  href="https://github.com/byteflipper-58/mc-tools"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex items-center gap-2 hover:text-accent-500 transition-colors duration-300"
-                >
-                  <Github className="w-5 h-5" />
-                  {t.home.viewOnGithub}
-                </a>
+          {!webApp && (
+            <footer 
+              className="bg-light-200 dark:bg-dark-300 rounded-t-3xl transition-colors"
+              style={{
+                paddingTop: '1.5rem',
+                paddingRight: `max(1.5rem, ${safeArea.right}px)`,
+                paddingBottom: `max(1.5rem, ${safeArea.bottom}px)`,
+                paddingLeft: `max(1.5rem, ${safeArea.left}px)`,
+              }}
+            >
+              <div className="container mx-auto flex flex-col md:flex-row items-center justify-between gap-4 text-muted-100 dark:text-light-300">
+                <p>© {new Date().getFullYear()} MC Tools. All rights reserved.</p>
+                <div className="flex items-center gap-4">
+                  <Link 
+                    to="/privacy" 
+                    className="hover:text-accent-500 transition-colors duration-300"
+                  >
+                    Privacy Policy
+                  </Link>
+                  <Link 
+                    to="/about" 
+                    className="hover:text-accent-500 transition-colors duration-300"
+                  >
+                    {t.common.about}
+                  </Link>
+                  <a
+                    href="https://github.com/byteflipper-58/mc-tools"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center gap-2 hover:text-accent-500 transition-colors duration-300"
+                  >
+                    <Github className="w-5 h-5" />
+                    {t.home.viewOnGithub}
+                  </a>
+                </div>
               </div>
-            </div>
-          </footer>
+            </footer>
+          )}
         </div>
       </Router>
     </ThemeProvider>

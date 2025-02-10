@@ -26,11 +26,20 @@ interface TelegramWebApp {
     show: () => void;
     hide: () => void;
   };
+  SettingsButton: {
+    isVisible: boolean;
+    onClick: (callback: () => void) => void;
+    offClick: (callback: () => void) => void;
+    show: () => void;
+    hide: () => void;
+  };
   platform: string;
   colorScheme: 'light' | 'dark';
   themeParams: Record<string, string>;
   initData: string;
   initDataUnsafe: Record<string, any>;
+  requestFullscreen: () => void;
+  exitFullscreen: () => void;
 }
 
 declare global {
@@ -57,5 +66,14 @@ export const initTelegramWebApp = () => {
     const webApp = window.Telegram.WebApp;
     webApp.ready();
     webApp.expand();
+
+    // Show settings button in Telegram menu
+    webApp.SettingsButton.show();
+    webApp.SettingsButton.onClick(() => {
+      window.location.href = '/settings';
+    });
+
+    // Request fullscreen mode
+    webApp.requestFullscreen();
   }
 };

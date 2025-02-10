@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef, memo } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { Menu, X, ChevronDown, Server, Compass, Flame, User, Info, Settings } from 'lucide-react';
 import MCToolsLogo from './MCToolsLogo';
 import { useTranslation } from '../../lib/i18n';
@@ -17,6 +17,7 @@ const NavigationMenu = memo(function NavigationMenu() {
   const [isToolsOpen, setIsToolsOpen] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
   const location = useLocation();
+  const navigate = useNavigate();
   const t = useTranslation();
   const webApp = useTelegramWebApp();
 
@@ -39,10 +40,33 @@ const NavigationMenu = memo(function NavigationMenu() {
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
+  // Setup Telegram back button
+  useEffect(() => {
+    if (webApp && location.pathname !== '/') {
+      webApp.BackButton.show();
+      webApp.BackButton.onClick(() => {
+        navigate(-1);
+      });
+    } else if (webApp) {
+      webApp.BackButton.hide();
+    }
+
+    return () => {
+      if (webApp) {
+        webApp.BackButton.offClick(() => {});
+      }
+    };
+  }, [webApp, location.pathname, navigate]);
+
   const handleToolClick = () => {
     setIsToolsOpen(false);
     setIsOpen(false);
   };
+
+  // Don't render the navigation menu if we're in Telegram
+  if (webApp) {
+    return null;
+  }
 
   const navStyle = {
     paddingTop: `max(1rem, ${safeArea.top}px)`,
