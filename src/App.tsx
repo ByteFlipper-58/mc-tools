@@ -31,6 +31,7 @@ function ScrollToTop() {
 function App() {
   const webApp = useTelegramWebApp();
   const t = useTranslation();
+  const isTelegram = !!webApp;
 
   useEffect(() => {
     initTelegramWebApp();
@@ -40,7 +41,7 @@ function App() {
   const safeArea = webApp?.contentSafeAreaInset || { top: 0, right: 0, bottom: 0, left: 0 };
 
   const mainStyle = {
-    paddingTop: webApp ? `${safeArea.top}px` : '1.5rem',
+    paddingTop: isTelegram ? `${safeArea.top}px` : '1.5rem',
     paddingRight: `max(1.5rem, ${safeArea.right}px)`,
     paddingBottom: `max(1.5rem, ${safeArea.bottom}px)`,
     paddingLeft: `max(1.5rem, ${safeArea.left}px)`,
@@ -51,7 +52,8 @@ function App() {
       <Router>
         <ScrollToTop />
         <div className="min-h-screen bg-light-100 dark:bg-dark-200 text-dark-200 dark:text-light-100 flex flex-col transition-colors">
-          <NavigationMenu />
+          {/* Only show navigation menu if not in Telegram */}
+          {!isTelegram && <NavigationMenu />}
 
           <main className="container mx-auto flex-grow" style={mainStyle}>
             <Suspense fallback={<LoadingSpinner />}>
@@ -68,7 +70,8 @@ function App() {
             </Suspense>
           </main>
 
-          {!webApp && (
+          {/* Only show footer if not in Telegram */}
+          {!isTelegram && (
             <footer 
               className="bg-light-200 dark:bg-dark-300 rounded-t-3xl transition-colors"
               style={{

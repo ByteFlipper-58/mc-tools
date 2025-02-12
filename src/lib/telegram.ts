@@ -40,6 +40,8 @@ interface TelegramWebApp {
   initDataUnsafe: Record<string, any>;
   requestFullscreen: () => void;
   exitFullscreen: () => void;
+  version: string;
+  isVersionAtLeast: (version: string) => boolean;
 }
 
 declare global {
@@ -51,7 +53,11 @@ declare global {
 }
 
 export const isTelegramWebApp = () => {
-  return !!window.Telegram?.WebApp;
+  try {
+    return !!window.Telegram?.WebApp && !!window.Telegram.WebApp.initData;
+  } catch {
+    return false;
+  }
 };
 
 export const useTelegramWebApp = () => {
@@ -62,18 +68,38 @@ export const useTelegramWebApp = () => {
 };
 
 export const initTelegramWebApp = () => {
-  if (isTelegramWebApp()) {
+  // Only initialize if we're actually in Telegram
+  if (!isTelegramWebApp()) {
+    return false;
+  }
+
+  try {
     const webApp = window.Telegram.WebApp;
+    
+    // Initialize the web app
     webApp.ready();
     webApp.expand();
 
     // Show settings button in Telegram menu
-    webApp.SettingsButton.show();
-    webApp.SettingsButton.onClick(() => {
-      window.location.href = '/settings';
-    });
+    if (webApp.isVersionAtLeast('7.0')) {
+      webApp.SettingsButton.show();
+      webApp.SettingsButton.onClick(() => {
+        window.location.href = '/settings';
+      });
+    }
 
-    // Request fullscreen mode
-    webApp.requestFullscreen();
+    // Request fullscreen mode if supported (Bot API 8.0+)
+    if (webApp.isVersionAtLeast('8.0')) {
+      try {
+        webApp.requestFullscreen();
+      } catch (error) {
+        console.debug('Fullscreen mode not supported');
+      }
+    }
+
+    return true;
+  } catch (error) {
+    console.debug('Failed to initialize Telegram Web App:', error);
+    return false;
   }
 };
