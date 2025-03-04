@@ -1,4 +1,4 @@
-import { Suspense, lazy, useEffect } from 'react';
+import { Suspense, lazy, useEffect, useState } from 'react';
 import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
 import SidebarNavigation from './components/ui/SidebarNavigation';
 import MobileNavigation from './components/ui/MobileNavigation';
@@ -33,6 +33,7 @@ function App() {
   const webApp = useTelegramWebApp();
   const t = useTranslation();
   const isTelegram = !!webApp;
+  const [windowWidth, setWindowWidth] = useState(typeof window !== 'undefined' ? window.innerWidth : 0);
 
   useEffect(() => {
     try {
@@ -40,6 +41,15 @@ function App() {
     } catch (error) {
       console.error("Failed to initialize Telegram Web App:", error);
     }
+  }, []);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setWindowWidth(window.innerWidth);
+    };
+
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
   }, []);
 
   // Get safe area insets for Telegram Mini App
@@ -60,13 +70,13 @@ function App() {
           <main 
             className={`flex-grow ${!isTelegram ? 'md:ml-64' : ''}`}
             style={{
-              paddingTop: isTelegram ? `${safeArea.top}px` : '1.5rem',
-              paddingRight: `max(1.5rem, ${safeArea.right}px)`,
+              paddingTop: isTelegram ? `${safeArea.top + 16}px` : '1.5rem',
+              paddingRight: isTelegram || windowWidth < 768 ? `max(0.75rem, ${safeArea.right}px)` : `max(1.5rem, ${safeArea.right}px)`,
               paddingBottom: `max(1.5rem, ${safeArea.bottom}px)`,
-              paddingLeft: `max(1.5rem, ${safeArea.left}px)`,
+              paddingLeft: isTelegram || windowWidth < 768 ? `max(0.75rem, ${safeArea.left}px)` : `max(1.5rem, ${safeArea.left}px)`,
             }}
           >
-            <div className="container mx-auto px-4">
+            <div className="container mx-auto px-2 sm:px-3 md:px-4">
               <Suspense fallback={<LoadingSpinner />}>
                 <Routes>
                   <Route path="/" element={<MainScreen />} />

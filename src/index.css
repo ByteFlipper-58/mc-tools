@@ -49,7 +49,7 @@
 /* Base styles for form elements */
 @layer components {
   .input-base {
-    @apply w-full bg-dark-200 border border-dark-400 rounded-lg px-4 py-2 
+    @apply w-full bg-dark-200 border border-dark-400 rounded-lg px-3 py-2 
     text-light-100
     placeholder:text-light-300
     focus:outline-none focus:border-accent-500 focus:ring-1 focus:ring-accent-500
@@ -58,7 +58,7 @@
   }
 
   .button-base {
-    @apply px-4 py-2 rounded-lg font-minecraft
+    @apply px-3 py-2 rounded-lg font-minecraft
     disabled:opacity-50 disabled:cursor-not-allowed
     transition-all duration-300;
   }
@@ -130,4 +130,37 @@
 /* Mobile header styles */
 .mobile-header {
   @apply bg-dark-300 p-4 md:hidden sticky top-0 z-50 shadow-md;
+}
+
+/* Responsive padding adjustments */
+@media (max-width: 768px) {
+  .mobile-padding-sm {
+    padding: 0.75rem;
+  }
+  
+  .mobile-rounded-sm {
+    border-radius: 0.375rem;
+  }
+  
+  .mobile-gap-sm {
+    gap: 0.75rem;
+  }
+  
+  .mobile-p-sm {
+    padding: 1rem;
+  }
+  
+  .mobile-p-md {
+    padding: 1.25rem;
+  }
+  
+  .mobile-px-sm {
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+  }
+  
+  .mobile-py-sm {
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+  }
 }
