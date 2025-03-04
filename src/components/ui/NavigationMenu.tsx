@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef, memo } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { Menu, X, ChevronDown, Server, Compass, Flame, User, Info, Settings } from 'lucide-react';
+import { Menu, X, ChevronDown, Server, Compass, Flame, User, Info, Settings, ArrowLeft } from 'lucide-react';
 import MCToolsLogo from './MCToolsLogo';
 import { useTranslation } from '../../lib/i18n';
 import { useTelegramWebApp } from '../../lib/telegram';
@@ -75,28 +75,43 @@ const NavigationMenu = memo(function NavigationMenu() {
     paddingLeft: `max(1rem, ${safeArea.left}px)`,
   };
 
+  const showBackButton = location.pathname !== '/';
+
   return (
     <nav 
-      className="bg-light-200 dark:bg-dark-300 shadow-lg rounded-b-2xl transition-colors sticky top-0 z-50"
+      className="bg-dark-300 shadow-lg rounded-b-2xl transition-colors sticky top-0 z-50"
       style={navStyle}
     >
       <div className="container mx-auto">
         <div className="flex items-center justify-between">
-          <Link 
-            to="/" 
-            className="text-xl font-minecraft flex items-center gap-2 hover:text-accent-500 transition-colors duration-300"
-          >
-            <div className="bg-light-300/50 dark:bg-dark-400/50 p-1.5 rounded-lg transition-colors">
-              <MCToolsLogo />
-            </div>
-            <span className="hidden sm:inline">MC Tools</span>
-          </Link>
+          <div className="flex items-center gap-2">
+            {/* Back button for mobile */}
+            {showBackButton && (
+              <button
+                onClick={() => navigate(-1)}
+                className="md:hidden text-light-300 hover:text-accent-500 transition-colors duration-300 mr-2"
+                aria-label="Go back"
+              >
+                <ArrowLeft className="w-6 h-6" />
+              </button>
+            )}
+            
+            <Link 
+              to="/" 
+              className="text-xl font-minecraft flex items-center gap-2 hover:text-accent-500 transition-colors duration-300"
+            >
+              <div className="bg-dark-400/50 p-1.5 rounded-lg transition-colors">
+                <MCToolsLogo />
+              </div>
+              <span className="hidden sm:inline">MC Tools</span>
+            </Link>
+          </div>
 
           {/* Mobile menu button */}
           <div className="flex md:hidden">
             <button
               onClick={() => setIsOpen(!isOpen)}
-              className="text-muted-100 dark:text-light-300 hover:text-accent-500 transition-colors duration-300"
+              className="text-light-300 hover:text-accent-500 transition-colors duration-300"
               aria-label={isOpen ? 'Close menu' : 'Open menu'}
             >
               {isOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
@@ -108,7 +123,7 @@ const NavigationMenu = memo(function NavigationMenu() {
             <div className="relative">
               <button
                 onClick={() => setIsToolsOpen(!isToolsOpen)}
-                className="flex items-center gap-2 hover:text-accent-500 transition-colors duration-300 px-2 py-1 text-dark-200 dark:text-light-100"
+                className="flex items-center gap-2 hover:text-accent-500 transition-colors duration-300 px-2 py-1 text-light-100"
                 aria-expanded={isToolsOpen}
                 aria-haspopup="true"
               >
@@ -118,7 +133,7 @@ const NavigationMenu = memo(function NavigationMenu() {
 
               {/* Desktop dropdown */}
               <div 
-                className={`absolute right-0 mt-2 w-56 bg-light-200 dark:bg-dark-300 rounded-xl shadow-lg overflow-hidden transition-all duration-300 transform origin-top ${
+                className={`absolute right-0 mt-2 w-56 bg-dark-300 rounded-xl shadow-lg overflow-hidden transition-all duration-300 transform origin-top ${
                   isToolsOpen ? 'opacity-100 visible scale-100' : 'opacity-0 invisible scale-95'
                 }`}
                 role="menu"
@@ -127,7 +142,7 @@ const NavigationMenu = memo(function NavigationMenu() {
                   <Link
                     key={tool.to}
                     to={tool.to}
-                    className="flex items-center gap-3 px-4 py-3 hover:bg-light-300 dark:hover:bg-dark-400 transition-colors duration-300 text-dark-200 dark:text-light-100"
+                    className="flex items-center gap-3 px-4 py-3 hover:bg-dark-400 transition-colors duration-300 text-light-100"
                     role="menuitem"
                     onClick={handleToolClick}
                   >
@@ -139,14 +154,14 @@ const NavigationMenu = memo(function NavigationMenu() {
             </div>
             <Link
               to="/about"
-              className="flex items-center gap-2 hover:text-accent-500 transition-colors duration-300 px-2 py-1 text-dark-200 dark:text-light-100"
+              className="flex items-center gap-2 hover:text-accent-500 transition-colors duration-300 px-2 py-1 text-light-100"
             >
               <Info className="w-5 h-5" />
               <span>{t.common.about}</span>
             </Link>
             <Link
               to="/settings"
-              className="flex items-center gap-2 hover:text-accent-500 transition-colors duration-300 px-2 py-1 text-dark-200 dark:text-light-100"
+              className="flex items-center gap-2 hover:text-accent-500 transition-colors duration-300 px-2 py-1 text-light-100"
             >
               <Settings className="w-5 h-5" />
               <span>{t.common.settings}</span>
@@ -164,7 +179,7 @@ const NavigationMenu = memo(function NavigationMenu() {
           <div className="pt-4 pb-3 space-y-1">
             <button
               onClick={() => setIsToolsOpen(!isToolsOpen)}
-              className="w-full flex items-center justify-between px-4 py-2 hover:bg-light-300 dark:hover:bg-dark-400 rounded-lg transition-colors duration-300 text-dark-200 dark:text-light-100"
+              className="w-full flex items-center justify-between px-4 py-2 hover:bg-dark-400 rounded-lg transition-colors duration-300 text-light-100"
               aria-expanded={isToolsOpen}
               aria-haspopup="true"
             >
@@ -183,7 +198,7 @@ const NavigationMenu = memo(function NavigationMenu() {
                 <Link
                   key={tool.to}
                   to={tool.to}
-                  className="flex items-center gap-3 px-6 py-2 hover:bg-light-300 dark:hover:bg-dark-400 rounded-lg transition-colors duration-300 text-dark-200 dark:text-light-100"
+                  className="flex items-center gap-3 px-6 py-2 hover:bg-dark-400 rounded-lg transition-colors duration-300 text-light-100"
                   role="menuitem"
                   onClick={handleToolClick}
                 >
@@ -195,7 +210,7 @@ const NavigationMenu = memo(function NavigationMenu() {
 
             <Link
               to="/about"
-              className="flex items-center gap-3 px-4 py-2 hover:bg-light-300 dark:hover:bg-dark-400 rounded-lg transition-colors duration-300 text-dark-200 dark:text-light-100"
+              className="flex items-center gap-3 px-4 py-2 hover:bg-dark-400 rounded-lg transition-colors duration-300 text-light-100"
               role="menuitem"
               onClick={handleToolClick}
             >
@@ -205,7 +220,7 @@ const NavigationMenu = memo(function NavigationMenu() {
 
             <Link
               to="/settings"
-              className="flex items-center gap-3 px-4 py-2 hover:bg-light-300 dark:hover:bg-dark-400 rounded-lg transition-colors duration-300 text-dark-200 dark:text-light-100"
+              className="flex items-center gap-3 px-4 py-2 hover:bg-dark-400 rounded-lg transition-colors duration-300 text-light-100"
               role="menuitem"
               onClick={handleToolClick}
             >

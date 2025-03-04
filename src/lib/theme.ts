@@ -1,14 +1,15 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 
-export type ThemeMode = 'light' | 'dark' | 'auto';
+// We're removing light and auto modes, keeping only dark
+export type ThemeMode = 'dark';
 
 interface ThemeState {
   mode: ThemeMode;
   setMode: (mode: ThemeMode) => void;
 }
 
-// Define our color palette
+// Updated color palette with darker shades
 export const colors = {
   accent: {
     50: '#8bc34b',
@@ -29,38 +30,26 @@ export const colors = {
     200: '#3c4444',
     300: '#4c4747',
   },
-  light: {
-    50: '#ffffff',
-    100: '#f4faef',
-    200: '#eaf4de',
-    300: '#dfefce',
-    400: '#d5e9be',
-    500: '#cae4ad',
-    600: '#c0de9d',
-    700: '#b5d98c',
-    800: '#abd37c',
-    900: '#a0ce6c',
-    950: '#96c85b',
-  },
+  // Removed light colors
   dark: {
     50: '#000000',
-    100: '#0d1207',
-    200: '#19230e',
-    300: '#263514',
-    400: '#33471b',
-    500: '#3f5922',
-    600: '#4c6a29',
-    700: '#587c30',
-    800: '#658e37',
-    900: '#72a03d',
-    950: '#7eb144',
+    100: '#080c05',
+    200: '#101c0a',
+    300: '#19230e',
+    400: '#1e2a12',
+    500: '#263514',
+    600: '#2d3f19',
+    700: '#344a1e',
+    800: '#3b5423',
+    900: '#425f28',
+    950: '#4a692d',
   },
 };
 
 export const useThemeStore = create<ThemeState>()(
   persist(
     (set) => ({
-      mode: 'auto',
+      mode: 'dark',
       setMode: (mode) => set({ mode }),
     }),
     {
@@ -69,7 +58,7 @@ export const useThemeStore = create<ThemeState>()(
   )
 );
 
-export const getSystemTheme = (): 'light' | 'dark' => {
-  if (typeof window === 'undefined') return 'light';
-  return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+// No longer needed as we only have dark mode
+export const getSystemTheme = (): 'dark' => {
+  return 'dark';
 };

@@ -1,7 +1,7 @@
 import React from 'react';
-import ToolsList from './ui/ToolsList';
+import ToolsList from '../components/ui/ToolsList';
 import { useTranslation } from '../lib/i18n';
-import MCToolsLogo from './ui/MCToolsLogo';
+import MCToolsLogo from '../components/ui/MCToolsLogo';
 
 function MainScreen() {
   const t = useTranslation();

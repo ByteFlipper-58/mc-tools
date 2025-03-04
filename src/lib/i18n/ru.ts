@@ -34,6 +34,7 @@ export default {
     address: 'Адрес',
     update: 'Обновить',
     add: 'Добавить',
+    back: 'Назад',
   },
   home: {
     title: 'MC Tools',

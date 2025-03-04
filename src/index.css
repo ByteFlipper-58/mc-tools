@@ -7,25 +7,58 @@
   src: url('https://cdn.jsdelivr.net/gh/South-Paw/typeface-minecraft@master/font/minecraft.woff2') format('woff2');
   font-weight: normal;
   font-style: normal;
+  font-display: swap;
 }
 
 .font-minecraft {
   font-family: 'Minecraft', monospace;
 }
 
+/* Custom Scrollbar Styles */
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+::-webkit-scrollbar-track {
+  @apply bg-dark-200;
+  border-radius: 8px;
+}
+
+::-webkit-scrollbar-thumb {
+  @apply bg-accent-500/50 hover:bg-accent-500/70;
+  border-radius: 8px;
+  transition: background-color 0.3s ease;
+}
+
+::-webkit-scrollbar-corner {
+  @apply bg-dark-200;
+}
+
+/* Firefox scrollbar */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--scrollbar-thumb) var(--scrollbar-track);
+}
+
+:root {
+  --scrollbar-thumb: rgba(104, 144, 68, 0.5);
+  --scrollbar-track: #19230e;
+}
+
 /* Base styles for form elements */
 @layer components {
   .input-base {
-    @apply w-full bg-light-100 dark:bg-dark-200 border border-light-300 dark:border-dark-400 rounded-lg px-4 py-2 
-    text-dark-200 dark:text-light-100
-    placeholder:text-muted-100 dark:placeholder:text-light-300
+    @apply w-full bg-dark-200 border border-dark-400 rounded-lg px-4 py-2 
+    text-light-100
+    placeholder:text-light-300
     focus:outline-none focus:border-accent-500 focus:ring-1 focus:ring-accent-500
     disabled:opacity-50 disabled:cursor-not-allowed
     transition-colors duration-300;
   }
 
   .button-base {
-    @apply px-6 py-2 rounded-lg font-minecraft
+    @apply px-4 py-2 rounded-lg font-minecraft
     disabled:opacity-50 disabled:cursor-not-allowed
     transition-all duration-300;
   }
@@ -39,9 +72,9 @@
 
   .button-secondary {
     @apply button-base
-    bg-light-300 dark:bg-dark-400
-    text-dark-200 dark:text-light-100
-    hover:bg-light-400 dark:hover:bg-dark-500;
+    bg-dark-400
+    text-light-100
+    hover:bg-dark-500;
   }
 
   .button-danger {
@@ -51,7 +84,7 @@
   }
 
   .card-base {
-    @apply bg-light-200 dark:bg-dark-300
+    @apply bg-dark-300
     rounded-lg shadow-sm
     transition-colors duration-300;
   }
@@ -86,3 +119,10 @@
 .minecraft-colors .light-purple { color: #FF55FF; }
 .minecraft-colors .yellow { color: #FFFF55; }
 .minecraft-colors .white { color: #FFFFFF; }
+
+/* Add padding at the bottom for mobile navigation */
+@media (max-width: 768px) {
+  body {
+    padding-bottom: 4rem;
+  }
+}

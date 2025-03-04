@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { ArrowRight } from 'lucide-react';
-import CoordinateSection from './nether/CoordinateSection';
-import TipsSection from './nether/TipsSection';
+import CoordinateSection from '../components/nether/CoordinateSection';
+import TipsSection from '../components/nether/TipsSection';
 import { useTranslation } from '../lib/i18n';
 
 interface Coordinates {

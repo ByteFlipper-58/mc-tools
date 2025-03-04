@@ -90,12 +90,12 @@ function PlayerInfo() {
             {loading ? (
               <>
                 <RotateCw className="w-5 h-5 animate-spin" />
-                {t.common.searching}
+                <span>{t.common.searching}</span>
               </>
             ) : (
               <>
                 <Search className="w-5 h-5" />
-                {t.player.searchPlayer}
+                <span>{t.player.searchPlayer}</span>
               </>
             )}
           </button>
@@ -180,7 +180,7 @@ function PlayerInfo() {
                   rel="noopener noreferrer"
                 >
                   <Download className="w-4 h-4" />
-                  {t.player.downloadSkin}
+                  <span>{t.player.downloadSkin}</span>
                 </a>
               </div>
             </div>

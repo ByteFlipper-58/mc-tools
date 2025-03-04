@@ -10,7 +10,7 @@ interface CoordinateInputProps {
 function CoordinateInput({ label, value, onChange, placeholder }: CoordinateInputProps) {
   return (
     <div>
-      <label className="block text-sm text-muted-100 dark:text-light-300 mb-1">{label}</label>
+      <label className="block text-sm text-light-300 mb-1">{label}</label>
       <input
         type="number"
         value={value}

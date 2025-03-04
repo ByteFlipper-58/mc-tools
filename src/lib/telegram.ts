@@ -88,8 +88,8 @@ export const initTelegramWebApp = () => {
       });
     }
 
-    // Request fullscreen mode if supported (Bot API 8.0+)
-    if (webApp.isVersionAtLeast('8.0')) {
+    // Request fullscreen mode if supported (Bot API 8.0+) and on mobile devices
+    if (webApp.isVersionAtLeast('8.0') && isMobileDevice()) {
       try {
         webApp.requestFullscreen();
       } catch (error) {
@@ -97,9 +97,20 @@ export const initTelegramWebApp = () => {
       }
     }
 
+    // Setup back button
+    webApp.BackButton.onClick(() => {
+      window.history.back();
+    });
+
     return true;
   } catch (error) {
-    console.debug('Failed to initialize Telegram Web App:', error);
+    console.error('Failed to initialize Telegram Web App:', error);
     return false;
   }
 };
+
+// Helper function to detect mobile devices
+function isMobileDevice() {
+  const userAgent = navigator.userAgent.toLowerCase();
+  return /android|webos|iphone|ipad|ipod|blackberry|iemobile|opera mini/i.test(userAgent);
+}

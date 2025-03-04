@@ -5,9 +5,9 @@ function TipsSection() {
   const t = useTranslation();
 
   return (
-    <div className="mt-8 p-4 bg-light-100 dark:bg-dark-200 rounded-lg">
-      <h3 className="font-minecraft text-lg mb-3 text-dark-200 dark:text-light-100">{t.nether.tips.title}</h3>
-      <ul className="space-y-2 text-muted-100 dark:text-light-300 text-sm">
+    <div className="mt-8 p-4 bg-dark-200 rounded-lg">
+      <h3 className="font-minecraft text-lg mb-3 text-light-100">{t.nether.tips.title}</h3>
+      <ul className="space-y-2 text-light-300 text-sm">
         <li>• {t.nether.tips.tip1}</li>
         <li>• {t.nether.tips.tip2}</li>
         <li>• {t.nether.tips.tip3}</li>
