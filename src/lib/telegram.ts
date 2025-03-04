@@ -1,3 +1,6 @@
+import { useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+
 interface TelegramWebApp {
   ready: () => void;
   expand: () => void;
@@ -67,6 +70,33 @@ export const useTelegramWebApp = () => {
   return window.Telegram.WebApp;
 };
 
+export const useTelegramBackButton = (shouldShow: boolean) => {
+  const webApp = useTelegramWebApp();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (!webApp) return;
+
+    const handleBackClick = () => {
+      navigate('/');
+    };
+
+    if (shouldShow) {
+      webApp.BackButton.show();
+      webApp.BackButton.onClick(handleBackClick);
+    } else {
+      webApp.BackButton.hide();
+      webApp.BackButton.offClick(handleBackClick);
+    }
+
+    return () => {
+      if (webApp) {
+        webApp.BackButton.offClick(handleBackClick);
+      }
+    };
+  }, [webApp, shouldShow, navigate]);
+};
+
 export const initTelegramWebApp = () => {
   // Only initialize if we're actually in Telegram
   if (!isTelegramWebApp()) {
@@ -96,11 +126,6 @@ export const initTelegramWebApp = () => {
         console.debug('Fullscreen mode not supported');
       }
     }
-
-    // Setup back button
-    webApp.BackButton.onClick(() => {
-      window.history.back();
-    });
 
     return true;
   } catch (error) {

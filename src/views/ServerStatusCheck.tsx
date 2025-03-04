@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
-import { Server, Users, Globe, Signal, ChevronDown, ChevronUp, Puzzle, Plug as Plugin } from 'lucide-react';
+import { Server, Users, Globe, Signal, Puzzle, Plug as Plugin } from 'lucide-react';
 import { useTranslation } from '../lib/i18n';
 import CollapsibleCard from '../components/server/CollapsibleCard';
+import { useTelegramBackButton } from '../lib/telegram';
 
 interface ServerStatus {
   online: boolean;
@@ -44,6 +45,9 @@ function ServerStatusCheck() {
   const [serverInfo, setServerInfo] = useState<ServerStatus | null>(null);
   const [error, setError] = useState<string | null>(null);
   const t = useTranslation();
+  
+  // Enable Telegram back button
+  useTelegramBackButton(true);
 
   const checkServer = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -72,18 +76,18 @@ function ServerStatusCheck() {
       </h1>
 
       <form onSubmit={checkServer} className="mb-6">
-        <div className="flex gap-4">
+        <div className="flex flex-col md:flex-row gap-4">
           <input
             type="text"
             value={serverAddress}
             onChange={(e) => setServerAddress(e.target.value)}
             placeholder={t.common.enterServerAddress}
-            className="input-base flex-1"
+            className="input-base w-full"
           />
           <button
             type="submit"
             disabled={loading || !serverAddress}
-            className="button-primary"
+            className="button-primary md:w-auto w-full"
           >
             {loading ? t.common.checking : t.server.checkServer}
           </button>

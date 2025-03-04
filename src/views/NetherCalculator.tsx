@@ -3,6 +3,7 @@ import { ArrowRight } from 'lucide-react';
 import CoordinateSection from '../components/nether/CoordinateSection';
 import TipsSection from '../components/nether/TipsSection';
 import { useTranslation } from '../lib/i18n';
+import { useTelegramBackButton } from '../lib/telegram';
 
 interface Coordinates {
   x: string;
@@ -14,6 +15,9 @@ function NetherCalculator() {
   const [overworldCoords, setOverworldCoords] = useState<Coordinates>({ x: '0', y: '64', z: '0' });
   const [netherCoords, setNetherCoords] = useState<Coordinates>({ x: '0', y: '64', z: '0' });
   const t = useTranslation();
+  
+  // Enable Telegram back button
+  useTelegramBackButton(true);
 
   const handleOverworldChange = (axis: keyof Coordinates, value: string) => {
     setOverworldCoords(prev => ({ ...prev, [axis]: value }));

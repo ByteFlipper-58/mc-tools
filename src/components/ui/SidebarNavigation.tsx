@@ -3,10 +3,17 @@ import { Link, useLocation } from 'react-router-dom';
 import { Server, Compass, Flame, User, Settings, Info } from 'lucide-react';
 import MCToolsLogo from './MCToolsLogo';
 import { useTranslation } from '../../lib/i18n';
+import { useTelegramWebApp } from '../../lib/telegram';
 
 function SidebarNavigation() {
   const location = useLocation();
   const t = useTranslation();
+  const webApp = useTelegramWebApp();
+  
+  // Don't render the sidebar if we're in Telegram
+  if (webApp) {
+    return null;
+  }
   
   const navItems = [
     { to: '/server-status', icon: Server, label: t.nav.serverStatus },
@@ -64,6 +71,7 @@ function SidebarNavigation() {
           }`}
         >
           <Info className="w-5 h-5" />
+          <span className="font-minecraft text-sm">{t.common.about}</span>
         </Link>
         <Link
           to="/settings"

@@ -1,8 +1,8 @@
 import { Suspense, lazy, useEffect } from 'react';
-import { BrowserRouter as Router, Routes, Route, Link, useLocation } from 'react-router-dom';
-import { Github } from 'lucide-react';
+import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
 import SidebarNavigation from './components/ui/SidebarNavigation';
 import MobileNavigation from './components/ui/MobileNavigation';
+import MobileHeader from './components/ui/MobileHeader';
 import ThemeProvider from './components/ThemeProvider';
 import LoadingSpinner from './components/ui/LoadingSpinner';
 import { initTelegramWebApp, useTelegramWebApp } from './lib/telegram';
@@ -50,8 +50,11 @@ function App() {
       <Router>
         <ScrollToTop />
         <div className="min-h-screen bg-dark-200 text-light-100 flex flex-col transition-colors">
+          {/* Mobile Header for non-Telegram */}
+          <MobileHeader />
+          
           {/* Sidebar for desktop */}
-          {!isTelegram && <SidebarNavigation />}
+          <SidebarNavigation />
 
           {/* Main content */}
           <main 
@@ -80,7 +83,7 @@ function App() {
           </main>
 
           {/* Mobile navigation */}
-          {!isTelegram && <MobileNavigation />}
+          <MobileNavigation />
         </div>
       </Router>
     </ThemeProvider>

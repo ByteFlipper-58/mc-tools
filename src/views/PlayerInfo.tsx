@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
-import { Search, User, Hash, RotateCw, Download, Copy, CheckCircle2 } from 'lucide-react';
+import { Search, RotateCw, Download, Copy, CheckCircle2 } from 'lucide-react';
 import { lookupUsername, hyphenateUUID, getPlayerImages } from '../utils/minecraft';
 import { useTranslation } from '../lib/i18n';
+import { useTelegramBackButton } from '../lib/telegram';
 
 interface PlayerData {
   username: string;
@@ -25,6 +26,9 @@ function PlayerInfo() {
   const [error, setError] = useState<string | null>(null);
   const [copiedUUID, setCopiedUUID] = useState<'full' | 'trimmed' | null>(null);
   const t = useTranslation();
+  
+  // Enable Telegram back button
+  useTelegramBackButton(true);
 
   const copyToClipboard = async (text: string, type: 'full' | 'trimmed') => {
     try {

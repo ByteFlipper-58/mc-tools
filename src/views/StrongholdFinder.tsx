@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Compass, Save, Trash2, X, Edit2 } from 'lucide-react';
 import { useTranslation } from '../lib/i18n';
+import { useTelegramBackButton } from '../lib/telegram';
 
 interface ThrowPoint {
   x: number;
@@ -26,6 +27,9 @@ function StrongholdFinder() {
   const [savedLocations, setSavedLocations] = useState<SavedLocation[]>([]);
   const [locationName, setLocationName] = useState('');
   const t = useTranslation();
+  
+  // Enable Telegram back button
+  useTelegramBackButton(true);
 
   const handleInputChange = (field: keyof ThrowPoint, value: string) => {
     const numValue = value === '' ? 0 : Number(value);

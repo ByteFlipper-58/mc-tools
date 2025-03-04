@@ -1,7 +1,11 @@
 import React from 'react';
 import { Shield, Lock, Eye, Database, Globe } from 'lucide-react';
+import { useTelegramBackButton } from '../lib/telegram';
 
 function Privacy() {
+  // Enable Telegram back button
+  useTelegramBackButton(true);
+  
   return (
     <div className="max-w-4xl mx-auto pt-20 md:pt-0">
       <div className="bg-dark-300 p-8 rounded-2xl shadow-sm">

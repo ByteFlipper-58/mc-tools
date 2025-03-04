@@ -126,3 +126,8 @@
     padding-bottom: 4rem;
   }
 }
+
+/* Mobile header styles */
+.mobile-header {
+  @apply bg-dark-300 p-4 md:hidden sticky top-0 z-50 shadow-md;
+}
