@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
-import { Search, User, Hash, RotateCw, Download, Copy, CheckCircle2 } from 'lucide-react';
+import { Search, RotateCw, Download, Copy, CheckCircle2 } from 'lucide-react';
 import { lookupUsername, hyphenateUUID, getPlayerImages } from '../utils/minecraft';
 import { useTranslation } from '../lib/i18n';
+import PageTitle from './PageTitle';
 
 interface PlayerData {
   username: string;
@@ -69,9 +70,7 @@ function PlayerInfo() {
 
   return (
     <div className="max-w-2xl mx-auto">
-      <h1 className="text-2xl font-minecraft mb-6 text-light-100">
-        {t.player.title}
-      </h1>
+      <PageTitle>{t.player.title}</PageTitle>
 
       <form onSubmit={fetchPlayerData} className="mb-6">
         <div className="flex gap-4">

@@ -123,7 +123,7 @@
 /* Add padding at the bottom for mobile navigation */
 @media (max-width: 768px) {
   body {
-    padding-bottom: 4rem;
+    padding-bottom: 0;
   }
 }
 

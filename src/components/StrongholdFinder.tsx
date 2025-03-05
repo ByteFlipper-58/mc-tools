@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Compass, Save, Trash2, X, Edit2 } from 'lucide-react';
 import { useTranslation } from '../lib/i18n';
+import PageTitle from './PageTitle';
 
 interface ThrowPoint {
   x: number;
@@ -140,9 +141,7 @@ function StrongholdFinder() {
 
   return (
     <div className="max-w-2xl mx-auto">
-      <h1 className="text-2xl font-minecraft mb-6 text-light-100">
-        {t.stronghold.title}
-      </h1>
+      <PageTitle>{t.stronghold.title}</PageTitle>
 
       <form onSubmit={addThrow} className="bg-dark-300 p-6 rounded-lg mb-6 shadow-sm">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">

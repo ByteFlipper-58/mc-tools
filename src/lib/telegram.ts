@@ -1,3 +1,4 @@
+import { appConfig } from '../config/app-config';
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
@@ -98,7 +99,6 @@ export const useTelegramBackButton = (shouldShow: boolean) => {
 };
 
 export const initTelegramWebApp = () => {
-  // Only initialize if we're actually in Telegram
   if (!isTelegramWebApp()) {
     return false;
   }
@@ -106,11 +106,9 @@ export const initTelegramWebApp = () => {
   try {
     const webApp = window.Telegram.WebApp;
     
-    // Initialize the web app
     webApp.ready();
     webApp.expand();
 
-    // Show settings button in Telegram menu
     if (webApp.isVersionAtLeast('7.0')) {
       webApp.SettingsButton.show();
       webApp.SettingsButton.onClick(() => {
@@ -118,8 +116,8 @@ export const initTelegramWebApp = () => {
       });
     }
 
-    // Request fullscreen mode if supported (Bot API 8.0+) and on mobile devices
-    if (webApp.isVersionAtLeast('8.0') && isMobileDevice()) {
+    // Use config to control fullscreen behavior
+    if (appConfig.telegram.enableFullscreen && webApp.isVersionAtLeast('8.0') && isMobileDevice()) {
       try {
         webApp.requestFullscreen();
       } catch (error) {
