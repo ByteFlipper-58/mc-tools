@@ -1,6 +1,6 @@
 import { appConfig } from '../config/app-config';
 import { useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 
 interface TelegramWebApp {
   ready: () => void;
@@ -46,6 +46,7 @@ interface TelegramWebApp {
   exitFullscreen: () => void;
   version: string;
   isVersionAtLeast: (version: string) => boolean;
+  disableVerticalSwipes: () => void;
 }
 
 declare global {
@@ -74,13 +75,20 @@ export const useTelegramWebApp = () => {
 export const useTelegramBackButton = (shouldShow: boolean) => {
   const webApp = useTelegramWebApp();
   const navigate = useNavigate();
+  const location = useLocation();
 
   useEffect(() => {
     if (!webApp) return;
 
     const handleBackClick = () => {
-      navigate('/');
+      navigate(-1);
     };
+
+    // Hide back button on main page and about page
+    if (location.pathname === '/' || location.pathname === '/about') {
+      webApp.BackButton.hide();
+      return;
+    }
 
     if (shouldShow) {
       webApp.BackButton.show();
@@ -95,7 +103,7 @@ export const useTelegramBackButton = (shouldShow: boolean) => {
         webApp.BackButton.offClick(handleBackClick);
       }
     };
-  }, [webApp, shouldShow, navigate]);
+  }, [webApp, shouldShow, navigate, location.pathname]);
 };
 
 export const initTelegramWebApp = () => {
@@ -108,6 +116,11 @@ export const initTelegramWebApp = () => {
     
     webApp.ready();
     webApp.expand();
+
+    // Disable vertical swipes if supported
+    if (webApp.isVersionAtLeast('7.7')) {
+      webApp.disableVerticalSwipes();
+    }
 
     if (webApp.isVersionAtLeast('7.0')) {
       webApp.SettingsButton.show();

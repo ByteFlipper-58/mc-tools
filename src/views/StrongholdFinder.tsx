@@ -208,7 +208,7 @@ function StrongholdFinder() {
         <div className="bg-dark-300 p-6 rounded-lg mb-6 shadow-sm">
           <h2 className="text-xl font-minecraft mb-4 text-light-100">{t.stronghold.recorded.title}</h2>
           <div className="space-y-4">
-            {throws.map((t, i) => (
+            {throws.map((throwPoint, i) => (
               <div key={i} className="flex items-center justify-between gap-4 bg-dark-200 p-3 rounded-lg">
                 <div className="flex items-center gap-4">
                   <Compass className="w-5 h-5 text-accent-500" />
@@ -216,7 +216,7 @@ function StrongholdFinder() {
                     <span className="text-light-300">
                       {t.stronghold.throw.title.replace('{number}', String(i + 1))}:
                     </span>{' '}
-                    X: {t.x}, Z: {t.z}, {t.common.angle}: {t.angle}°
+                    X: {throwPoint.x}, Z: {throwPoint.z}, {t.common.angle}: {throwPoint.angle}°
                   </div>
                 </div>
                 <div className="flex items-center gap-2">
