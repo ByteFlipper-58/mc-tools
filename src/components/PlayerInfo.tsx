@@ -69,7 +69,7 @@ function PlayerInfo() {
   };
 
   return (
-    <div className="max-w-2xl mx-auto">
+    <div className="max-w-[125%] mx-auto">
       <PageTitle>{t.player.title}</PageTitle>
 
       <form onSubmit={fetchPlayerData} className="mb-6">

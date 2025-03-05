@@ -3,6 +3,7 @@ import { Server, Users, Globe, Signal, Puzzle, Plug as Plugin } from 'lucide-rea
 import { useTranslation } from '../lib/i18n';
 import CollapsibleCard from '../components/server/CollapsibleCard';
 import { useTelegramBackButton } from '../lib/telegram';
+import { logAnalyticsEvent } from '../lib/firebase';
 
 interface ServerStatus {
   online: boolean;
@@ -46,7 +47,6 @@ function ServerStatusCheck() {
   const [error, setError] = useState<string | null>(null);
   const t = useTranslation();
   
-  // Enable Telegram back button
   useTelegramBackButton(true);
 
   const checkServer = async (e: React.FormEvent) => {
@@ -55,15 +55,34 @@ function ServerStatusCheck() {
     setError(null);
     
     try {
+      // Log server check attempt
+      logAnalyticsEvent('server_check', {
+        server_address: serverAddress
+      });
+
       const response = await fetch(`https://api.mcstatus.io/v2/status/java/${serverAddress}`);
       if (!response.ok) {
         throw new Error('Failed to fetch server status');
       }
       const data = await response.json();
       setServerInfo(data);
+
+      // Log successful server check
+      logAnalyticsEvent('server_check_success', {
+        server_address: serverAddress,
+        server_version: data.version.name_clean,
+        players_online: data.players.online
+      });
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Failed to check server status');
+      const errorMessage = err instanceof Error ? err.message : 'Failed to check server status';
+      setError(errorMessage);
       setServerInfo(null);
+
+      // Log failed server check
+      logAnalyticsEvent('server_check_error', {
+        server_address: serverAddress,
+        error_message: errorMessage
+      });
     } finally {
       setLoading(false);
     }
@@ -82,12 +101,12 @@ function ServerStatusCheck() {
             value={serverAddress}
             onChange={(e) => setServerAddress(e.target.value)}
             placeholder={t.common.enterServerAddress}
-            className="input-base w-full"
+            className="input-base w-full md:w-[70%]"
           />
           <button
             type="submit"
             disabled={loading || !serverAddress}
-            className="button-primary md:w-auto w-full"
+            className="button-primary w-full md:w-[30%] flex items-center justify-center gap-2"
           >
             {loading ? t.common.checking : t.server.checkServer}
           </button>
@@ -102,7 +121,6 @@ function ServerStatusCheck() {
 
       {serverInfo && (
         <div className="bg-dark-300 rounded-lg p-6 space-y-6 shadow-sm">
-          {/* Server Icon */}
           {serverInfo.icon && (
             <div className="flex justify-center">
               <img
@@ -113,7 +131,6 @@ function ServerStatusCheck() {
             </div>
           )}
 
-          {/* MOTD */}
           <div className="bg-dark-200 p-4 rounded-lg">
             <h3 className="text-sm text-light-300 mb-2">{t.server.motd}</h3>
             <div 
@@ -122,7 +139,6 @@ function ServerStatusCheck() {
             />
           </div>
 
-          {/* Status Grid */}
           <div className="grid grid-cols-2 gap-6">
             <div className="flex items-center gap-3">
               <Signal className={`w-5 h-5 ${serverInfo.online ? 'text-accent-500' : 'text-red-400'}`} />
@@ -167,9 +183,7 @@ function ServerStatusCheck() {
             </div>
           </div>
 
-          {/* Collapsible Cards */}
           <div className="space-y-4">
-            {/* Players List */}
             {serverInfo.players.list && serverInfo.players.list.length > 0 && (
               <CollapsibleCard
                 title={t.server.onlinePlayers}
@@ -187,7 +201,6 @@ function ServerStatusCheck() {
               </CollapsibleCard>
             )}
 
-            {/* Mods List */}
             {serverInfo.mods && serverInfo.mods.length > 0 ? (
               <CollapsibleCard
                 title={t.server.modCount.replace('{count}', serverInfo.mods.length.toString())}
@@ -208,7 +221,6 @@ function ServerStatusCheck() {
               </div>
             )}
 
-            {/* Plugins List */}
             {serverInfo.plugins && serverInfo.plugins.length > 0 ? (
               <CollapsibleCard
                 title={t.server.pluginCount.replace('{count}', serverInfo.plugins.length.toString())}

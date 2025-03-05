@@ -1,4 +1,3 @@
-import React from 'react';
 import { Github, Heart, Code2, Coffee, Globe, Database, Shield, Zap, Link as LinkIcon } from 'lucide-react';
 import { useTranslation } from '../lib/i18n';
 
@@ -6,9 +5,9 @@ function About() {
   const t = useTranslation();
 
   return (
-    <div className="max-w-4xl mx-auto">
+    <div className="max-w-[125%] mx-auto space-y-8">
       {/* Hero Section */}
-      <div className="relative overflow-hidden bg-dark-300 rounded-2xl p-8 mb-8 shadow-sm">
+      <div className="relative overflow-hidden bg-dark-300 rounded-2xl p-8 shadow-sm">
         <div className="absolute inset-0 bg-gradient-to-br from-accent-500/20 to-accent-600/20" />
         <div className="relative text-center">
           <h1 className="text-3xl md:text-4xl font-minecraft mb-4 text-accent-500">
@@ -20,7 +19,7 @@ function About() {
         </div>
       </div>
 
-      <div className="grid md:grid-cols-2 gap-6 mb-8">
+      <div className="grid md:grid-cols-2 gap-6">
         {/* Project Description */}
         <div className="bg-dark-300 p-6 rounded-xl shadow-sm">
           <div className="flex items-center gap-3 mb-4">
@@ -61,7 +60,7 @@ function About() {
       </div>
 
       {/* Developer & Support */}
-      <div className="grid md:grid-cols-2 gap-6 mb-8">
+      <div className="grid md:grid-cols-2 gap-6">
         {/* Developer Info */}
         <div className="bg-dark-300 p-6 rounded-xl shadow-sm">
           <h2 className="text-xl font-minecraft text-accent-500 mb-4">{t.about.developer}</h2>
@@ -149,8 +148,8 @@ function About() {
 
       {/* API Credits */}
       <div className="bg-dark-300 p-6 rounded-xl shadow-sm">
-        <h2 className="text-xl font-minecraft text-accent-500 mb-4">{t.about.apiCredits}</h2>
-        <div className="grid md:grid-cols-3 gap-4">
+        <h2 className="text-xl font-minecraft text-accent-500 mb-6">{t.about.apiCredits}</h2>
+        <div className="grid md:grid-cols-3 gap-6">
           <div className="bg-dark-200 p-4 rounded-lg">
             <h3 className="font-minecraft mb-2 text-light-100">Ashcon API</h3>
             <p className="text-light-200 text-sm mb-3">{t.about.playerData}</p>

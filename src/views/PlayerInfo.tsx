@@ -3,6 +3,7 @@ import { Search, RotateCw, Download, Copy, CheckCircle2 } from 'lucide-react';
 import { lookupUsername, hyphenateUUID, getPlayerImages } from '../utils/minecraft';
 import { useTranslation } from '../lib/i18n';
 import { useTelegramBackButton } from '../lib/telegram';
+import { logAnalyticsEvent } from '../lib/firebase';
 
 interface PlayerData {
   username: string;
@@ -27,7 +28,6 @@ function PlayerInfo() {
   const [copiedUUID, setCopiedUUID] = useState<'full' | 'trimmed' | null>(null);
   const t = useTranslation();
   
-  // Enable Telegram back button
   useTelegramBackButton(true);
 
   const copyToClipboard = async (text: string, type: 'full' | 'trimmed') => {
@@ -35,6 +35,12 @@ function PlayerInfo() {
       await navigator.clipboard.writeText(text);
       setCopiedUUID(type);
       setTimeout(() => setCopiedUUID(null), 2000);
+
+      // Log copy event
+      logAnalyticsEvent('copy_uuid', {
+        type,
+        username: playerData?.username
+      });
     } catch (err) {
       console.error('Failed to copy:', err);
     }
@@ -49,6 +55,11 @@ function PlayerInfo() {
     setPlayerData(null);
 
     try {
+      // Log player lookup attempt
+      logAnalyticsEvent('player_lookup', {
+        username: username.trim()
+      });
+
       const profile = await lookupUsername(username.trim());
       
       if (!profile) {
@@ -63,9 +74,22 @@ function PlayerInfo() {
 
       setPlayerData(playerInfo);
       setError(null);
+
+      // Log successful lookup
+      logAnalyticsEvent('player_lookup_success', {
+        username: profile.name,
+        uuid: profile.id
+      });
     } catch (err) {
-      setError(err instanceof Error ? err.message : t.player.fetchError);
+      const errorMessage = err instanceof Error ? err.message : t.player.fetchError;
+      setError(errorMessage);
       setPlayerData(null);
+
+      // Log failed lookup
+      logAnalyticsEvent('player_lookup_error', {
+        username: username.trim(),
+        error_message: errorMessage
+      });
     } finally {
       setLoading(false);
     }
@@ -78,18 +102,18 @@ function PlayerInfo() {
       </h1>
 
       <form onSubmit={fetchPlayerData} className="mb-6">
-        <div className="flex gap-4">
+        <div className="flex flex-col md:flex-row gap-4">
           <input
             type="text"
             value={username}
             onChange={(e) => setUsername(e.target.value)}
             placeholder={t.common.enterUsername}
-            className="input-base flex-1"
+            className="input-base w-full md:w-[70%]"
           />
           <button
             type="submit"
             disabled={loading || !username}
-            className="button-primary flex items-center gap-2"
+            className="button-primary w-full md:w-[30%] flex items-center justify-center gap-2"
           >
             {loading ? (
               <>
@@ -115,12 +139,12 @@ function PlayerInfo() {
       {playerData && (
         <div className="space-y-6">
           <div className="flex flex-col md:flex-row gap-5">
-            {/* Full Body Preview */}
             <a
               href={playerData.images.fullBody}
               className="bg-dark-300 p-6 rounded-lg flex flex-col justify-center items-center min-w-[180px] hover:bg-dark-400 transition-colors shadow-sm"
               target="_blank"
               rel="noopener noreferrer"
+              onClick={() => logAnalyticsEvent('view_full_body', { username: playerData.username })}
             >
               <img
                 src={playerData.images.fullBody}
@@ -129,15 +153,12 @@ function PlayerInfo() {
               />
             </a>
 
-            {/* Player Info Cards */}
             <div className="flex flex-col gap-4 grow">
-              {/* Username */}
               <div className="bg-dark-300 p-4 rounded-lg shadow-sm">
                 <p className="text-sm text-light-300 mb-1">{t.common.username}</p>
                 <p className="font-minecraft text-xl text-light-100">{playerData.username}</p>
               </div>
 
-              {/* UUID */}
               <div className="bg-dark-300 p-4 rounded-lg shadow-sm">
                 <p className="text-sm text-light-300 mb-1">{t.common.uuid}</p>
                 <div className="flex flex-col md:flex-row gap-2 md:items-center">
@@ -156,7 +177,6 @@ function PlayerInfo() {
                 </div>
               </div>
 
-              {/* Trimmed UUID */}
               <div className="bg-dark-300 p-4 rounded-lg shadow-sm">
                 <p className="text-sm text-light-300 mb-1">{t.player.trimmedUUID}</p>
                 <div className="flex flex-col md:flex-row gap-2 md:items-center">
@@ -175,13 +195,13 @@ function PlayerInfo() {
                 </div>
               </div>
 
-              {/* Download Raw Skin */}
               <div className="bg-dark-300 p-4 rounded-lg shadow-sm">
                 <a
                   href={`${playerData.images.rawSkin}?download=true`}
-                  className="button-primary inline-flex items-center gap-2"
+                  className="button-primary inline-flex items-center justify-center gap-2 w-full"
                   target="_blank"
                   rel="noopener noreferrer"
+                  onClick={() => logAnalyticsEvent('download_skin', { username: playerData.username })}
                 >
                   <Download className="w-4 h-4" />
                   <span>{t.player.downloadSkin}</span>
@@ -190,7 +210,6 @@ function PlayerInfo() {
             </div>
           </div>
 
-          {/* Body Views */}
           <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
             {[
               { src: playerData.images.frontBody, label: t.player.body.front },
@@ -204,6 +223,10 @@ function PlayerInfo() {
                 className="bg-dark-300 p-4 rounded-lg flex flex-col gap-4 items-center hover:bg-dark-400 transition-colors shadow-sm"
                 target="_blank"
                 rel="noopener noreferrer"
+                onClick={() => logAnalyticsEvent('view_body_side', { 
+                  username: playerData.username,
+                  side: view.label
+                })}
               >
                 <img
                   src={view.src}
@@ -215,13 +238,13 @@ function PlayerInfo() {
             ))}
           </div>
 
-          {/* Face and Head */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <a
               href={playerData.images.face}
               className="bg-dark-300 p-4 rounded-lg flex flex-col gap-4 items-center hover:bg-dark-400 transition-colors shadow-sm"
               target="_blank"
               rel="noopener noreferrer"
+              onClick={() => logAnalyticsEvent('view_face', { username: playerData.username })}
             >
               <img
                 src={playerData.images.face}
@@ -235,6 +258,7 @@ function PlayerInfo() {
               className="bg-dark-300 p-4 rounded-lg flex flex-col gap-4 items-center hover:bg-dark-400 transition-colors shadow-sm"
               target="_blank"
               rel="noopener noreferrer"
+              onClick={() => logAnalyticsEvent('view_head', { username: playerData.username })}
             >
               <img
                 src={playerData.images.head}

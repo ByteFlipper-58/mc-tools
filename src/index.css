@@ -57,6 +57,17 @@
     transition-colors duration-300;
   }
 
+  /* Remove number input spinners */
+  input[type="number"]::-webkit-inner-spin-button,
+  input[type="number"]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+
+  input[type="number"] {
+    -moz-appearance: textfield;
+  }
+
   .button-base {
     @apply px-3 py-2 rounded-lg font-minecraft
     disabled:opacity-50 disabled:cursor-not-allowed
@@ -122,8 +133,13 @@
 
 /* Add padding at the bottom for mobile navigation */
 @media (max-width: 768px) {
+  #root {
+    padding-bottom: 64px;
+    background-color: #101c0a;
+  }
+  
   body {
-    padding-bottom: 0;
+    background-color: #101c0a;
   }
 }
 

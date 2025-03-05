@@ -32,7 +32,7 @@ function NetherCalculator() {
   };
 
   return (
-    <div className="max-w-2xl mx-auto">
+    <div className="max-w-[125%] mx-auto">
       <PageTitle>{t.nether.title}</PageTitle>
 
       <div className="bg-dark-300 p-6 rounded-lg shadow-sm">

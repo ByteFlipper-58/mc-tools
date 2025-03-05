@@ -1,5 +1,5 @@
 import { initializeApp } from 'firebase/app';
-import { getAnalytics, logEvent } from 'firebase/analytics';
+import { getAnalytics, logEvent, setAnalyticsCollectionEnabled } from 'firebase/analytics';
 
 const firebaseConfig = {
   apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
@@ -11,10 +11,34 @@ const firebaseConfig = {
   measurementId: import.meta.env.VITE_FIREBASE_MEASUREMENT_ID
 };
 
-export const app = initializeApp(firebaseConfig);
-export const analytics = getAnalytics(app);
+// Initialize Firebase only in browser environment
+let analytics = null;
+
+if (typeof window !== 'undefined') {
+  try {
+    const app = initializeApp(firebaseConfig);
+    analytics = getAnalytics(app);
+    
+    // Enable analytics collection
+    setAnalyticsCollectionEnabled(analytics, true);
+    
+    // Log app_start event
+    logEvent(analytics, 'app_start');
+  } catch (error) {
+    console.error('Failed to initialize Firebase:', error);
+  }
+}
 
 // Analytics event logging helper
 export const logAnalyticsEvent = (eventName: string, eventParams?: Record<string, any>) => {
-  logEvent(analytics, eventName, eventParams);
+  if (analytics) {
+    try {
+      logEvent(analytics, eventName, eventParams);
+    } catch (error) {
+      console.error('Failed to log analytics event:', error);
+    }
+  }
 };
+
+// Export analytics instance
+export const getFirebaseAnalytics = () => analytics;

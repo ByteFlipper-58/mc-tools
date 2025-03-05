@@ -140,6 +140,12 @@ export default {
     overworldRatio: '8 blocks = 1 block in Nether',
     nether: 'Nether',
     netherRatio: '1 block = 8 blocks in Overworld',
+    coordinates: {
+      x: 'X Coordinate',
+      z: 'Z Coordinate',
+      enterX: 'Enter X coordinate',
+      enterZ: 'Enter Z coordinate',
+    },
     tips: {
       title: 'Tips',
       tip1: 'The Nether is 8 times smaller than the Overworld',
