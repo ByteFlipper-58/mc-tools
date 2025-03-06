@@ -12,16 +12,19 @@
   },
   "dependencies": {
     "firebase": "^10.8.1",
+    "framer-motion": "^11.0.8",
     "lucide-react": "^0.344.0",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-router-dom": "^6.22.3",
+    "react-transition-group": "^4.4.5",
     "zustand": "^4.5.2"
   },
   "devDependencies": {
     "@eslint/js": "^9.9.1",
     "@types/react": "^18.3.5",
     "@types/react-dom": "^18.3.0",
+    "@types/react-transition-group": "^4.4.10",
     "@vitejs/plugin-react": "^4.3.1",
     "autoprefixer": "^10.4.18",
     "cssnano": "^7.0.6",

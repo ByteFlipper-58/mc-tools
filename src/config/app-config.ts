@@ -1,5 +1,5 @@
 export const appConfig = {
   telegram: {
-    enableFullscreen: true, // Control fullscreen behavior in Telegram
+    enableFullscreen: false, // Disable fullscreen in Telegram
   }
 } as const;

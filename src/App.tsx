@@ -1,5 +1,6 @@
-import { Suspense, lazy, useEffect } from 'react';
+import React, { Suspense, lazy } from 'react';
 import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
+import { AnimatePresence, motion } from 'framer-motion';
 import SidebarNavigation from './components/ui/SidebarNavigation';
 import MobileNavigation from './components/ui/MobileNavigation';
 import MobileHeader from './components/ui/MobileHeader';
@@ -19,21 +20,93 @@ const About = lazy(() => import('./views/About'));
 const Settings = lazy(() => import('./views/Settings'));
 const Privacy = lazy(() => import('./views/Privacy'));
 
-// Scroll to top component
-function ScrollToTop() {
-  const { pathname } = useLocation();
+// Animated page wrapper
+function AnimatedPage({ children }: { children: React.ReactNode }) {
+  const pageVariants = {
+    initial: {
+      opacity: 0,
+      y: 10
+    },
+    in: {
+      opacity: 1,
+      y: 0
+    },
+    out: {
+      opacity: 0,
+      y: -10
+    }
+  };
 
-  useEffect(() => {
-    window.scrollTo(0, 0);
-    
-    // Log page view
-    logAnalyticsEvent('page_view', {
-      page_path: pathname,
-      page_title: pathname.substring(1) || 'home'
-    });
-  }, [pathname]);
+  const pageTransition = {
+    type: "tween",
+    ease: "anticipate",
+    duration: 0.3
+  };
 
-  return null;
+  return (
+    <motion.div
+      initial="initial"
+      animate="in"
+      exit="out"
+      variants={pageVariants}
+      transition={pageTransition}
+    >
+      {children}
+    </motion.div>
+  );
+}
+
+// Animated routes wrapper
+function AnimatedRoutes() {
+  const location = useLocation();
+  const t = useTranslation();
+  
+  return (
+    <AnimatePresence mode="wait">
+      <Routes location={location} key={location.pathname}>
+        <Route path="/" element={
+          <AnimatedPage>
+            <MainScreen />
+          </AnimatedPage>
+        } />
+        <Route path="/server-status" element={
+          <AnimatedPage>
+            <ServerStatusCheck />
+          </AnimatedPage>
+        } />
+        <Route path="/stronghold-finder" element={
+          <AnimatedPage>
+            <StrongholdFinder />
+          </AnimatedPage>
+        } />
+        <Route path="/nether-calculator" element={
+          <AnimatedPage>
+            <NetherCalculator />
+          </AnimatedPage>
+        } />
+        <Route path="/player-info" element={
+          <AnimatedPage>
+            <PlayerInfo />
+          </AnimatedPage>
+        } />
+        <Route path="/about" element={
+          <AnimatedPage>
+            <About />
+          </AnimatedPage>
+        } />
+        <Route path="/settings" element={
+          <AnimatedPage>
+            <Settings />
+          </AnimatedPage>
+        } />
+        <Route path="/privacy" element={
+          <AnimatedPage>
+            <Privacy />
+          </AnimatedPage>
+        } />
+      </Routes>
+    </AnimatePresence>
+  );
 }
 
 function App() {
@@ -41,7 +114,7 @@ function App() {
   const t = useTranslation();
   const isTelegram = !!webApp;
 
-  useEffect(() => {
+  React.useEffect(() => {
     try {
       initTelegramWebApp();
       
@@ -61,7 +134,6 @@ function App() {
   return (
     <ThemeProvider>
       <Router>
-        <ScrollToTop />
         <div className="min-h-screen bg-dark-200 text-light-100 flex flex-col transition-colors">
           <MobileHeader />
           <SidebarNavigation />
@@ -69,24 +141,15 @@ function App() {
           <main 
             className={`flex-grow ${!isTelegram ? 'md:ml-64' : ''}`}
             style={{
-              paddingTop: isTelegram ? `${safeArea.top + 16}px` : '1.5rem',
-              paddingRight: `max(1.5rem, ${safeArea.right}px)`,
-              paddingBottom: `max(1.5rem, ${safeArea.bottom}px)`,
-              paddingLeft: `max(1.5rem, ${safeArea.left}px)`,
+              paddingTop: isTelegram ? `${safeArea.top}px` : '0.75rem',
+              paddingRight: `${safeArea.right}px`,
+              paddingBottom: `${safeArea.bottom}px`,
+              paddingLeft: `${safeArea.left}px`,
             }}
           >
-            <div className="container mx-auto px-4 max-w-[125%]">
+            <div className="container mx-auto px-2 sm:px-4">
               <Suspense fallback={<LoadingSpinner />}>
-                <Routes>
-                  <Route path="/" element={<MainScreen />} />
-                  <Route path="/server-status" element={<ServerStatusCheck />} />
-                  <Route path="/stronghold-finder" element={<StrongholdFinder />} />
-                  <Route path="/nether-calculator" element={<NetherCalculator />} />
-                  <Route path="/player-info" element={<PlayerInfo />} />
-                  <Route path="/about" element={<About />} />
-                  <Route path="/settings" element={<Settings />} />
-                  <Route path="/privacy" element={<Privacy />} />
-                </Routes>
+                <AnimatedRoutes />
               </Suspense>
             </div>
           </main>

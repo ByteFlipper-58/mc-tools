@@ -55,7 +55,6 @@ function ServerStatusCheck() {
     setError(null);
     
     try {
-      // Log server check attempt
       logAnalyticsEvent('server_check', {
         server_address: serverAddress
       });
@@ -67,7 +66,6 @@ function ServerStatusCheck() {
       const data = await response.json();
       setServerInfo(data);
 
-      // Log successful server check
       logAnalyticsEvent('server_check_success', {
         server_address: serverAddress,
         server_version: data.version.name_clean,
@@ -78,7 +76,6 @@ function ServerStatusCheck() {
       setError(errorMessage);
       setServerInfo(null);
 
-      // Log failed server check
       logAnalyticsEvent('server_check_error', {
         server_address: serverAddress,
         error_message: errorMessage
@@ -106,7 +103,7 @@ function ServerStatusCheck() {
           <button
             type="submit"
             disabled={loading || !serverAddress}
-            className="button-primary w-full md:w-[30%] flex items-center justify-center gap-2"
+            className="button-primary w-full md:w-[30%]"
           >
             {loading ? t.common.checking : t.server.checkServer}
           </button>
@@ -139,7 +136,8 @@ function ServerStatusCheck() {
             />
           </div>
 
-          <div className="grid grid-cols-2 gap-6">
+          {/* Server Status Info - Desktop */}
+          <div className="hidden md:grid grid-cols-2 gap-6">
             <div className="flex items-center gap-3">
               <Signal className={`w-5 h-5 ${serverInfo.online ? 'text-accent-500' : 'text-red-400'}`} />
               <div>
@@ -173,6 +171,51 @@ function ServerStatusCheck() {
             </div>
 
             <div className="flex items-center gap-3">
+              <Server className="w-5 h-5 text-accent-500" />
+              <div>
+                <div className="text-sm text-light-300">{t.common.address}</div>
+                <div className="font-minecraft text-sm text-light-100">
+                  {serverInfo.host}:{serverInfo.port}
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Server Status Info - Mobile */}
+          <div className="md:hidden space-y-4">
+            <div className="server-status-item">
+              <Signal className={`w-5 h-5 ${serverInfo.online ? 'text-accent-500' : 'text-red-400'}`} />
+              <div>
+                <div className="text-sm text-light-300">{t.common.status}</div>
+                <div className="font-minecraft">
+                  {serverInfo.online ? (
+                    <span className="text-accent-500">{t.common.online}</span>
+                  ) : (
+                    <span className="text-red-400">{t.common.offline}</span>
+                  )}
+                </div>
+              </div>
+            </div>
+
+            <div className="server-status-item">
+              <Users className="w-5 h-5 text-accent-500" />
+              <div>
+                <div className="text-sm text-light-300">{t.common.players}</div>
+                <div className="font-minecraft text-light-100">
+                  {t.server.playerCount.replace('{online}', serverInfo.players.online.toString()).replace('{max}', serverInfo.players.max.toString())}
+                </div>
+              </div>
+            </div>
+
+            <div className="server-status-item">
+              <Globe className="w-5 h-5 text-accent-500" />
+              <div>
+                <div className="text-sm text-light-300">{t.common.version}</div>
+                <div className="font-minecraft text-light-100">{serverInfo.version.name_clean}</div>
+              </div>
+            </div>
+
+            <div className="server-status-item">
               <Server className="w-5 h-5 text-accent-500" />
               <div>
                 <div className="text-sm text-light-300">{t.common.address}</div>

@@ -13,8 +13,8 @@ function BackButton({ className = '' }: BackButtonProps) {
   const t = useTranslation();
   const webApp = useTelegramWebApp();
 
-  // Don't show if we're not in Telegram
-  if (!webApp) {
+  // Don't show back button if we're in Telegram since we use Telegram's native back button
+  if (webApp) {
     return null;
   }
 
