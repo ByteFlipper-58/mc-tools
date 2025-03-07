@@ -157,7 +157,7 @@ function StrongholdFinder() {
   const currentThrow = getCurrentThrow();
 
   return (
-    <div className="max-w-2xl mx-auto pb-24 md:pb-8">
+    <div className="max-w-2xl mx-auto stronghold-page">
       <h1 className="text-2xl font-minecraft mb-6 text-light-100">
         {t.stronghold.title}
       </h1>

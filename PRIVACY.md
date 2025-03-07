@@ -1,10 +1,10 @@
-# Privacy Policy
+# Privacy Policy for MC Tools 2.0
 
-*Last updated: March 14, 2024*
+*Last updated: March 7, 2025*
 
 ## Introduction
 
-Welcome to MC Tools ("we," "our," or "us"). We respect your privacy and are committed to protecting your personal data. This privacy policy explains how we handle any information when you use our website and tools at https://mc-tools.web.app.
+Welcome to MC Tools 2.0 ("we," "our," or "us"). We respect your privacy and are committed to protecting your personal data. This privacy policy explains how we handle information when you use our website and tools at https://mc-tools.web.app.
 
 ## Information We Collect
 
@@ -78,7 +78,7 @@ We use the following APIs to provide our services:
 ## Cookies and Local Storage
 
 We use local storage for:
-- Theme preferences (light/dark mode)
+- Theme preferences (dark mode)
 - Language preferences
 - Saved stronghold locations (stored locally on your device only)
 
@@ -112,7 +112,7 @@ If you have questions about this privacy policy, please contact us:
 
 ## Additional Information for Telegram Mini App Users
 
-When using MC Tools as a Telegram Mini App:
+When using MC Tools 2.0 as a Telegram Mini App:
 
 - We receive basic information provided by Telegram's Mini App platform
 - No additional personal data is collected beyond what's described above

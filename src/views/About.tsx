@@ -1,11 +1,11 @@
 import { Github, Heart, Code2, Coffee, Globe, Database, Shield, Zap, Link as LinkIcon, ArrowRight } from 'lucide-react';
 import { useTranslation } from '../lib/i18n';
 
-export function About() {
+function About() {
   const t = useTranslation();
 
   return (
-    <div className="max-w-4xl mx-auto space-y-8">
+    <div className="max-w-4xl mx-auto space-y-8 about-page">
       {/* Hero Section */}
       <div className="relative overflow-hidden bg-dark-300 rounded-2xl p-8 shadow-sm">
         <div className="absolute inset-0 bg-gradient-to-br from-accent-500/20 to-accent-600/20" />

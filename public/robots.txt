@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://mc-tools.netlify.app/sitemap.xml
+Sitemap: https://mc-tools.web.app/sitemap.xml

@@ -39,20 +39,29 @@
 
 /* Main content padding */
 main {
-  padding-top: 4rem;
-  padding-bottom: 4rem;
+  padding-top: 1rem;
+  padding-bottom: 1rem;
   min-height: calc(100vh - 64px);
 }
 
+/* Mobile padding adjustments */
 @media (max-width: 768px) {
   main {
-    padding-top: 1rem;
+    padding-top: env(safe-area-inset-top, 3rem);
     padding-bottom: calc(5rem + env(safe-area-inset-bottom, 20px));
   }
 
-  /* Add bottom margin to the last element in the main content */
-  main > div > *:last-child {
-    margin-bottom: env(safe-area-inset-bottom, 20px);
+  /* Add bottom padding to the last element to prevent content from being hidden behind navigation */
+  main > div:last-child {
+    padding-bottom: calc(4rem + env(safe-area-inset-bottom, 20px));
+  }
+
+  /* Specific padding for pages with longer content */
+  .about-page,
+  .stronghold-page,
+  .nether-page,
+  .player-page {
+    padding-top: env(safe-area-inset-top, 4rem) !important;
   }
 }
 
