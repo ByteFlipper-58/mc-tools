@@ -86,7 +86,7 @@ function ServerStatusCheck() {
   };
 
   return (
-    <div className="max-w-2xl mx-auto">
+    <div className="max-w-2xl mx-auto pb-24 md:pb-8">
       <h1 className="text-2xl font-minecraft mb-6 text-light-100">
         {t.server.title}
       </h1>
@@ -177,7 +177,7 @@ function ServerStatusCheck() {
                 <div className="font-minecraft text-sm text-light-100">
                   {serverInfo.host}:{serverInfo.port}
                 </div>
-              </div>
+               </div>
             </div>
           </div>
 

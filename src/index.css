@@ -46,8 +46,13 @@ main {
 
 @media (max-width: 768px) {
   main {
-    padding-top: 2rem;
-    padding-bottom: calc(6rem + env(safe-area-inset-bottom, 0px));
+    padding-top: 1rem;
+    padding-bottom: calc(5rem + env(safe-area-inset-bottom, 20px));
+  }
+
+  /* Add bottom margin to the last element in the main content */
+  main > div > *:last-child {
+    margin-bottom: env(safe-area-inset-bottom, 20px);
   }
 }
 

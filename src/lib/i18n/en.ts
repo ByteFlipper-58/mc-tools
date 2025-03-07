@@ -35,6 +35,8 @@ export default {
     update: 'Update',
     add: 'Add',
     back: 'Back',
+    guide: 'Guide',
+    hint: 'This tool only works with official Minecraft accounts. Make sure the player has a valid license.',
   },
   home: {
     title: 'MC Tools',

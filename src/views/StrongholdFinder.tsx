@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { Compass, Save, Trash2, X, Edit2 } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
+import { Compass, Save, Trash2, X, Edit2, Plus, HelpCircle } from 'lucide-react';
 import { useTranslation } from '../lib/i18n';
 import { useTelegramBackButton } from '../lib/telegram';
 
@@ -28,8 +28,22 @@ function StrongholdFinder() {
   const [locationName, setLocationName] = useState('');
   const t = useTranslation();
   
-  // Enable Telegram back button
   useTelegramBackButton(true);
+
+  useEffect(() => {
+    const savedData = localStorage.getItem('strongholdLocations');
+    if (savedData) {
+      try {
+        setSavedLocations(JSON.parse(savedData));
+      } catch (error) {
+        console.error('Failed to parse saved locations:', error);
+      }
+    }
+  }, []);
+
+  useEffect(() => {
+    localStorage.setItem('strongholdLocations', JSON.stringify(savedLocations));
+  }, [savedLocations]);
 
   const handleInputChange = (field: keyof ThrowPoint, value: string) => {
     const numValue = value === '' ? 0 : Number(value);
@@ -143,7 +157,7 @@ function StrongholdFinder() {
   const currentThrow = getCurrentThrow();
 
   return (
-    <div className="max-w-2xl mx-auto">
+    <div className="max-w-2xl mx-auto pb-24 md:pb-8">
       <h1 className="text-2xl font-minecraft mb-6 text-light-100">
         {t.stronghold.title}
       </h1>
@@ -178,6 +192,7 @@ function StrongholdFinder() {
               onChange={(e) => handleInputChange('angle', e.target.value)}
               min="-160"
               max="160"
+              placeholder={t.stronghold.throw.angle}
               className={`input-base ${angleError ? 'border-red-500' : ''}`}
             />
             {angleError && (
@@ -185,24 +200,93 @@ function StrongholdFinder() {
             )}
           </div>
         </div>
-        <div className="flex gap-4">
-          <button
-            type="submit"
-            disabled={!!angleError}
-            className="button-primary flex-1"
-          >
-            {editingIndex !== null ? t.stronghold.throw.update : t.stronghold.throw.add}
-          </button>
-          <button
-            type="button"
-            onClick={clearCalculation}
-            className="button-danger flex items-center gap-2"
-          >
-            <Trash2 className="w-4 h-4" />
-            {t.stronghold.throw.clear}
-          </button>
+        <div className="flex gap-2">
+          {/* Desktop view */}
+          <div className="hidden md:flex gap-2">
+            <button
+              type="submit"
+              disabled={!!angleError}
+              className="button-primary flex items-center gap-2 px-4"
+            >
+              <Plus className="w-5 h-5" />
+              <span>{editingIndex !== null ? t.common.update : t.common.add}</span>
+            </button>
+            <button
+              type="button"
+              onClick={clearCalculation}
+              className="button-danger flex items-center gap-2 px-4"
+            >
+              <Trash2 className="w-5 h-5" />
+              <span>{t.common.clear}</span>
+            </button>
+            <button
+              type="button"
+              className="button-secondary flex items-center gap-2 px-4"
+            >
+              <HelpCircle className="w-5 h-5" />
+              <span>{t.common.guide}</span>
+            </button>
+          </div>
+
+          {/* Mobile view */}
+          <div className="flex md:hidden gap-2">
+            <button
+              type="submit"
+              disabled={!!angleError}
+              className="button-primary w-12 h-12 flex flex-col items-center justify-center"
+              title={editingIndex !== null ? t.common.update : t.common.add}
+            >
+              <Plus className="w-5 h-5" />
+              <span className="text-[10px] mt-0.5">{t.common.add}</span>
+            </button>
+            <button
+              type="button"
+              onClick={clearCalculation}
+              className="button-danger w-12 h-12 flex flex-col items-center justify-center"
+              title={t.common.clear}
+            >
+              <Trash2 className="w-5 h-5" />
+              <span className="text-[10px] mt-0.5">{t.common.clear}</span>
+            </button>
+            <button
+              type="button"
+              className="button-secondary w-12 h-12 flex flex-col items-center justify-center"
+              title={t.common.guide}
+            >
+              <HelpCircle className="w-5 h-5" />
+              <span className="text-[10px] mt-0.5">{t.common.guide}</span>
+            </button>
+          </div>
         </div>
       </form>
+
+      {strongholdLocation && (
+        <div className="bg-dark-300 p-6 rounded-lg mb-6 shadow-sm">
+          <h2 className="text-xl font-minecraft mb-4 text-light-100">{t.stronghold.location.title}</h2>
+          <div className="text-center mb-4">
+            <div className="text-2xl font-minecraft text-accent-500">
+              X: {strongholdLocation.x}, Z: {strongholdLocation.z}
+            </div>
+          </div>
+          <div className="flex flex-col md:flex-row gap-4">
+            <input
+              type="text"
+              value={locationName}
+              onChange={(e) => setLocationName(e.target.value)}
+              placeholder={t.stronghold.location.enterName}
+              className="input-base w-full"
+            />
+            <button
+              onClick={saveLocation}
+              disabled={!locationName.trim()}
+              className="button-primary w-full md:w-auto flex items-center justify-center gap-2"
+            >
+              <Save className="w-4 h-4" />
+              {t.stronghold.location.save}
+            </button>
+          </div>
+        </div>
+      )}
 
       {throws.length > 0 && (
         <div className="bg-dark-300 p-6 rounded-lg mb-6 shadow-sm">
@@ -237,34 +321,6 @@ function StrongholdFinder() {
                 </div>
               </div>
             ))}
-          </div>
-        </div>
-      )}
-
-      {strongholdLocation && (
-        <div className="bg-dark-300 p-6 rounded-lg mb-6 shadow-sm">
-          <h2 className="text-xl font-minecraft mb-4 text-light-100">{t.stronghold.location.title}</h2>
-          <div className="text-center mb-4">
-            <div className="text-2xl font-minecraft text-accent-500">
-              X: {strongholdLocation.x}, Z: {strongholdLocation.z}
-            </div>
-          </div>
-          <div className="flex gap-4">
-            <input
-              type="text"
-              value={locationName}
-              onChange={(e) => setLocationName(e.target.value)}
-              placeholder={t.stronghold.location.enterName}
-              className="input-base flex-1"
-            />
-            <button
-              onClick={saveLocation}
-              disabled={!locationName.trim()}
-              className="button-primary flex items-center gap-2"
-            >
-              <Save className="w-4 h-4" />
-              {t.stronghold.location.save}
-            </button>
           </div>
         </div>
       )}

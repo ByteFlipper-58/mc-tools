@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Search, RotateCw, Download, Copy, CheckCircle2 } from 'lucide-react';
+import { Search, RotateCw, Download, Copy, CheckCircle2, AlertCircle } from 'lucide-react';
 import { lookupUsername, hyphenateUUID, getPlayerImages } from '../utils/minecraft';
 import { useTranslation } from '../lib/i18n';
 import { useTelegramBackButton } from '../lib/telegram';
@@ -26,6 +26,7 @@ function PlayerInfo() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [copiedUUID, setCopiedUUID] = useState<'full' | 'trimmed' | null>(null);
+  const [showHint, setShowHint] = useState(true);
   const t = useTranslation();
   
   useTelegramBackButton(true);
@@ -36,7 +37,6 @@ function PlayerInfo() {
       setCopiedUUID(type);
       setTimeout(() => setCopiedUUID(null), 2000);
 
-      // Log copy event
       logAnalyticsEvent('copy_uuid', {
         type,
         username: playerData?.username
@@ -53,9 +53,9 @@ function PlayerInfo() {
     setLoading(true);
     setError(null);
     setPlayerData(null);
+    setShowHint(false);
 
     try {
-      // Log player lookup attempt
       logAnalyticsEvent('player_lookup', {
         username: username.trim()
       });
@@ -75,7 +75,6 @@ function PlayerInfo() {
       setPlayerData(playerInfo);
       setError(null);
 
-      // Log successful lookup
       logAnalyticsEvent('player_lookup_success', {
         username: profile.name,
         uuid: profile.id
@@ -85,7 +84,6 @@ function PlayerInfo() {
       setError(errorMessage);
       setPlayerData(null);
 
-      // Log failed lookup
       logAnalyticsEvent('player_lookup_error', {
         username: username.trim(),
         error_message: errorMessage
@@ -96,13 +94,13 @@ function PlayerInfo() {
   };
 
   return (
-    <div className="max-w-2xl mx-auto">
+    <div className="max-w-2xl mx-auto pb-24 md:pb-8">
       <h1 className="text-2xl font-minecraft mb-6 text-light-100">
         {t.player.title}
       </h1>
 
-      <form onSubmit={fetchPlayerData} className="mb-6">
-        <div className="flex flex-col md:flex-row gap-4">
+      <div className="space-y-4">
+        <form onSubmit={fetchPlayerData} className="flex flex-col md:flex-row gap-4">
           <input
             type="text"
             value={username}
@@ -127,17 +125,24 @@ function PlayerInfo() {
               </>
             )}
           </button>
-        </div>
-      </form>
+        </form>
+
+        {showHint && (
+          <div className="flex items-center gap-2 text-light-300 text-sm bg-dark-200 p-3 rounded-lg">
+            <AlertCircle className="w-4 h-4 flex-shrink-0" />
+            <span>{t.common.hint}</span>
+          </div>
+        )}
+      </div>
 
       {error && (
-        <div className="text-center text-red-400 mb-6 bg-dark-200 p-4 rounded-lg">
+        <div className="text-center text-red-400 mt-6 mb-6 bg-dark-200 p-4 rounded-lg">
           {error}
         </div>
       )}
 
       {playerData && (
-        <div className="space-y-6">
+        <div className="space-y-6 mt-6">
           <div className="flex flex-col md:flex-row gap-5">
             <a
               href={playerData.images.fullBody}
