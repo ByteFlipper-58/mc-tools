@@ -1,94 +1,107 @@
-# MC Tools 2.0
+# 🛠 MC Tools 2.0
 
-A comprehensive collection of essential tools for Minecraft players, now with a completely redesigned dark theme interface and new features. This web application provides various utilities to enhance your Minecraft gameplay experience.
+A powerful and feature-rich collection of tools for Minecraft players, now with a sleek **dark theme** and **new capabilities**! 🌑✨ This web app enhances your Minecraft experience with essential utilities. 🚀
+
+---
 
 ## ✨ What's New in 2.0
 
-- Complete UI redesign with a beautiful dark theme
-- New Telegram Mini App support
-- Improved performance and responsiveness
-- Enhanced multilingual support (English, Russian, Polish, Portuguese)
-- Real-time server status updates
-- More accurate stronghold calculations
-- Better player skin rendering
-- Improved mobile experience
+🔹 **Complete UI overhaul** with a stunning dark mode 🌙
+🔹 **Support for Telegram Mini App** 📱
+🔹 **Optimized performance** and better responsiveness ⚡
+🔹 **Expanded multilingual support** 🌍 (English, Russian, Polish, Portuguese)
+🔹 **Live server status updates** 🖥️📡
+🔹 **More precise stronghold calculations** 🏰🎯
+🔹 **Enhanced player skin rendering** 👕🎨
+🔹 **Better mobile experience** 📱✅
 
-## 🛠 Features
+---
 
-- **Server Status Checker**: Check the status of any Minecraft server in real-time
-  - Player count and list
-  - Server version
-  - MOTD with color support
-  - Mods and plugins list
-  
-- **Stronghold Finder**: Calculate stronghold locations using ender eye throws
-  - Multiple throw support
-  - Save locations
-  - Angle validation
-  - Real-time calculations
+## 🛠 Key Features
 
-- **Nether Calculator**: Convert coordinates between Overworld and Nether dimensions
-  - Instant conversion
-  - Both-way calculations
-  - Helpful tips
+### 🔍 **Server Status Checker**  
+Check the status of any Minecraft server in real-time! 📡
+- 👥 **Player count** & **list**
+- 🔄 **Server version**
+- 🎨 **MOTD with color support**
+- 🧩 **Mods & plugins list**
 
-- **Player Info**: View player information, UUID, and skin renders
-  - High-quality skin renders
-  - Multiple view angles
-  - UUID copying
-  - Skin download
+### 🎯 **Stronghold Finder**  
+Locate **strongholds** using precise ender eye calculations! 🏰
+- 🎯 **Multiple throw support**
+- 📌 **Save locations**
+- 📐 **Angle validation**
+- 📊 **Real-time calculations**
 
-## 🚀 Technologies Used
+### 🔥 **Nether Calculator**  
+Easily **convert coordinates** between **Overworld & Nether**! 🌍➡️🔥
+- ⚡ **Instant conversion**
+- 🔄 **Both-way calculations**
+- 📜 **Helpful tips included**
 
-- React 18
-- TypeScript
-- Tailwind CSS
-- Vite
-- Firebase Analytics
-- Lucide Icons
+### 🧑‍🎨 **Player Info & Skin Viewer**  
+View player **UUID** and high-quality **skin renders**! 👕🎭
+- 🔍 **Multiple angles & perspectives**
+- 📋 **Easy UUID copying**
+- 📥 **Download skins**
 
-## 🔌 API Credits & Resources
+---
 
-- [Ashcon API](https://github.com/Electroid/mojang-api) - Player data and UUID lookup
-- [Mineatar API](https://github.com/mineatar/api) - Skin rendering service
-- [MCStatus API](https://api.mcstatus.io/) - Server status information
-- [Minecraft Font](https://github.com/South-Paw/typeface-minecraft) - Official Minecraft font typeface
+## 🚀 Tech Stack
+
+🔹 **React 18** ⚛️  
+🔹 **TypeScript** 🟦  
+🔹 **Tailwind CSS** 🎨  
+🔹 **Vite** ⚡  
+🔹 **Firebase Analytics** 🔥  
+🔹 **Lucide Icons** 🖼️  
+
+---
+
+## 🔌 API & Resources
+
+💾 **[Ashcon API](https://github.com/Electroid/mojang-api)** – Player data & UUID lookup  
+🎭 **[Mineatar API](https://github.com/mineatar/api)** – Skin rendering service  
+📡 **[MCStatus API](https://api.mcstatus.io/)** – Server status tracking  
+🔤 **[Minecraft Font](https://github.com/South-Paw/typeface-minecraft)** – Official font
+
+---
 
 ## 🏁 Getting Started
 
-1. Clone the repository:
+### 1️⃣ Clone the repository:
 ```bash
 git clone https://github.com/byteflipper-58/mc-tools.git
 ```
 
-2. Install dependencies:
+### 2️⃣ Install dependencies:
 ```bash
 cd mc-tools
 npm install
 ```
 
-3. Set up environment variables:
-   - Copy `.env.example` to `.env`
-   - Fill in your Firebase configuration details
+### 3️⃣ Set up environment variables:
+- Copy `.env.example` → `.env`
+- Fill in your Firebase credentials
 
-4. Start the development server:
+### 4️⃣ Start development server:
 ```bash
 npm run dev
 ```
 
-5. Build for production:
+### 5️⃣ Build for production:
 ```bash
 npm run build
 ```
 
-6. Deploy to Firebase:
+### 6️⃣ Deploy to Firebase:
 ```bash
 npm run deploy
 ```
 
-## ⚙️ Environment Variables
+---
 
-The following environment variables are required:
+## ⚙️ Environment Variables
 
 ```env
 VITE_FIREBASE_API_KEY=your_api_key
@@ -100,44 +113,37 @@ VITE_FIREBASE_APP_ID=your_app_id
 VITE_FIREBASE_MEASUREMENT_ID=your_measurement_id
 ```
 
-## 🌐 API Usage
-
-The application uses the following APIs:
-
-- **Ashcon API**
-  - Purpose: Player data and UUID lookup
-  - Documentation: [GitHub Repository](https://github.com/Electroid/mojang-api)
-  - Endpoint: `https://api.ashcon.app/mojang/v2/user/`
-
-- **Mineatar API**
-  - Purpose: Skin rendering
-  - Documentation: [GitHub Repository](https://github.com/mineatar/api)
-  - Endpoint: `https://api.mineatar.io/`
-
-- **MCStatus API**
-  - Purpose: Server status information
-  - Documentation: [API Documentation](https://api.mcstatus.io/)
-  - Endpoint: `https://api.mcstatus.io/v2/status/java/`
+---
 
 ## 🤝 Contributing
 
-Contributions are welcome! Please feel free to submit a Pull Request.
+🚀 Contributions are **welcome**! Feel free to submit a Pull Request. 💡
 
-## 📄 License
+---
 
-This project is licensed under the GNU General Public License v3.0 - see the [LICENSE](LICENSE) file for details.
+## 📜 License
+
+This project is licensed under **GNU GPL v3.0** – see the [LICENSE](LICENSE) file for details. 📝
+
+---
 
 ## 👨‍💻 Developer
 
-Developed by ByteFlipper
+🛠 Developed by **ByteFlipper**  
+- 🐙 GitHub: [byteflipper-58](https://github.com/byteflipper-58)  
+- 📦 Repository: [mc-tools](https://github.com/byteflipper-58/mc-tools)  
+- 💬 Telegram: [@byteflipper](https://t.me/byteflipper)
 
-- GitHub: [byteflipper-58](https://github.com/byteflipper-58)
-- Repository: [mc-tools](https://github.com/byteflipper-58/mc-tools)
-- Telegram: [@byteflipper](https://t.me/byteflipper)
+---
 
-## 🙏 Acknowledgments
+## 🙏 Special Thanks
 
-- Minecraft® is a registered trademark of Mojang AB
-- Thanks to the Mineatar API for providing skin rendering services
-- Thanks to the MCStatus API for server status information
-- Thanks to Ashcon API for player data services
+✨ **Minecraft®** is a registered trademark of **Mojang AB**.  
+🎭 Thanks to **Mineatar API** for skin rendering services.  
+📡 Thanks to **MCStatus API** for real-time server status.  
+🛡 Thanks to **Ashcon API** for player data services.
+
+---
+
+🎮 **Level up your Minecraft experience with MC Tools 2.0! 🚀🔥**
+
