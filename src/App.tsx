@@ -128,7 +128,6 @@ function App() {
     }
   }, [isTelegram]);
 
-  // Get safe area insets for Telegram Mini App
   const safeArea = webApp?.contentSafeAreaInset || { top: 0, right: 0, bottom: 0, left: 0 };
 
   return (

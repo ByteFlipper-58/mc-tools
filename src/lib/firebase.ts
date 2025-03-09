@@ -1,6 +1,27 @@
 import { initializeApp } from 'firebase/app';
 import { getAnalytics, logEvent, setAnalyticsCollectionEnabled } from 'firebase/analytics';
 
+const requiredEnvVars = [
+  'VITE_FIREBASE_API_KEY',
+  'VITE_FIREBASE_AUTH_DOMAIN',
+  'VITE_FIREBASE_PROJECT_ID',
+  'VITE_FIREBASE_STORAGE_BUCKET',
+  'VITE_FIREBASE_MESSAGING_SENDER_ID',
+  'VITE_FIREBASE_APP_ID',
+  'VITE_FIREBASE_MEASUREMENT_ID'
+] as const;
+
+const missingEnvVars = requiredEnvVars.filter(
+  varName => !import.meta.env[varName]
+);
+
+if (missingEnvVars.length > 0) {
+  console.warn(
+    'Missing required Firebase environment variables:',
+    missingEnvVars.join(', ')
+  );
+}
+
 const firebaseConfig = {
   apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
   authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN,
@@ -11,10 +32,10 @@ const firebaseConfig = {
   measurementId: import.meta.env.VITE_FIREBASE_MEASUREMENT_ID
 };
 
-// Initialize Firebase only in browser environment
+// Initialize Firebase only in browser environment and if all config values are present
 let analytics = null;
 
-if (typeof window !== 'undefined') {
+if (typeof window !== 'undefined' && !missingEnvVars.length) {
   try {
     const app = initializeApp(firebaseConfig);
     analytics = getAnalytics(app);

@@ -9,7 +9,7 @@ function Settings() {
   const [isLanguageOpen, setIsLanguageOpen] = useState(false);
 
   // Get current version and environment from import.meta.env
-  const version = import.meta.env.VITE_APP_VERSION || '1.0.0';
+  const version = import.meta.env.VITE_APP_VERSION || '2.0.0';
   const environment = import.meta.env.MODE;
 
   const getCurrentLanguageLabel = () => {

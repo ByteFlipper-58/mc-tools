@@ -84,8 +84,7 @@ export const useTelegramBackButton = (shouldShow: boolean) => {
       navigate(-1);
     };
 
-    // Hide back button on main page and about page
-    if (location.pathname === '/' || location.pathname === '/about') {
+    if (location.pathname === '/' || '') {
       webApp.BackButton.hide();
       return;
     }

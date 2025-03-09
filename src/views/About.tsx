@@ -1,8 +1,10 @@
 import { Github, Heart, Code2, Coffee, Globe, Database, Shield, Zap, Link as LinkIcon, ArrowRight } from 'lucide-react';
 import { useTranslation } from '../lib/i18n';
+import { useTelegramBackButton } from '../lib/telegram';
 
 function About() {
   const t = useTranslation();
+  useTelegramBackButton(false);
 
   return (
     <div className="max-w-4xl mx-auto space-y-8 about-page">

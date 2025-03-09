@@ -1,10 +1,11 @@
-import React from 'react';
 import ToolsList from '../components/ui/ToolsList';
 import { useTranslation } from '../lib/i18n';
-import MCToolsLogo from '../components/ui/MCToolsLogo';
+import { useTelegramBackButton } from '../lib/telegram';
 
 function MainScreen() {
   const t = useTranslation();
+
+  useTelegramBackButton(false);
 
   return (
     <div className="min-h-[80vh]">
